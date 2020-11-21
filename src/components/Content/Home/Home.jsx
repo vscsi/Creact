@@ -15,7 +15,7 @@ const Home = () => {
       <HeroSection {...homeObjTwo} />
       <Wave2 />
       <HeroSection {...homeObjThree} />
-      <Wave3 />
+      <Wave />
     </>
   );
 };
