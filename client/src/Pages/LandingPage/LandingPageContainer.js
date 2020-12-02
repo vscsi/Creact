@@ -7,7 +7,7 @@ import Reason from "./Content/Reason/Reason";
 import Safety from "./Content/Safety/Safety";
 import Support from "./Content/Support/Support";
 import Home from "./Content/Home/Home";
-import Login from './Content/Login/Login';
+import Login from "./Content/Login/Login";
 import Aux from "../../hoc/Auxiliary";
 
 function LandingPageContainer(props) {

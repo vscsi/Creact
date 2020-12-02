@@ -11,12 +11,12 @@ function App() {
   }
   return (
     <>
-      {isLogin ? (
+      {/* {isLogin ? (
         <LoginContainer />
       ) : (
         <LandingPageContainer handleLogin={handleLogin} />
-      )}
-      {/* <DashboardContainer /> */}
+      )} */}
+      <DashboardContainer />
     </>
   );
 }

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import * as MaterialUI from "@material-ui/core";
 import DashboardSidebarCss from "./DashboardSidebar.module.css";
 import Aux from "../../../hoc/Auxiliary";
+import { Link } from "react-router-dom";
 
 function DashboardSidebar() {
   //Check if active workspace
@@ -56,29 +57,45 @@ function DashboardSidebar() {
         className={`${DashboardSidebarCss.sideBarBorder} ${DashboardSidebarCss.sidebar2Background}`}
       >
         <MaterialUI.Tooltip title="Chatroom" placement="right-end">
-          <div className={DashboardSidebarCss.featureIcon}>Chatroom</div>
-        </MaterialUI.Tooltip>
-        <MaterialUI.Tooltip title="Chatroom" placement="right-end">
           <div className={DashboardSidebarCss.featureIcon}>
-            Collaboration Document
+            <Link to="/workspace/chatroom">Chatroom</Link>
           </div>
         </MaterialUI.Tooltip>
-        <MaterialUI.Tooltip title="Chatroom" placement="right-end">
-          <div className={DashboardSidebarCss.featureIcon}>Dropbox</div>
-        </MaterialUI.Tooltip>
-        <MaterialUI.Tooltip title="Chatroom" placement="right-end">
+        <MaterialUI.Tooltip
+          title="Collaboration Document"
+          placement="right-end"
+        >
           <div className={DashboardSidebarCss.featureIcon}>
-            Collaboration Task List
+            <Link to="/workspace/documents">Collaboration Document</Link>
           </div>
         </MaterialUI.Tooltip>
-        <MaterialUI.Tooltip title="Chatroom" placement="right-end">
-          <div className={DashboardSidebarCss.featureIcon}>Calender</div>
+        <MaterialUI.Tooltip title="Dropbox" placement="right-end">
+          <div className={DashboardSidebarCss.featureIcon}>
+            <Link to="/workspace/dropbox">Dropbox</Link>
+          </div>
         </MaterialUI.Tooltip>
-        <MaterialUI.Tooltip title="Chatroom" placement="right-end">
-          <div className={DashboardSidebarCss.featureIcon}>Whiteboard</div>
+        <MaterialUI.Tooltip
+          title="Collaboration Task List"
+          placement="right-end"
+        >
+          <div className={DashboardSidebarCss.featureIcon}>
+            <Link to="/workspace/tasks">Collaboration Task List</Link>
+          </div>
         </MaterialUI.Tooltip>
-        <MaterialUI.Tooltip title="Chatroom" placement="right-end">
-          <div className={DashboardSidebarCss.featureIcon}>Video</div>
+        <MaterialUI.Tooltip title="Calender" placement="right-end">
+          <div className={DashboardSidebarCss.featureIcon}>
+            <Link to="/workspace/calender">Calender</Link>
+          </div>
+        </MaterialUI.Tooltip>
+        <MaterialUI.Tooltip title="Whiteboard" placement="right-end">
+          <div className={DashboardSidebarCss.featureIcon}>
+            <Link to="/workspace/whiteboard">Whiteboard</Link>
+          </div>
+        </MaterialUI.Tooltip>
+        <MaterialUI.Tooltip title="Video" placement="right-end">
+          <div className={DashboardSidebarCss.featureIcon}>
+            <Link to="/workspace/video">Video</Link>
+          </div>
         </MaterialUI.Tooltip>
       </MaterialUI.Grid>
     </Aux>
