@@ -1,4 +1,4 @@
-import React, {useState } from "react";
+import React, { useState } from "react";
 import styles from "./CollabTaskBox.module.css";
 
 const CollabTaskBox = (props) => {
@@ -20,11 +20,11 @@ const CollabTaskBox = (props) => {
       console.log(body);
       const response = await fetch("http://localhost:4000/task", {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(body)
-      })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
       console.log(response);
-      window.location = '/';
+      window.location = "/";
     } catch (err) {
       console.error(err.message);
     }

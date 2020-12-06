@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -23,8 +23,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="http://localhost:3000">
+        CREACT
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -54,6 +54,29 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const onSubmitForm = async (e) => {
+    e.preventDefault();
+    try {
+      const body = {
+        email,
+        password,
+      };
+      console.log("Submit user login data to db");
+      const response = await fetch("http://localhost:4000/auth/getToken", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      //1. will have JWT token as returned value, and save it into local storage
+      //2. history.push("/workspace"), redirect to /workspace
+      console.log(response);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -65,7 +88,7 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={onSubmitForm}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -76,6 +99,7 @@ export default function SignIn() {
             name="email"
             autoComplete="email"
             autoFocus
+            coChange={(e) => setEmail(e.target.value)}
           />
           <TextField
             variant="outlined"
@@ -87,6 +111,7 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={(e) => setPassword(e.target.value)}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
