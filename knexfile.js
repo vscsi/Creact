@@ -1,6 +1,6 @@
 // Update with your config settings.
 // const path = require('path')
-require('dotenv').config({ path: __dirname + '/.env' })
+require('dotenv').config()
 
 // const devConfig = `postgresql://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
 
