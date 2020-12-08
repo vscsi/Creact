@@ -1,6 +1,7 @@
 import React from "react";
 import DashboardContainerCss from "./DashboardContainer.module.css";
 import DashboardSidebar from "./DashboardComponent/DashboardSidebar";
+import DashboardProfileSidebar from './DashboardComponent/DashboardProfieSidebar';
 import DashboardMain from "./DashboardComponent/DashboardMain";
 import { Grid } from "@material-ui/core";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
