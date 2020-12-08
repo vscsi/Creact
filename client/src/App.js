@@ -43,6 +43,7 @@ function App() {
           path="/workspace"
           component={isLogin ? DashboardContainer : ErrorContainer}
         />
+        <Route path="*" component={() => "404 not found"} />
       </Switch>
     </Router>
   );

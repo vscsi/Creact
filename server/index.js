@@ -90,11 +90,6 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.post("/register", async (req, res) => {
-  try {
-  } catch (error) {}
-});
-
 //Video
 const videoIo = require("./controllers/video")(socketio);
 
