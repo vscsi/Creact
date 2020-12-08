@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import DashboardContainer from "./Pages/DashboardPage/DashboardContainer";
 import LandingPageContainer from "./Pages/LandingPage/LandingPageContainer";
 import LoginContainer from "./Pages/LoginPage/LoginContainer";
+import ChatLogin from "./Pages/chatroom/components/Join/Join";
+import Chat from "./Pages/chatroom/components/Chat/Chat";
 import { BrowserRouter as Router, Switch, Route, withRouter } from "react-router-dom";
 
 
