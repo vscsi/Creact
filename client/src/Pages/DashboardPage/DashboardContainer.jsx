@@ -6,7 +6,8 @@ import { Grid } from "@material-ui/core";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import DashboardNavbar from "./DashboardComponent/DashboardNavbar";
 import DashboardMainCss from "./DashboardComponent/DashboardMain.module.css";
-import ChatroomContainer from "./DashboardFeatures/ChatroomPage/ChatroomContainer";
+import ChatroomLogin from "../chatroom/components/Join/Join";
+import Chatroom from "../chatroom/components/Chat/Chat";
 import CollabNoteContainer from "./DashboardFeatures/CollaborationNotePage/CollabNoteContainer";
 import DropboxContainer from "./DashboardFeatures/DropboxPage/DropboxContainer";
 import CollabTaskContainer from "./DashboardFeatures/CollaborationTaskPage/CollabTaskContainer";
@@ -35,7 +36,8 @@ function DashboardContainer() {
           >
             <DashboardNavbar />
             <Switch>
-              <Route path="/workspace/chat" component={ChatroomContainer} />
+              <Route path="/workspace/chat" exact component={ChatroomLogin} />
+              <Route path="/workspace/chatroom/chat" exact component={Chatroom} />
               <Route path="/workspace/docs" component={CollabNoteContainer} />
               <Route path="/workspace/dropbox" component={DropboxContainer} />
               <Route path="/workspace/tasks" component={CollabTaskContainer} />
