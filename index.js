@@ -25,6 +25,6 @@ app.use(registerRoutes);
 //Video
 const videoIo = require('./controllers/video')(socketio)
 
-server.listen(4000, ()=>{
+server.listen(process.env.PORT || 4000, ()=>{
     console.log("Creact server, Listening to port 4000");
 })
