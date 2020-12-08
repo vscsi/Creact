@@ -1,8 +1,22 @@
 # Creact - Capstone project
 
 ## Tech Stack
+- React
+- Node JS
+- Draft.js
+- Socket.io
+- Postgresql
+- Knex.js
+
+
+
 
 ## Features
+- Task list
+- Video Calling
+- Collaboration Document
+- Chatroom
+- 
 
 ## Developed by
 

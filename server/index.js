@@ -16,9 +16,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //routers
 const taskRoutes = require('./routes/task');
+const registerRoutes = require('./routes/register');
 
 //task
 app.use(taskRoutes);
+app.use(registerRoutes);
 
 //Video
 const videoIo = require('./controllers/video')(socketio)

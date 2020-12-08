@@ -104,7 +104,6 @@ export default function SignIn() {
               Sign In
             </Button>
           </RouterLink>
-          <Route path="/workspace" component={DashboardContainer}></Route>
 
           <Grid container>
             <Grid item xs>
@@ -113,7 +112,7 @@ export default function SignIn() {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/register" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
