@@ -2,15 +2,15 @@
 // const path = require('path')
 require('dotenv').config({ path: __dirname + '/.env' })
 
+const devConfig = `postgresql://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
+
+const proConfig = process.env.DATABASE_URL; //heroku addons
+
+
 module.exports = {
   development: {
     client: 'pg',
-    connection: {
-      host : '127.0.0.1',
-      database: process.env.DB_NAME,
-      user:     process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD
-    },
+    connection: process.env.NODE_ENV === "production" ? proConfig : devConfig,
     pool: {
       min: 2,
       max: 10
