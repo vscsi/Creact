@@ -21,6 +21,8 @@ const DashboardCreateWorkspace = () => {
       ).then((res) => {
         console.log(res);
       });
+      window.location = "/profile";
+      
     } catch (error) {
       console.error(error.message);
     }
