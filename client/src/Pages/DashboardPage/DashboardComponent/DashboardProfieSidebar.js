@@ -9,7 +9,7 @@ import {
   useHistory,
 } from "react-router-dom";
 
-function DashboardSidebar() {
+function DashboardSidebar(props) {
   //Check if active workspace
   const [active, setActive] = useState(true);
   function checkActive() {
@@ -32,10 +32,28 @@ function DashboardSidebar() {
         direction="column"
         className={DashboardSidebarCss.sideBarBorder}
       >
-        <div className={DashboardSidebarCss.workspaceIconUser}>User</div>
+        <NavLink to="/profile">
+          <div className={DashboardSidebarCss.workspaceIconUser}>
+            {props.name}
+          </div>
+        </NavLink>
 
         <div className={DashboardSidebarCss.workSpaceSeparator}></div>
-        <NavLink to="/create">
+
+        {props.workspaces.map((item, index) => {
+          return (
+            <NavLink to="" key={index}>
+              <MaterialUI.Tooltip
+                title="Create Workspace"
+                placement="right-end"
+              >
+                <div className={DashboardSidebarCss.workspaceIcon}>{item}</div>
+              </MaterialUI.Tooltip>
+            </NavLink>
+          );
+        })}
+
+        <NavLink to="/profile/create">
           <MaterialUI.Tooltip title="Create Workspace" placement="right-end">
             <div className={DashboardSidebarCss.workspaceIcon}>
               Create workspace
@@ -43,7 +61,7 @@ function DashboardSidebar() {
           </MaterialUI.Tooltip>
         </NavLink>
 
-        <NavLink to="/find">
+        <NavLink to="/profile/find">
           <MaterialUI.Tooltip title="Find Workspace" placement="right-end">
             <div className={DashboardSidebarCss.workspaceIcon}>
               Find workspaces
@@ -62,6 +80,21 @@ function DashboardSidebar() {
         direction="column"
         className={`${DashboardSidebarCss.sideBarBorder} ${DashboardSidebarCss.sidebar2Background}`}
       >
+        <MaterialUI.Tooltip title="Add friends" placement="right-end">
+          <div className={DashboardSidebarCss.workspaceIcon}>Friend A</div>
+        </MaterialUI.Tooltip>
+        <MaterialUI.Tooltip title="Add friends" placement="right-end">
+          <div className={DashboardSidebarCss.workspaceIcon}>Friend A</div>
+        </MaterialUI.Tooltip>
+        <MaterialUI.Tooltip title="Add friends" placement="right-end">
+          <div className={DashboardSidebarCss.workspaceIcon}>Friend A</div>
+        </MaterialUI.Tooltip>
+        <MaterialUI.Tooltip title="Add friends" placement="right-end">
+          <div className={DashboardSidebarCss.workspaceIcon}>Friend A</div>
+        </MaterialUI.Tooltip>
+        <MaterialUI.Tooltip title="Add friends" placement="right-end">
+          <div className={DashboardSidebarCss.workspaceIcon}>Friend A</div>
+        </MaterialUI.Tooltip>
         <MaterialUI.Tooltip title="Add friends" placement="right-end">
           <div className={DashboardSidebarCss.workspaceIcon}>
             Find Your friends

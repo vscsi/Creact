@@ -1,0 +1,11 @@
+Creact app
+
+Functionality list:
+Task list 
+Task assigning 
+Video Calling
+Collaborative Document
+Chat room
+Calendar 
+Collaborative Whiteboard
+Files sharing

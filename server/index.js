@@ -8,6 +8,7 @@ const knex = require("./models/knex");
 const jwt = require("jsonwebtoken");
 const session = require("express-session");
 const config = require("./config.json");
+const bcrypt = require("bcrypt");
 
 //socket set up
 const http = require("http");
@@ -23,11 +24,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //routers
 const taskRoutes = require("./routes/task");
+const registerRoutes = require("./routes/register");
+const loginRoutes = require("./routes/login");
+const workspaceRoutes = require("./routes/workspace");
 
 //global error handler
 app.use(errorHandler);
 //task
 app.use(taskRoutes);
+app.use(registerRoutes);
+app.use(loginRoutes);
+app.use(workspaceRoutes);
 
 //api routes
 
@@ -46,7 +53,8 @@ const verifyJWT = (req, res, next) => {
         console.log("Decoding...");
         console.log("Decoded is below");
         console.log(decoded);
-        req.userId = decoded.sub;
+        req.userId = decoded.id;
+        req.userName = decoded.name;
         next();
       }
     });
@@ -57,37 +65,11 @@ const verifyJWT = (req, res, next) => {
 app.get("/isUserAuth", verifyJWT, (req, res) => {
   //if after decoding the JWT, found the userID is existed in db, then is authenticated
   console.log(req.userId);
-  res.json({ message: "Yo u are authenticated", userId: req.userId });
-});
-
-app.get("/login", (req, res) => {
-  if (req.session.user) {
-    res.send({ loggedIn: true, user: req.session.user });
-  } else {
-    res.send({ loggedIn: false });
-  }
-});
-
-app.post("/login", async (req, res) => {
-  try {
-    const username = req.body.username;
-    const password = req.body.password;
-    console.log(req.body);
-    const user = await knex("users")
-      .where({ username: username, user_pw: password })
-      .select("id", "username", "user_pw");
-    console.log(user);
-    if (user.length === 0) throw "Username or password is incorrect";
-
-    //create a jwt token that is valid for 7 days
-    const token = jwt.sign({ sub: user[0].id }, config.secret, {
-      expiresIn: "7d",
-    });
-    // req.session.user = user;
-    res.json({ auth: true, accessToken: token, result: user });
-  } catch (error) {
-    res.json({ auth: false, message: "User doesnt exist" });
-  }
+  console.log(req.userName);
+  res.json({
+    message: "Yo u are authenticated",
+    userId: req.userId,
+  });
 });
 
 //Video

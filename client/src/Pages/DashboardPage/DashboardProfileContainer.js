@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import DashboardContainerCss from "./DashboardContainer.module.css";
 import DashboardSidebar from "./DashboardComponent/DashboardSidebar";
 import DashboardProfileSidebar from "./DashboardComponent/DashboardProfieSidebar";
@@ -9,8 +9,33 @@ import DashboardNavbar from "./DashboardComponent/DashboardNavbar";
 import DashboardMainCss from "./DashboardComponent/DashboardMain.module.css";
 import DashboardAddSocial from "./DashboardComponent/DashboardAddSocial";
 import DashboardCreateWorkspace from "./DashboardComponent/DashboardCreateWorkspace";
+import DashboardProfileHome from "./DashboardComponent/DashboardProfileHome.js";
+import Axios from "axios";
 
 function DashboardProfileContainer() {
+  const [userName, setUserName] = useState("");
+  const [workspaces, setWorkspaces] = useState([]);
+
+  const getAllWorkspace = () => {
+    try {
+      Axios.get("http://localhost:4000/workspace/list", {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      }).then((res) => {
+        setWorkspaces(res.data.allWorkspaces);
+        // console.log(res);
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    setUserName(localStorage.getItem("userName"));
+    getAllWorkspace();
+  }, []);
+
   return (
     <>
       <Grid
@@ -20,7 +45,7 @@ function DashboardProfileContainer() {
         className={`${DashboardContainerCss.containerHeight} ${DashboardContainerCss.containerBackground}`}
       >
         <Router>
-          <DashboardProfileSidebar />
+          <DashboardProfileSidebar name={userName} workspaces={workspaces} />
           {/* <DashboardSidebar /> */}
           <Grid
             Container
@@ -31,8 +56,12 @@ function DashboardProfileContainer() {
           >
             <DashboardNavbar />
             <Switch>
-              <Route path="/find" component={DashboardAddSocial} />
-              <Route path="/create" component={DashboardCreateWorkspace} />
+              <Route exact path="/profile" component={DashboardProfileHome} />
+              <Route path="/profile/find" component={DashboardAddSocial} />
+              <Route
+                path="/profile/create"
+                component={DashboardCreateWorkspace}
+              />
             </Switch>
             {/* <DashboardAddSocial /> */}
             {/* <DashboardCreateWorkspace /> */}

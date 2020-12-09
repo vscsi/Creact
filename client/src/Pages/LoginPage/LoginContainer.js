@@ -86,8 +86,10 @@ export default function SignIn() {
       } else {
         console.log(response);
         localStorage.setItem("token", response.accessToken);
+        localStorage.setItem("userId", response.userId);
+        localStorage.setItem("userName", response.userName);
         setLoginStatus(true);
-        history.push("/workspace");
+        history.push("/profile");
         window.location.reload();
       }
       // AuthService.login(username, password).then(() => {

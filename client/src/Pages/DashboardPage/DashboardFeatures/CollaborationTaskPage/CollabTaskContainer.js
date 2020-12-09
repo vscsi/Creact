@@ -15,7 +15,7 @@ const CollabTaskContainer = () => {
   const getTasks = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:4000/tasks");
+      const response = await fetch("http://localhost:4000/workspace/tasks");
       const jsonData = await response.json();
       setTasks(jsonData);
       setLoading(false);

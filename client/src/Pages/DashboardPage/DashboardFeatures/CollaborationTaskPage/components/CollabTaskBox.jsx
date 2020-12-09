@@ -24,7 +24,7 @@ const CollabTaskBox = (props) => {
         body: JSON.stringify(body),
       });
       console.log(response);
-      window.location = "/";
+      window.location = '/workspace/tasks';
     } catch (err) {
       console.error(err.message);
     }

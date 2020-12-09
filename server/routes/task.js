@@ -6,7 +6,7 @@ const router = express.Router();
 
 const taskController = require('../controllers/tasks');
 
-router.get('/tasks', taskController.getTasks);
+router.get('/workspace/tasks', taskController.getTasks);
 
 router.post('/task', taskController.postTask);
 
