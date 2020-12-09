@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -17,14 +17,19 @@ import {
   Route,
   BrowserRouter as Router,
 } from "react-router-dom";
+import { createBrowserHistory } from "history";
+import Axios from "axios";
+import AuthService from "../../services/auth.service";
+
 import DashboardContainer from "../DashboardPage/DashboardContainer";
+import RegisterContainer from "../RegisterPage/RegisterContainer";
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="http://localhost:3000">
+        CREACT
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -54,46 +59,110 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
+  const [username, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [loginStatus, setLoginStatus] = useState(false);
+
+  const history = createBrowserHistory();
+
+  const onSubmitForm = async (e) => {
+    e.preventDefault();
+    try {
+      console.log("Submit user login data to db");
+      const body = {
+        username,
+        password,
+      };
+      const result = await fetch("http://localhost:4000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      //1. will have JWT token as returned value, and save it into local storage
+      //2. history.push("/workspace"), redirect to /workspace
+      const response = await result.json();
+      if (!response.auth) {
+        setLoginStatus(false);
+      } else {
+        console.log(response);
+        localStorage.setItem("token", response.accessToken);
+        setLoginStatus(true);
+        history.push("/workspace");
+        window.location.reload();
+      }
+      // AuthService.login(username, password).then(() => {
+      //   history.push("/workspace");
+      //   window.location.reload();
+      // });
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const checkAuth = () => {
+    try {
+      Axios.get("http://localhost:4000/isUserAuth", {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      }).then((res) => {
+        console.log(res);
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
-        <form className={classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
+    <>
+      {/* {loginStatus ? (
+        <>
+          <DashboardContainer />
+        </>
+      ) : ( */}
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign in
+          </Typography>
+          <form className={classes.form} noValidate onSubmit={onSubmitForm}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="email"
+              autoFocus
+              onChange={(e) => setUserName(e.target.value)}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
+            />
 
-          <RouterLink to="/workspace">
             <Button
               type="submit"
               fullWidth
@@ -103,25 +172,26 @@ export default function SignIn() {
             >
               Sign In
             </Button>
-          </RouterLink>
 
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
+            <Grid container>
+              <Grid item xs>
+                <Link href="#" variant="body2">
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href="/register" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Link href="/register" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
-    </Container>
+          </form>
+        </div>
+        <Box mt={8}>
+          <Copyright />
+        </Box>
+      </Container>
+      {/* )} */}
+    </>
   );
 }

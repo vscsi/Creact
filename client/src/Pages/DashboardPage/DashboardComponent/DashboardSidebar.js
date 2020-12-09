@@ -32,7 +32,9 @@ function DashboardSidebar() {
         direction="column"
         className={DashboardSidebarCss.sideBarBorder}
       >
-        <div className={DashboardSidebarCss.workspaceIconUser}>User</div>
+        <NavLink to="/profile">
+          <div className={DashboardSidebarCss.workspaceIconUser}>User</div>
+        </NavLink>
 
         <div className={DashboardSidebarCss.workSpaceSeparator}></div>
 
@@ -50,6 +52,11 @@ function DashboardSidebar() {
 
         <MaterialUI.Tooltip title="Workspace 3" placement="right-end">
           <div className={DashboardSidebarCss.workspaceIcon}>Work space 3</div>
+        </MaterialUI.Tooltip>
+        <MaterialUI.Tooltip title="Create Workspace" placement="right-end">
+          <div className={DashboardSidebarCss.workspaceIcon}>
+            Create workspace
+          </div>
         </MaterialUI.Tooltip>
       </MaterialUI.Grid>
 
