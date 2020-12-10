@@ -37,9 +37,23 @@ function DashboardContainer() {
     }
   };
 
+  const getUserName = () => {
+    try {
+      Axios.get("http://localhost:4000/username", {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      }).then((res) => {
+        setUserName(res.data.userName);
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   useEffect(() => {
-    setUserName(localStorage.getItem("userName"));
     getAllWorkspace();
+    getUserName();
   }, []);
   return (
     <>

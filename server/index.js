@@ -22,6 +22,7 @@ app.use(express.json()); //req.body
 app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(jwt()); //use jtw auth to secure the api
 
+
 //routers
 const taskRoutes = require("./routes/task");
 const registerRoutes = require("./routes/register");
