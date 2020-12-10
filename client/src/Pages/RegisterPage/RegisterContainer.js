@@ -1,6 +1,5 @@
 import React, {useState,useEffect} from 'react';
 import RegisterCss from './Register.module.css'
-import LoginContainer from '../LoginPage/LoginContainer'
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
@@ -61,6 +60,7 @@ function RegisterContainer() {
   //handling  changes
   const handleChange=(event)=>{
     const{name,value}=event.target;
+    console.log(isUsernameRepeated)
     // console.log(name,value,values,values.email)
     setValues({
       ...values,//make shallow copies of current states in object
@@ -72,8 +72,8 @@ function RegisterContainer() {
   const handleSubmit=async e=>{
     e.preventDefault();
     setErrors(validateLogin(values));
-    console.log(errors)
-    console.log(Object.keys(errors).length);
+    // console.log(errors)
+    // console.log(Object.keys(errors).length);
     setIsSubmitting(true);
   }
 
@@ -84,7 +84,7 @@ function RegisterContainer() {
       }
     }, [errors]);
 
-    useEffect(async()=>{
+    useEffect(()=>{
       const {username, firstname, lastname, email,password} =values;
       const body = {username, firstname, lastname, email, password};
       const url = "http://localhost:4000/register";
@@ -95,23 +95,22 @@ function RegisterContainer() {
             headers: {"Content-Type":"application/json"},
             body: JSON.stringify(body)
           });
-         return response.json();
+         const result = await response.json();
+         console.log(result.userNameRepeated);
+        if(result.isUsernameRepeated){
+           setIsUsernameRepeated(true);
+        }
         }catch(e){
           console.error(e.message);
         }
       }
-
-      postRegister()
-        .then(data =>{
-          console.log(data)
-        })
-
+      postRegister();
     },[isSubmitted])
 
     return (
     <>
     {
-      isSubmitted?
+      (isSubmitted&&!isUsernameRepeated)?
       <Redirect to="/login"/>
       :
         <Grid 
@@ -121,7 +120,12 @@ function RegisterContainer() {
         alignItems="center"
         >
         <h1 className={RegisterCss.registerH1Container}>Register in Creact!</h1>
-        
+        {
+          (isUsernameRepeated)?
+          <p>Username is registered, please choose another username.</p>
+          :
+          ""
+        }
         <form onSubmit={handleSubmit} noValidate>
         <Grid 
         container
