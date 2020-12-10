@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 
 exports.getRegister = async (req, res) => {};
 exports.postRegister = async (req, res) => {
+  console.log(req.body);
   const { username, firstname, lastname, email, password } = req.body;
   let query;
   let hashedPassword = await bcrypt.hash(password, 10);
@@ -15,6 +16,7 @@ exports.postRegister = async (req, res) => {
         "from server/register.js__username is already registered, please pick a new one"
       );
     } else {
+      console.log("User is not existed in db, can register");
       await knex("users").insert({
         username: username,
         user_pw: hashedPassword,
@@ -22,6 +24,7 @@ exports.postRegister = async (req, res) => {
         last_name: lastname,
         email: email,
       });
+
       res.json({ userIsExisted: false });
     }
   } catch (e) {
