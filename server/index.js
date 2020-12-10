@@ -2,6 +2,10 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const path = require('path')
+
+const PORT = process.env.PORT || 4000;
+
 
 //socket set up
 const http = require("http");
@@ -14,6 +18,7 @@ app.use(cors());
 app.use(express.json()); //req.body
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
 //routers
 const taskRoutes = require('./routes/task');
 const registerRoutes = require('./routes/register');
@@ -25,6 +30,8 @@ app.use(registerRoutes);
 //Video
 const videoIo = require('./controllers/video')(socketio)
 
-server.listen(4000, ()=>{
-    console.log("Creact server, Listening to port 4000");
+
+
+server.listen(PORT, ()=>{
+    console.log(`Creact server, Listening to port ${PORT}`);
 })
