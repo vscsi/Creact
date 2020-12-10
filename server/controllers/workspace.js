@@ -8,8 +8,8 @@ exports.createWorkspace = async (req, res) => {
     const { workspaceName, maxppl } = req.body;
     console.log(req.body);
     const token = req.headers["x-access-token"];
-    // let userId;
-    // let userName;
+    let userId;
+    let userName;
     let workspace;
     let workspaceId;
     console.log(token);
@@ -25,13 +25,6 @@ exports.createWorkspace = async (req, res) => {
     console.log(workspace);
     if (workspace.length === 0) {
       console.log("DB dont have this data yet");
-      //1. if no, insert the data into workspace table
-      await knex("workspace").insert({
-        workspace_name: workspaceName,
-        max_user: maxppl,
-      });
-
-      console.log("workspace data has inserted into db");
       //2. get back the userId, which user create this workspace
       jwt.verify(token, config.secret, (err, decoded) => {
         if (err) {
@@ -46,22 +39,45 @@ exports.createWorkspace = async (req, res) => {
           userName = decoded.name;
         }
       });
-      //3. get back the workspaceId just inserted
-      workspace = await knex("workspace")
-        .where({
-          workspace_name: workspaceName,
-        })
-        .select("id", "workspace_name", "max_user");
-      console.log("After insert, get data back again");
-      console.log(workspace);
-      workspaceId = workspace[0].id;
-      //4. insert both info into user_workspace table,
-      await knex("user_workspace").insert({
-        workspace_id: workspaceId,
+      //Check if user has created more than 5 workspaces (check from user_workspace)
+      //if no, can allow create
+      //if yes, than can not insert
+      const userWorkspaces = await knex("user_workspace").where({
         user_id: userId,
-        workspace_admin: true,
       });
-      console.log("Data has inserted into user_workspace table");
+      if (userWorkspaces.length > 5) {
+        //need to show alert box may be in client
+        return res.json({
+          message:
+            "You have created 5 workspaces already, please buy the premier to create more worksapces",
+        });
+      } else {
+        console.log("userWorkspaces is below");
+        console.log(userWorkspaces);
+        //1. if no, insert the data into workspace table
+        await knex("workspace").insert({
+          workspace_name: workspaceName,
+          max_user: maxppl,
+        });
+
+        console.log("workspace data has inserted into db");
+        //3. get back the workspaceId just inserted
+        workspace = await knex("workspace")
+          .where({
+            workspace_name: workspaceName,
+          })
+          .select("id", "workspace_name", "max_user");
+        console.log("After insert, get data back again");
+        console.log(workspace);
+        workspaceId = workspace[0].id;
+        //4. insert both info into user_workspace table,
+        await knex("user_workspace").insert({
+          workspace_id: workspaceId,
+          user_id: userId,
+          workspace_admin: true,
+        });
+        console.log("Data has inserted into user_workspace table");
+      }
     } else {
       res.json({
         isRegistered: true,

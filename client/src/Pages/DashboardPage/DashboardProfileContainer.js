@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DashboardContainerCss from "./DashboardContainer.module.css";
+import DashboardContainer from "./DashboardContainer";
 import DashboardSidebar from "./DashboardComponent/DashboardSidebar";
 import DashboardProfileSidebar from "./DashboardComponent/DashboardProfieSidebar";
 import DashboardMain from "./DashboardComponent/DashboardMain";
@@ -10,6 +11,7 @@ import DashboardMainCss from "./DashboardComponent/DashboardMain.module.css";
 import DashboardAddSocial from "./DashboardComponent/DashboardAddSocial";
 import DashboardCreateWorkspace from "./DashboardComponent/DashboardCreateWorkspace";
 import DashboardProfileHome from "./DashboardComponent/DashboardProfileHome.js";
+import DashboardFriendSidebar from "./DashboardComponent/DashboardFriendSidebar";
 import Axios from "axios";
 
 function DashboardProfileContainer() {
@@ -46,7 +48,7 @@ function DashboardProfileContainer() {
       >
         <Router>
           <DashboardProfileSidebar name={userName} workspaces={workspaces} />
-          {/* <DashboardSidebar /> */}
+          <DashboardFriendSidebar />
           <Grid
             Container
             direction="row"
@@ -63,8 +65,6 @@ function DashboardProfileContainer() {
                 component={DashboardCreateWorkspace}
               />
             </Switch>
-            {/* <DashboardAddSocial /> */}
-            {/* <DashboardCreateWorkspace /> */}
           </Grid>
         </Router>
       </Grid>

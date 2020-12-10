@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import DashboardContainerCss from "./DashboardContainer.module.css";
 import DashboardSidebar from "./DashboardComponent/DashboardSidebar";
-import DashboardProfileSidebar from './DashboardComponent/DashboardProfieSidebar';
+import DashboardProfileSidebar from "./DashboardComponent/DashboardProfieSidebar";
 import DashboardMain from "./DashboardComponent/DashboardMain";
 import { Grid } from "@material-ui/core";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -15,18 +15,46 @@ import CalenderContainer from "./DashboardFeatures/CalenderPage/CalenderContaine
 import WhiteboardContainer from "./DashboardFeatures/WhiteboardPage/WhiteboardContainer";
 import VideoContainer from "./DashboardFeatures/VideoPage/VideoContainer";
 import VideoCreateRoom from "./DashboardFeatures/VideoPage/VideoCreateRoom";
+import DashboardAddSocial from "./DashboardComponent/DashboardAddSocial";
+import DashboardCreateWorkspace from "./DashboardComponent/DashboardCreateWorkspace";
+import DashboardProfileHome from "./DashboardComponent/DashboardProfileHome.js";
+import DashboardFeatureSidebar from './DashboardComponent/DashboardFeatureSidebar';
+import Axios from "axios";
 
 function DashboardContainer() {
+  const [userName, setUserName] = useState("");
+  const [workspaces, setWorkspaces] = useState([]);
+
+  const getAllWorkspace = () => {
+    try {
+      Axios.get("http://localhost:4000/workspace/list", {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      }).then((res) => {
+        setWorkspaces(res.data.allWorkspaces);
+        // console.log(res);
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    setUserName(localStorage.getItem("userName"));
+    getAllWorkspace();
+  }, []);
   return (
     <>
-          <Grid
+      <Grid
         container
         direction="row"
         alignItems="stretch"
         className={`${DashboardContainerCss.containerHeight} ${DashboardContainerCss.containerBackground}`}
       >
         <Router>
-          <DashboardSidebar />
+          <DashboardSidebar name={userName} workspaces={workspaces} />
+          <DashboardFeatureSidebar />
           <Grid
             Container
             direction="row"
@@ -36,6 +64,12 @@ function DashboardContainer() {
           >
             <DashboardNavbar />
             <Switch>
+              <Route exact path="/profile" component={DashboardProfileHome} />
+              <Route path="/profile/find" component={DashboardAddSocial} />
+              <Route
+                path="/profile/create"
+                component={DashboardCreateWorkspace}
+              />
               <Route path="/workspace/chat" component={ChatroomContainer} />
               <Route path="/workspace/docs" component={CollabNoteContainer} />
               <Route path="/workspace/dropbox" component={DropboxContainer} />
@@ -45,8 +79,16 @@ function DashboardContainer() {
                 path="/workspace/whiteboard"
                 component={WhiteboardContainer}
               />
-              <Route path="/workspace/video" exact component={VideoCreateRoom} />
-              <Route path="/workspace/video/:roomID" exact component={VideoContainer} />
+              <Route
+                path="/workspace/video"
+                exact
+                component={VideoCreateRoom}
+              />
+              <Route
+                path="/workspace/video/:roomID"
+                exact
+                component={VideoContainer}
+              />
             </Switch>
           </Grid>
         </Router>

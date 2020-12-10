@@ -8,6 +8,7 @@ import {
   NavLink,
   useHistory,
 } from "react-router-dom";
+import Link from "@material-ui/core/Link";
 
 function DashboardSidebar(props) {
   //Check if active workspace
@@ -32,24 +33,24 @@ function DashboardSidebar(props) {
         direction="column"
         className={DashboardSidebarCss.sideBarBorder}
       >
-        <NavLink to="/profile">
+        <Link to="/profile">
           <div className={DashboardSidebarCss.workspaceIconUser}>
             {props.name}
           </div>
-        </NavLink>
+        </Link>
 
         <div className={DashboardSidebarCss.workSpaceSeparator}></div>
 
         {props.workspaces.map((item, index) => {
           return (
-            <NavLink to="" key={index}>
+            <Link href={`/workspace/${item}`} key={index}>
               <MaterialUI.Tooltip
                 title="Create Workspace"
                 placement="right-end"
               >
                 <div className={DashboardSidebarCss.workspaceIcon}>{item}</div>
               </MaterialUI.Tooltip>
-            </NavLink>
+            </Link>
           );
         })}
 
@@ -71,7 +72,7 @@ function DashboardSidebar(props) {
       </MaterialUI.Grid>
 
       {/* sidebar2 */}
-      <MaterialUI.Grid
+      {/* <MaterialUI.Grid
         container
         md={2}
         spacing={0}
@@ -100,7 +101,7 @@ function DashboardSidebar(props) {
             Find Your friends
           </div>
         </MaterialUI.Tooltip>
-      </MaterialUI.Grid>
+      </MaterialUI.Grid> */}
     </>
   );
 }

@@ -39,7 +39,15 @@ function App() {
           path="/profile"
           component={isLogin && DashboardProfileContainer}
         />
-        <Route path="/workspace" component={isLogin && DashboardContainer} />
+        {/* <Route
+          path="/workspace"
+          exact
+          component={isLogin && DashboardContainer}
+        /> */}
+        <Route
+          path="/workspace/:workspaceName"
+          component={isLogin && DashboardContainer}
+        />
         <Route path="*" component={() => "404 not found"} />
       </Switch>
     </Router>
