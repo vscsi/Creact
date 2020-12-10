@@ -45,7 +45,7 @@ exports.createWorkspace = async (req, res) => {
       const userWorkspaces = await knex("user_workspace").where({
         user_id: userId,
       });
-      if (userWorkspaces.length > 5) {
+      if (userWorkspaces.length >= 5) {
         //need to show alert box may be in client
         return res.json({
           message:
@@ -95,7 +95,7 @@ exports.getWorkSpace = async (req, res) => {
   try {
     //1. decode the userId from token in header
     const token = req.headers["x-access-token"];
-    console.log("Hi, from /workspace/list");
+    console.log("Hi, get request from /workspace/list");
     let userId;
     let userName;
     const allWorkspaces = [];

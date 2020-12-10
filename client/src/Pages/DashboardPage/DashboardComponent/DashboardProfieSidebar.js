@@ -5,12 +5,13 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect,
   NavLink,
   useHistory,
 } from "react-router-dom";
 import Link from "@material-ui/core/Link";
 
-function DashboardSidebar(props) {
+function DashboardProfileSidebar(props) {
   //Check if active workspace
   const [active, setActive] = useState(true);
   function checkActive() {
@@ -18,6 +19,21 @@ function DashboardSidebar(props) {
       return DashboardSidebarCss.workspaceIconActive;
     }
   }
+
+  const handleLogout = () => {
+    try {
+      //1. remove localstorage of JWT
+      console.log("Handling logout");
+      localStorage.removeItem("token");
+      // console.log(localStorage.getItem('token'));
+      // //2. redirect to landing page
+      history.push("/");
+      window.location.reload();
+      // //3. set logout state to be false
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
 
   const history = useHistory();
 
@@ -33,7 +49,7 @@ function DashboardSidebar(props) {
         direction="column"
         className={DashboardSidebarCss.sideBarBorder}
       >
-        <Link to="/profile">
+        <Link href="/profile">
           <div className={DashboardSidebarCss.workspaceIconUser}>
             {props.name}
           </div>
@@ -69,41 +85,18 @@ function DashboardSidebar(props) {
             </div>
           </MaterialUI.Tooltip>
         </NavLink>
-      </MaterialUI.Grid>
 
-      {/* sidebar2 */}
-      {/* <MaterialUI.Grid
-        container
-        md={2}
-        spacing={0}
-        alignItems="center"
-        justify="flex-start"
-        direction="column"
-        className={`${DashboardSidebarCss.sideBarBorder} ${DashboardSidebarCss.sidebar2Background}`}
-      >
-        <MaterialUI.Tooltip title="Add friends" placement="right-end">
-          <div className={DashboardSidebarCss.workspaceIcon}>Friend A</div>
-        </MaterialUI.Tooltip>
-        <MaterialUI.Tooltip title="Add friends" placement="right-end">
-          <div className={DashboardSidebarCss.workspaceIcon}>Friend A</div>
-        </MaterialUI.Tooltip>
-        <MaterialUI.Tooltip title="Add friends" placement="right-end">
-          <div className={DashboardSidebarCss.workspaceIcon}>Friend A</div>
-        </MaterialUI.Tooltip>
-        <MaterialUI.Tooltip title="Add friends" placement="right-end">
-          <div className={DashboardSidebarCss.workspaceIcon}>Friend A</div>
-        </MaterialUI.Tooltip>
-        <MaterialUI.Tooltip title="Add friends" placement="right-end">
-          <div className={DashboardSidebarCss.workspaceIcon}>Friend A</div>
-        </MaterialUI.Tooltip>
-        <MaterialUI.Tooltip title="Add friends" placement="right-end">
-          <div className={DashboardSidebarCss.workspaceIcon}>
-            Find Your friends
+        <MaterialUI.Tooltip title="Logout" placement="right-end">
+          <div
+            className={DashboardSidebarCss.workspaceIcon}
+            onClick={handleLogout}
+          >
+            Logout
           </div>
         </MaterialUI.Tooltip>
-      </MaterialUI.Grid> */}
+      </MaterialUI.Grid>
     </>
   );
 }
 
-export default DashboardSidebar;
+export default DashboardProfileSidebar;

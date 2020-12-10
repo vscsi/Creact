@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
 import DashboardContainerCss from "./DashboardContainer.module.css";
-import DashboardSidebar from "./DashboardComponent/DashboardSidebar";
-import DashboardProfileSidebar from "./DashboardComponent/DashboardProfieSidebar";
-import DashboardMain from "./DashboardComponent/DashboardMain";
 import { Grid } from "@material-ui/core";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import DashboardNavbar from "./DashboardComponent/DashboardNavbar";
-import DashboardMainCss from "./DashboardComponent/DashboardMain.module.css";
 import ChatroomContainer from "./DashboardFeatures/ChatroomPage/ChatroomContainer";
 import CollabNoteContainer from "./DashboardFeatures/CollaborationNotePage/CollabNoteContainer";
 import DropboxContainer from "./DashboardFeatures/DropboxPage/DropboxContainer";
@@ -18,7 +14,8 @@ import VideoCreateRoom from "./DashboardFeatures/VideoPage/VideoCreateRoom";
 import DashboardAddSocial from "./DashboardComponent/DashboardAddSocial";
 import DashboardCreateWorkspace from "./DashboardComponent/DashboardCreateWorkspace";
 import DashboardProfileHome from "./DashboardComponent/DashboardProfileHome.js";
-import DashboardFeatureSidebar from './DashboardComponent/DashboardFeatureSidebar';
+import DashboardFeatureSidebar from "./DashboardComponent/DashboardFeatureSidebar";
+import DashboardProfileSidebar from "./DashboardComponent/DashboardProfieSidebar";
 import Axios from "axios";
 
 function DashboardContainer() {
@@ -53,7 +50,7 @@ function DashboardContainer() {
         className={`${DashboardContainerCss.containerHeight} ${DashboardContainerCss.containerBackground}`}
       >
         <Router>
-          <DashboardSidebar name={userName} workspaces={workspaces} />
+          <DashboardProfileSidebar name={userName} workspaces={workspaces} />
           <DashboardFeatureSidebar />
           <Grid
             Container
@@ -74,7 +71,10 @@ function DashboardContainer() {
               <Route path="/workspace/docs" component={CollabNoteContainer} />
               <Route path="/workspace/dropbox" component={DropboxContainer} />
               <Route path="/workspace/tasks" component={CollabTaskContainer} />
-              <Route path="/workspace/calender" component={CalenderContainer} />
+              <Route
+                path="/workspace/calenthder"
+                component={CalenderContainer}
+              />
               <Route
                 path="/workspace/whiteboard"
                 component={WhiteboardContainer}

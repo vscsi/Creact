@@ -27,6 +27,7 @@ const taskRoutes = require("./routes/task");
 const registerRoutes = require("./routes/register");
 const loginRoutes = require("./routes/login");
 const workspaceRoutes = require("./routes/workspace");
+const userRoutes = require("./routes/user");
 
 //global error handler
 app.use(errorHandler);
@@ -35,7 +36,7 @@ app.use(taskRoutes);
 app.use(registerRoutes);
 app.use(loginRoutes);
 app.use(workspaceRoutes);
-
+app.use(userRoutes);
 //api routes
 
 const verifyJWT = (req, res, next) => {

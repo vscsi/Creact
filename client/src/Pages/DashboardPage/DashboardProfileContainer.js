@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import DashboardContainerCss from "./DashboardContainer.module.css";
-import DashboardContainer from "./DashboardContainer";
-import DashboardSidebar from "./DashboardComponent/DashboardSidebar";
 import DashboardProfileSidebar from "./DashboardComponent/DashboardProfieSidebar";
-import DashboardMain from "./DashboardComponent/DashboardMain";
 import { Grid } from "@material-ui/core";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import DashboardNavbar from "./DashboardComponent/DashboardNavbar";
-import DashboardMainCss from "./DashboardComponent/DashboardMain.module.css";
 import DashboardAddSocial from "./DashboardComponent/DashboardAddSocial";
 import DashboardCreateWorkspace from "./DashboardComponent/DashboardCreateWorkspace";
 import DashboardProfileHome from "./DashboardComponent/DashboardProfileHome.js";
@@ -33,9 +34,23 @@ function DashboardProfileContainer() {
     }
   };
 
+  const getUserName = () => {
+    try {
+      Axios.get("http://localhost:4000/username", {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      }).then((res) => {
+        setUserName(res.data.userName);
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   useEffect(() => {
-    setUserName(localStorage.getItem("userName"));
     getAllWorkspace();
+    getUserName();
   }, []);
 
   return (

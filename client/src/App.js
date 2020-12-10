@@ -33,7 +33,10 @@ function App() {
     <Router>
       <Switch>
         <Route path="/" exact component={LandingPageContainer} />
-        <Route path="/login" component={LoginContainer} />
+        <Route
+          path="/login"
+          component={isLogin ? DashboardProfileContainer : LoginContainer}
+        />
         <Route path="/register" component={RegisterContainer} />
         <Route
           path="/profile"
