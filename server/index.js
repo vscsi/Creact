@@ -18,12 +18,6 @@ app.use(cors());
 app.use(express.json()); //req.body
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.use(express.static(path.join(__dirname, "client/build")))
-
-
-if(process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname, "client/build")))
-}
 
 //routers
 const taskRoutes = require('./routes/task');
@@ -37,9 +31,6 @@ app.use(registerRoutes);
 const videoIo = require('./controllers/video')(socketio)
 
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, "client/build/index.html"))
-})
 
 server.listen(PORT, ()=>{
     console.log(`Creact server, Listening to port ${PORT}`);

@@ -1,5 +1,7 @@
 # Creact - Capstone project
 
+[Creact app](https://creact-app.com)
+
 ## Tech Stack
 - React
 - Node JS
@@ -16,7 +18,6 @@
 - Video Calling
 - Collaboration Document
 - Chatroom
-- 
 
 ## Developed by
 

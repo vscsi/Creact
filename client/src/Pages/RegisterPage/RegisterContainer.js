@@ -84,10 +84,10 @@ function RegisterContainer() {
       }
     }, [errors]);
 
-    useEffect(()=>{
+    useEffect(async()=>{
       const {username, firstname, lastname, email,password} =values;
       const body = {username, firstname, lastname, email, password};
-      const url = "/register";
+      const url = "http://localhost:4000/register";
       async function postRegister(){
         try{
           const response = await fetch(url,{
