@@ -1,5 +1,5 @@
 const knex = require("../models/knex");
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
 exports.getRegister= async(req,res)=>{
   

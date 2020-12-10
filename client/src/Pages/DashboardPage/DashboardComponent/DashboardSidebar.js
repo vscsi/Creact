@@ -8,8 +8,10 @@ import {
   NavLink,
   useHistory,
 } from "react-router-dom";
+import Link from "@material-ui/core/Link";
 
-function DashboardSidebar() {
+
+function DashboardSidebar(props) {
   //Check if active workspace
   const [active, setActive] = useState(true);
   function checkActive() {
@@ -32,29 +34,46 @@ function DashboardSidebar() {
         direction="column"
         className={DashboardSidebarCss.sideBarBorder}
       >
-        <div className={DashboardSidebarCss.workspaceIconUser}>User</div>
+        <Link href="/profile">
+          <div className={DashboardSidebarCss.workspaceIconUser}>
+            {props.name}
+          </div>
+        </Link>
 
         <div className={DashboardSidebarCss.workSpaceSeparator}></div>
 
-        <MaterialUI.Tooltip title="Workspace 1" placement="right-end">
-          <div
-            className={`${DashboardSidebarCss.workspaceIcon} ${checkActive()}`}
-          >
-            Work space 1
-          </div>
-        </MaterialUI.Tooltip>
+        {props.workspaces.map((item, index) => {
+          return (
+            <NavLink to={`/workspace/${item}`} key={index}>
+              <MaterialUI.Tooltip
+                title="Create Workspace"
+                placement="right-end"
+              >
+                <div className={DashboardSidebarCss.workspaceIcon}>{item}</div>
+              </MaterialUI.Tooltip>
+            </NavLink>
+          );
+        })}
 
-        <MaterialUI.Tooltip title="Workspace 2" placement="right-end">
-          <div className={DashboardSidebarCss.workspaceIcon}>Work space 2</div>
-        </MaterialUI.Tooltip>
+        <NavLink to="/profile/create">
+          <MaterialUI.Tooltip title="Create Workspace" placement="right-end">
+            <div className={DashboardSidebarCss.workspaceIcon}>
+              Create workspace
+            </div>
+          </MaterialUI.Tooltip>
+        </NavLink>
 
-        <MaterialUI.Tooltip title="Workspace 3" placement="right-end">
-          <div className={DashboardSidebarCss.workspaceIcon}>Work space 3</div>
-        </MaterialUI.Tooltip>
+        <NavLink to="/profile/find">
+          <MaterialUI.Tooltip title="Find Workspace" placement="right-end">
+            <div className={DashboardSidebarCss.workspaceIcon}>
+              Find workspaces
+            </div>
+          </MaterialUI.Tooltip>
+        </NavLink>
       </MaterialUI.Grid>
 
       {/* sidebar2 */}
-      <MaterialUI.Grid
+      {/* <MaterialUI.Grid
         container
         md={2}
         spacing={0}
@@ -135,7 +154,7 @@ function DashboardSidebar() {
             <div className={DashboardSidebarCss.featureIcon}>Video</div>
           </MaterialUI.Tooltip>
         </NavLink>
-      </MaterialUI.Grid>
+      </MaterialUI.Grid> */}
     </>
   );
 }

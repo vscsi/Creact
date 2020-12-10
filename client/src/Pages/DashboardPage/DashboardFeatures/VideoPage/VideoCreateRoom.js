@@ -18,6 +18,11 @@ const VideoCreateRoom = (props) => {
             onClick={create}>
                 Create room
             </Button>
+            <Button 
+            variant="contained" 
+            >
+                Join room
+            </Button>
         </div>
     );
 };
