@@ -72,7 +72,6 @@ function DashboardContainer() {
     getUserName();
     getCurrentWorkspace();
     console.log(currentWorkspace);
-    console.log("test");
   }, []);
 
   return (
