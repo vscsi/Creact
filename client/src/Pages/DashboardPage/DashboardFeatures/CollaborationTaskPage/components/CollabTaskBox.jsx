@@ -20,11 +20,14 @@ const CollabTaskBox = (props) => {
       console.log(body);
       const response = await fetch("http://localhost:4000/task", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token"),
+        },
         body: JSON.stringify(body),
       });
       console.log(response);
-      window.location = '/workspace/tasks';
+      window.location = "/workspace/tasks";
     } catch (err) {
       console.error(err.message);
     }
