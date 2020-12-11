@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import DashboardContainerCss from "./DashboardContainer.module.css";
-import DashboardSidebar from "./DashboardComponent/DashboardSidebar";
-import DashboardMain from "./DashboardComponent/DashboardMain";
 import { Grid } from "@material-ui/core";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useParams,
+} from "react-router-dom";
 import DashboardNavbar from "./DashboardComponent/DashboardNavbar";
-import DashboardMainCss from "./DashboardComponent/DashboardMain.module.css";
 import ChatroomContainer from "./DashboardFeatures/ChatroomPage/ChatroomContainer";
 import CollabNoteContainer from "./DashboardFeatures/CollaborationNotePage/CollabNoteContainer";
 import DropboxContainer from "./DashboardFeatures/DropboxPage/DropboxContainer";
@@ -14,18 +16,75 @@ import CalenderContainer from "./DashboardFeatures/CalenderPage/CalenderContaine
 import WhiteboardContainer from "./DashboardFeatures/WhiteboardPage/WhiteboardContainer";
 import VideoContainer from "./DashboardFeatures/VideoPage/VideoContainer";
 import VideoCreateRoom from "./DashboardFeatures/VideoPage/VideoCreateRoom";
+import DashboardAddSocial from "./DashboardComponent/DashboardAddSocial";
+import DashboardCreateWorkspace from "./DashboardComponent/DashboardCreateWorkspace";
+import DashboardProfileHome from "./DashboardComponent/DashboardProfileHome.js";
+import DashboardFeatureSidebar from "./DashboardComponent/DashboardFeatureSidebar";
+import DashboardProfileSidebar from "./DashboardComponent/DashboardProfieSidebar";
+import Axios from "axios";
 
 function DashboardContainer() {
+  const [userName, setUserName] = useState("");
+  const [workspaces, setWorkspaces] = useState([]);
+  const [currentWorkspace, setCurrentWorkspace] = useState("");
+  const { name } = useParams();
+
+  const getAllWorkspace = () => {
+    try {
+      Axios.get("http://localhost:4000/workspace/list", {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      }).then((res) => {
+        setWorkspaces(res.data.allWorkspaces);
+        // console.log(res);
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const getUserName = () => {
+    try {
+      Axios.get("http://localhost:4000/username", {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      }).then((res) => {
+        setUserName(res.data.userName);
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const getCurrentWorkspace = () => {
+    const path = window.location.pathname;
+    // console.log(`url is below`);
+    // console.log(path);
+    const currWorkspace = path.split("/workspace/")[1];
+    // console.log(currWorkspace);
+    setCurrentWorkspace(currWorkspace);
+  };
+
+  useEffect(() => {
+    getAllWorkspace();
+    getUserName();
+    getCurrentWorkspace();
+    // console.log(currentWorkspace);
+  }, []);
+
   return (
     <>
-          <Grid
+      <Grid
         container
         direction="row"
         alignItems="stretch"
         className={`${DashboardContainerCss.containerHeight} ${DashboardContainerCss.containerBackground}`}
       >
         <Router>
-          <DashboardSidebar />
+          <DashboardProfileSidebar name={userName} workspaces={workspaces} />
+          <DashboardFeatureSidebar currentWorkspace={currentWorkspace} />
           <Grid
             Container
             direction="row"
@@ -35,17 +94,39 @@ function DashboardContainer() {
           >
             <DashboardNavbar />
             <Switch>
-              <Route path="/workspace/chat" component={ChatroomContainer} />
-              <Route path="/workspace/docs" component={CollabNoteContainer} />
-              <Route path="/workspace/dropbox" component={DropboxContainer} />
-              <Route path="/workspace/tasks" component={CollabTaskContainer} />
-              <Route path="/workspace/calender" component={CalenderContainer} />
+              {/* for profile route */}
+              <Route exact path="/profile" component={DashboardProfileHome} />
+              <Route path="/profile/find" component={DashboardAddSocial} />
               <Route
-                path="/workspace/whiteboard"
+                path="/profile/create"
+                component={DashboardCreateWorkspace}
+              />
+              {/* for workspace route */}
+              <Route
+                path={`/workspace/:${currentWorkspace}/chat`}
+                component={ChatroomContainer}
+              />
+              <Route path={`/workspace/:${currentWorkspace}/docs`} component={CollabNoteContainer} />
+              <Route path={`/workspace/:${currentWorkspace}/dropbox`} component={DropboxContainer} />
+              <Route path={`/workspace/:${currentWorkspace}/tasks`} component={CollabTaskContainer} />
+              <Route
+                path={`/workspace/:${currentWorkspace}/calender`}
+                component={CalenderContainer}
+              />
+              <Route
+                path={`/workspace/:${currentWorkspace}/whiteboard`}
                 component={WhiteboardContainer}
               />
-              <Route path="/workspace/video" exact component={VideoCreateRoom} />
-              <Route path="/workspace/video/:roomID" exact component={VideoContainer} />
+              <Route
+                path={`/workspace/:${currentWorkspace}/video`}
+                exact
+                component={VideoCreateRoom}
+              />
+              <Route
+                path={`/workspace/:${currentWorkspace}/video/:roomId`}
+                exact
+                component={VideoContainer}
+              />
             </Switch>
           </Grid>
         </Router>
