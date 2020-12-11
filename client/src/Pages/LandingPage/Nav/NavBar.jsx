@@ -1,4 +1,4 @@
-import React, { useState, useLocation } from "react";
+import React, { useState } from "react";
 import "../../../css/index.css";
 import "../../../css/nav.css";
 import Burger from "./Burger";
@@ -10,7 +10,7 @@ import Reason from "../Content/Reason/Reason";
 import Safety from "../Content/Safety/Safety";
 import Support from "../Content/Support/Support";
 import Home from "../Content/Home/Home";
-import LoginContainer from"../.././LoginPage/LoginContainer"
+// import LoginContainer from"../.././LoginPage/LoginContainer"
 
 const NavBar = (props) => {
   const [isClicked, setClicked] = useState(false);

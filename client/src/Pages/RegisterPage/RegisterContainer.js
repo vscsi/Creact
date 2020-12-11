@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import RegisterCss from "./Register.module.css";
-import LoginContainer from "../LoginPage/LoginContainer";
+// import LoginContainer from "../LoginPage/LoginContainer";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { FormHelperText } from "@material-ui/core";
 import {
-  Link as RouterLink,
-  Route,
-  BrowserRouter as Router,
+  // Link as RouterLink,
+  // Route,
+  // BrowserRouter as Router,
   Redirect,
 } from "react-router-dom";
 
@@ -29,7 +29,7 @@ function RegisterContainer() {
   //isSubmitted checks whether no error and signup btn is clicked before updating database
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isUsernameRepeated, setIsUsernameRepeated] = useState(false);
+  // const [isUsernameRepeated, setIsUsernameRepeated] = useState(false);
 
   //validating login
   const validateLogin = (values) => {
@@ -84,12 +84,13 @@ function RegisterContainer() {
     if (Object.keys(errors).length === 0 && isSubmitting) {
       setIsSubmitted(true);
     }
-  }, [errors]);
+  }, [isSubmitting, errors]);
 
-  useEffect(async () => {
+  useEffect(() => {
     const { username, firstname, lastname, email, password } = values;
     const body = { username, firstname, lastname, email, password };
-    const url = "http://localhost:4000/register";
+    // const url = "http://localhost:4000/register";
+    const url = `${process.env.REACT_APP_API_SERVER}   /register`;
     async function postRegister() {
       try {
         const response = await fetch(url, {
@@ -104,7 +105,7 @@ function RegisterContainer() {
       }
     }
     postRegister();
-  }, [isSubmitted]);
+  }, [isSubmitted, values]);
 
   return (
     <>
