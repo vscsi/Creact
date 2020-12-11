@@ -6,7 +6,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
 } from "react-router-dom";
 import DashboardNavbar from "./DashboardComponent/DashboardNavbar";
 import DashboardAddSocial from "./DashboardComponent/DashboardAddSocial";
@@ -21,7 +20,8 @@ function DashboardProfileContainer() {
 
   const getAllWorkspace = () => {
     try {
-      Axios.get("http://localhost:4000/workspace/list", {
+      // Axios.get("http://localhost:4000/workspace/list, {
+      Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/list`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -36,7 +36,8 @@ function DashboardProfileContainer() {
 
   const getUserName = () => {
     try {
-      Axios.get("http://localhost:4000/username", {
+      // Axios.get("http://localhost:4000/username", {
+      Axios.get(`${process.env.REACT_APP_API_SERVER}/username`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },

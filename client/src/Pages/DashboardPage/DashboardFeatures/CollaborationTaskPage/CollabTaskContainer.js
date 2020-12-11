@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CollabTaskBox from "./components/CollabTaskBox";
 import CollabTaskList from "./components/CollabTaskList";
-import Pagination from "./components/Pagination";
+// import Pagination from "./components/Pagination";
 import styles from "./CollabTaskContainer.module.css";
 
 const CollabTaskContainer = () => {
@@ -11,11 +11,13 @@ const CollabTaskContainer = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [tasksPerPage, setTasksPerPage] = useState(4);
 
+  console.log(loading, setTasksPerPage)
   //get all tasks function
   const getTasks = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:4000/workspace/tasks");
+      // const response = await fetch("http://localhost:4000/workspace/tasks");
+      const response = await fetch(`${process.env.REACT_APP_API_SERVER}:4000/workspace/tasks`);
       const jsonData = await response.json();
       setTasks(jsonData);
       setLoading(false);
@@ -40,7 +42,8 @@ const CollabTaskContainer = () => {
   //delete task function
   const handleDelete = async (id) => {
     try {
-      const deleteTask = await fetch(`http://localhost:4000/tasks/${id}`, {
+      // const deleteTask = await fetch(`http://localhost:4000/tasks/${id}`, {
+      const deleteTask = await fetch(`${process.env.REACT_APP_API_SERVER}/tasks/${id}`, {
         method: "DELETE",
       });
       console.log(deleteTask);

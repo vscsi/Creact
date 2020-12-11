@@ -5,7 +5,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  useParams,
 } from "react-router-dom";
 import DashboardNavbar from "./DashboardComponent/DashboardNavbar";
 import ChatroomContainer from "./DashboardFeatures/ChatroomPage/ChatroomContainer";
@@ -27,11 +26,11 @@ function DashboardContainer() {
   const [userName, setUserName] = useState("");
   const [workspaces, setWorkspaces] = useState([]);
   const [currentWorkspace, setCurrentWorkspace] = useState("");
-  const { name } = useParams();
 
   const getAllWorkspace = () => {
     try {
-      Axios.get("http://localhost:4000/workspace/list", {
+      // Axios.get("http://localhost:4000/workspace/list", {
+      Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/list`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -46,7 +45,8 @@ function DashboardContainer() {
 
   const getUserName = () => {
     try {
-      Axios.get("http://localhost:4000/username", {
+      // Axios.get("http://localhost:4000/username", {
+      Axios.get(`${process.env.REACT_APP_API_SERVER}/username`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
