@@ -12,13 +12,6 @@ import {
 import Link from "@material-ui/core/Link";
 
 function DashboardProfileSidebar(props) {
-  //Check if active workspace
-  const [active, setActive] = useState(true);
-  function checkActive() {
-    if (active === true) {
-      return DashboardSidebarCss.workspaceIconActive;
-    }
-  }
 
   const handleLogout = () => {
     try {

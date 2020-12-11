@@ -2,12 +2,30 @@ import React from "react";
 import { v1 as uuid } from "uuid";
 import { Button,Grid } from '@material-ui/core';
 import VideoCreateRoomCss from './VideoCreateRoom.module.css'
-import VideoContainerCss from './VideoContainer.module.css'
 
 const VideoCreateRoom = (props) => {
-    function create() {
+    async function create() {
         const id = uuid();
-        props.history.push(`/workspace/video/${id}`);
+        const name = props.name;
+        const workspaces = props.workspaces;
+        const workspaceName = props.workspaceName;
+        props.history.push(`/workspace/${workspaceName}/video/${id}`);
+        
+        console.log(`user ${name} is in video create room ` );
+        console.log(props.history)
+        
+        const body = {name,workspaces, workspaceName,id} // put values into body object
+        try{
+            const sendVideo = await fetch(`http://localhost:4000/workspace/video/`,{
+                method:"POST",
+                headers: {"Content-Type":"application/json"},
+                body: JSON.stringify(body)
+            })
+            const response = await sendVideo.json();
+
+        }catch(e){
+            console.error(e.message);
+        }
     }
 
     return (

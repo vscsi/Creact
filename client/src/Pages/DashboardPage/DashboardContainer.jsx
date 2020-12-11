@@ -21,6 +21,7 @@ import Axios from "axios";
 function DashboardContainer() {
   const [userName, setUserName] = useState("");
   const [workspaces, setWorkspaces] = useState([]);
+  const [workspaceName, setWorkspaceName]=useState([]);
 
   const getAllWorkspace = () => {
     try {
@@ -51,9 +52,16 @@ function DashboardContainer() {
     }
   };
 
+  const getCurrentWorkspace = () => {
+    const path = window.location.pathname;
+    const currentWorkspace = path.split("/workspace/")[1];
+    setWorkspaceName(currentWorkspace);
+  };
+
   useEffect(() => {
     getAllWorkspace();
     getUserName();
+    getCurrentWorkspace();
   }, []);
   return (
     <>
@@ -94,12 +102,14 @@ function DashboardContainer() {
                 component={WhiteboardContainer}
               />
               <Route
-                path="/workspace/video"
+                // path="/workspace/:workspacename/video"
+                path={`/workspace/${workspaceName}/video`}
                 exact
+                render = {(props)=><VideoCreateRoom {...props} name={userName} workspaces={workspaces} workspaceName={workspaceName}/>}
                 component={VideoCreateRoom}
               />
               <Route
-                path="/workspace/video/:roomID"
+                path={`/workspace/${workspaceName}/video/roomID`}
                 exact
                 component={VideoContainer}
               />
