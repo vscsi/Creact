@@ -71,7 +71,7 @@ function DashboardSidebar() {
         className={`${DashboardSidebarCss.sideBarBorder} ${DashboardSidebarCss.sidebar2Background}`}
       >
         <NavLink
-          to="/workspace/chat"
+          to={`/workspace/chat?userid=3&room=1`}
           className={DashboardSidebarCss.featureIconLink}
         >
           <MaterialUI.Tooltip title="Chatroom" placement="right-end">
