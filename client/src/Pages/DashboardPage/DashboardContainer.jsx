@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import DashboardContainerCss from "./DashboardContainer.module.css";
 import { Grid } from "@material-ui/core";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useParams,
+} from "react-router-dom";
 import DashboardNavbar from "./DashboardComponent/DashboardNavbar";
 import ChatroomContainer from "./DashboardFeatures/ChatroomPage/ChatroomContainer";
 import CollabNoteContainer from "./DashboardFeatures/CollaborationNotePage/CollabNoteContainer";
@@ -21,6 +26,8 @@ import Axios from "axios";
 function DashboardContainer() {
   const [userName, setUserName] = useState("");
   const [workspaces, setWorkspaces] = useState([]);
+  const [currentWorkspace, setCurrentWorkspace] = useState("");
+  const { name } = useParams();
 
   const getAllWorkspace = () => {
     try {
@@ -51,10 +58,22 @@ function DashboardContainer() {
     }
   };
 
+  const getCurrentWorkspace = () => {
+    const path = window.location.pathname;
+    // console.log(`url is below`);
+    // console.log(path);
+    const currWorkspace = path.split("/workspace/")[1];
+    console.log(currWorkspace);
+    setCurrentWorkspace(currWorkspace);
+  };
+
   useEffect(() => {
     getAllWorkspace();
     getUserName();
+    getCurrentWorkspace();
+    console.log(currentWorkspace);
   }, []);
+
   return (
     <>
       <Grid
@@ -65,7 +84,7 @@ function DashboardContainer() {
       >
         <Router>
           <DashboardProfileSidebar name={userName} workspaces={workspaces} />
-          <DashboardFeatureSidebar />
+          <DashboardFeatureSidebar currentWorkspace={currentWorkspace} />
           <Grid
             Container
             direction="row"
@@ -75,31 +94,36 @@ function DashboardContainer() {
           >
             <DashboardNavbar />
             <Switch>
+              {/* for profile route */}
               <Route exact path="/profile" component={DashboardProfileHome} />
               <Route path="/profile/find" component={DashboardAddSocial} />
               <Route
                 path="/profile/create"
                 component={DashboardCreateWorkspace}
               />
-              <Route path="/workspace/chat" component={ChatroomContainer} />
-              <Route path="/workspace/docs" component={CollabNoteContainer} />
-              <Route path="/workspace/dropbox" component={DropboxContainer} />
-              <Route path="/workspace/tasks" component={CollabTaskContainer} />
+              {/* for workspace route */}
               <Route
-                path="/workspace/calenthder"
+                path={`/workspace/:${currentWorkspace}/chat`}
+                component={ChatroomContainer}
+              />
+              <Route path={`/workspace/:${currentWorkspace}/docs`} component={CollabNoteContainer} />
+              <Route path={`/workspace/:${currentWorkspace}/dropbox`} component={DropboxContainer} />
+              <Route path={`/workspace/:${currentWorkspace}/tasks`} component={CollabTaskContainer} />
+              <Route
+                path={`/workspace/:${currentWorkspace}/calender`}
                 component={CalenderContainer}
               />
               <Route
-                path="/workspace/whiteboard"
+                path={`/workspace/:${currentWorkspace}/whiteboard`}
                 component={WhiteboardContainer}
               />
               <Route
-                path="/workspace/video"
+                path={`/workspace/:${currentWorkspace}/video`}
                 exact
                 component={VideoCreateRoom}
               />
               <Route
-                path="/workspace/video/:roomID"
+                path={`/workspace/:${currentWorkspace}/video/:roomId`}
                 exact
                 component={VideoContainer}
               />

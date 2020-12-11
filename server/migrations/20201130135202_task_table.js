@@ -7,6 +7,7 @@ exports.up = function(knex) {
         table.timestamp('deadline').notNullable();
         table.integer('user_id').unsigned();
         table.foreign('user_id').references('users.id');
+        table.boolean('finished').defaultTo(false);
     })
   };
   

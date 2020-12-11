@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as MaterialUI from "@material-ui/core";
 import DashboardSidebarCss from "./DashboardSidebar.module.css";
 import {
@@ -7,9 +7,12 @@ import {
   Route,
   NavLink,
   useHistory,
+  useParams,
 } from "react-router-dom";
 
-const DashboardFeatureSidebar = () => {
+const DashboardFeatureSidebar = (props) => {
+  const { name } = useParams();
+
   return (
     <MaterialUI.Grid
       container
@@ -21,7 +24,7 @@ const DashboardFeatureSidebar = () => {
       className={`${DashboardSidebarCss.sideBarBorder} ${DashboardSidebarCss.sidebar2Background}`}
     >
       <NavLink
-        to="/workspace/chat"
+        to={`/workspace/${props.currentWorkspace}/chat`}
         className={DashboardSidebarCss.featureIconLink}
       >
         <MaterialUI.Tooltip title="Chatroom" placement="right-end">
@@ -30,7 +33,7 @@ const DashboardFeatureSidebar = () => {
       </NavLink>
 
       <NavLink
-        to="/workspace/docs"
+        to={`/workspace/${props.currentWorkspace}/docs`}
         className={DashboardSidebarCss.featureIconLink}
       >
         <MaterialUI.Tooltip
@@ -44,7 +47,7 @@ const DashboardFeatureSidebar = () => {
       </NavLink>
 
       <NavLink
-        to="/workspace/dropbox"
+        to={`/workspace/${props.currentWorkspace}/dropbox`}
         className={DashboardSidebarCss.featureIconLink}
       >
         <MaterialUI.Tooltip title="Dropbox" placement="right-end">
@@ -53,7 +56,7 @@ const DashboardFeatureSidebar = () => {
       </NavLink>
 
       <NavLink
-        to="/workspace/tasks"
+        to={`/workspace/${props.currentWorkspace}/tasks`}
         className={DashboardSidebarCss.featureIconLink}
       >
         <MaterialUI.Tooltip
@@ -67,7 +70,7 @@ const DashboardFeatureSidebar = () => {
       </NavLink>
 
       <NavLink
-        to="/workspace/calendar"
+        to={`/workspace/${props.currentWorkspace}/calender`}
         className={DashboardSidebarCss.featureIconLink}
       >
         <MaterialUI.Tooltip title="Chatroom" placement="right-end">
@@ -76,7 +79,7 @@ const DashboardFeatureSidebar = () => {
       </NavLink>
 
       <NavLink
-        to="/workspace/whiteboard"
+        to={`/workspace/${props.currentWorkspace}/whiteboard`}
         className={DashboardSidebarCss.featureIconLink}
       >
         <MaterialUI.Tooltip title="Whiteboard" placement="right-end">
@@ -85,7 +88,7 @@ const DashboardFeatureSidebar = () => {
       </NavLink>
 
       <NavLink
-        to="/workspace/video"
+        to={`/workspace/${props.currentWorkspace}/video`}
         className={DashboardSidebarCss.featureIconLink}
       >
         <MaterialUI.Tooltip title="Video" placement="right-end">
