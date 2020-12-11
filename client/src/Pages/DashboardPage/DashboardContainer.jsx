@@ -63,7 +63,7 @@ function DashboardContainer() {
     // console.log(`url is below`);
     // console.log(path);
     const currWorkspace = path.split("/workspace/")[1];
-    console.log(currWorkspace);
+    // console.log(currWorkspace);
     setCurrentWorkspace(currWorkspace);
   };
 
@@ -71,7 +71,7 @@ function DashboardContainer() {
     getAllWorkspace();
     getUserName();
     getCurrentWorkspace();
-    console.log(currentWorkspace);
+    // console.log(currentWorkspace);
   }, []);
 
   return (
