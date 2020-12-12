@@ -8,7 +8,7 @@ import {
 
 const VideoCreateRoom = ({userName,workspaces,currentWorkspace}) => {
     const [videoRoomName, setVideoRoomName] = useState('');
-    const [displayRoomName, setDisplayRoomName] = useState({});
+    const [displayRoomName, setDisplayRoomName] = useState([]);
     const history = useHistory();
 
     async function handleSubmit() {
@@ -24,10 +24,8 @@ const VideoCreateRoom = ({userName,workspaces,currentWorkspace}) => {
                 headers: {"Content-Type":"application/json"},
                 body: JSON.stringify(body)
             })
-            console.log(sendVideo);
             const response = await sendVideo.json();
             console.log(response);
-           
             console.log(displayRoomName);
         }catch(e){
             console.error(e.message);
@@ -42,7 +40,7 @@ const VideoCreateRoom = ({userName,workspaces,currentWorkspace}) => {
 
     useEffect(()=>{
         async function postVideoJoinRoom(){
-            const  body = {userName};
+            const  body = {currentWorkspace};
             try{
                 const joinRoom = await fetch(`http://localhost:4000/workspace/${currentWorkspace}/video`,{
                     method:"POST",
@@ -51,6 +49,12 @@ const VideoCreateRoom = ({userName,workspaces,currentWorkspace}) => {
                 })
                 const response = await joinRoom.json();
                 console.log('postVideoJoinRoom from client/VideoCreateRoom',response)
+
+                //if only 1 user in workspace , response:
+
+                //if no video room is created: 
+
+                //if there are video rooms in same workspace
                 setDisplayRoomName(
                     displayRoomName.concat(response.videoRoomNames)
                 );
@@ -84,7 +88,7 @@ const VideoCreateRoom = ({userName,workspaces,currentWorkspace}) => {
                 </form>
                 </Grid>
 
-                {/* Rooms for joining */}
+                {/* Joining video rooms */}
                 {
                     displayRoomName.map((item,index)=>{
                     <Grid item xs={3}>

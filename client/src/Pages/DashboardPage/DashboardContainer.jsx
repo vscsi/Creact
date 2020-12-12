@@ -59,14 +59,6 @@ function DashboardContainer() {
     }
   };
 
-  const getCurrentWorkspace = () => {
-    const path = window.location.pathname;
-    // console.log(`url is below`);
-    // console.log(path);
-    const currWorkspace = path.split("/workspace/")[1];
-    // console.log(currWorkspace);
-    setCurrentWorkspace(currWorkspace);
-  };
 
 
   useEffect(() => {

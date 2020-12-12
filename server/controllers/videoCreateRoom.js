@@ -1,23 +1,38 @@
 const knex = require("../models/knex");
 
 exports.postVideoJoinRoom = async(req,res)=>{
-  const {userName} = req.body;
+  const {currentWorkspace} = req.body;
+  //current user id
+  const userId = req.userId;
   const videoRooms=[];
+
   try{
-    let getUsername = await knex('users').select().where('username', userName);
-    console.log('server/videoCreateRoom',getUsername);
-    let getVideoId = await knex('video_workspace').select().where('users_id', getUsername.id);
-    console.log('server/videoCreateRoom',getVideoId);
-    if(getVideoId.length!==0){
-      let getVideoRoomName = await knex('video').select().where('id', getVideoId.video_id);
-      console.log('server/videoCreateRoom',getVideoRoomName);
-      videoRooms.push(getVideoRoomName.video_room_name)
-      res.json({
-        videoRoomName: videoRooms
-      })
+    //get users from same workspace 
+    let getCurrentWorkspace = await knex('workspace').select().where('workspace_name', currentWorkspace);
+    let getUsersFromSameWorkspace = await knex('user_workspace').select().where('workspace_id', getCurrentWorkspace.id);
+    
+    if(getUsersFromSameWorkspace.length !== 0){
+      //check if user is video host
+      let getVideoId = await knex('video_workspace').select().where('user_id', userId);
+      console.log('server/videoCreateRoom getVideoId',getVideoId);
+      
+      //if not host, check if there are video rooms in same workspace 
+      if(getVideoId.length === 0){
+        let getVideoRoomName = await knex('video').select().where('id', getVideoId.video_id);
+  
+        console.log('server/videoCreateRoom',getVideoRoomName);
+        videoRooms.push(getVideoRoomName.video_room_name)
+        res.json({
+          videoRoomNames: videoRooms
+        })
+      }else{
+        res.json({
+          message: 'no video room is created'
+        })
+      }
     }else{
       res.json({
-        message: 'no video room is created'
+        message: 'only 1 user in workspace'
       })
     }
  }catch(e){
@@ -30,7 +45,6 @@ exports.postVideoCreateRoom = async(req,res) =>{
   console.log('from server/videoCreateRoom',name, workspaces, currentWorkspace, id, videoRoomName)
   if(videoRoomName!==null){
     try{
-      //create socket connection
       await knex('video').insert({
         video_link_id: id,
         video_room_name: videoRoomName 

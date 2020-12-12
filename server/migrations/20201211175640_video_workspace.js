@@ -6,11 +6,11 @@ exports.up = function(knex) {
       table.foreign('video_id').references('video.id');
       table.integer('workspace_id').unsigned();
       table.foreign('workspace_id').references('workspace.id');
-      table.integer('users_id').unsigned();
-      table.foreign('users_id').references('users.id');
+      table.integer('user_id').unsigned();
+      table.foreign('user_id').references('users.id');
   })
 };
 
-exports.dwno = function(knex) {
+exports.down = function(knex) {
   return knex.schema.dropTable('video_workspace');
 };
