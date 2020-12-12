@@ -18,7 +18,8 @@ const CollabTaskBox = (props) => {
       };
       console.log("Form is submtted");
       console.log(body);
-      const response = await fetch("http://localhost:4000/task", {
+      const response = await fetch(`${process.env.REACT_APP_API_SERVER}/task`, {
+      // const response = await fetch("http://localhost:4000/task", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

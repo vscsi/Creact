@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = process.env.REACT_APP_API_SERVER;
+const API_URL = `${process.env.REACT_APP_API_SERVER}/`;
+// const API_URL = "http://localhost:4000/";
 
 class AuthService {
   login(username, password) {
