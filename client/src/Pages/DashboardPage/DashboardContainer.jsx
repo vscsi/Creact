@@ -25,9 +25,9 @@ import Axios from "axios";
 
 function DashboardContainer() {
   const [userName, setUserName] = useState("");
+  const [userId, setUserId] = useState(0);
   const [workspaces, setWorkspaces] = useState([]);
   const [currentWorkspace, setCurrentWorkspace] = useState("");
-  const { name } = useParams();
 
   const getAllWorkspace = () => {
     try {
@@ -37,14 +37,13 @@ function DashboardContainer() {
         },
       }).then((res) => {
         setWorkspaces(res.data.allWorkspaces);
-        // console.log(res);
       });
     } catch (error) {
       console.error(error.message);
     }
   };
 
-  const getUserName = () => {
+  const getUserInfo = () => {
     try {
       Axios.get("http://localhost:4000/username", {
         headers: {
@@ -52,6 +51,7 @@ function DashboardContainer() {
         },
       }).then((res) => {
         setUserName(res.data.userName);
+        setUserId(res.data.id);
       });
     } catch (error) {
       console.error(error.message);
@@ -62,16 +62,43 @@ function DashboardContainer() {
     const path = window.location.pathname;
     // console.log(`url is below`);
     // console.log(path);
-    const currWorkspace = path.split("/workspace/")[1];
-    // console.log(currWorkspace);
+    const regex = /\/workspace\/([^\/]+)/;
+    const result = path.match(regex);
+    // console.log(`currworkspace url is below`);
+    // console.log(result);
+    const currWorkspace = result[1];
     setCurrentWorkspace(currWorkspace);
+    //send post request to server and check if user is admin
+    checkIfAdmin(currWorkspace);
+  };
+
+  const checkIfAdmin = (workspace) => {
+    try {
+      //1. send post request to server, query to "user_workspace" table
+      Axios.post(
+        "http://localhost:4000/task/checkadmin",
+        {
+          workspaceName: workspace,
+        },
+        {
+          headers: { "x-access-token": localStorage.getItem("token") },
+        }
+      ).then((res) => {
+        console.log(`Getting post request in client`);
+        console.log(res);
+      });
+      //2. check if that user is the workspace_admin, return the workspace_admin boolean
+      //3. if yes, that user can have the right to assign task, and can see the create task UI
+      //4. if no, that user can only see all the tasklists in that workspace
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   useEffect(() => {
     getAllWorkspace();
-    getUserName();
+    getUserInfo();
     getCurrentWorkspace();
-    // console.log(currentWorkspace);
   }, []);
 
   return (
@@ -106,9 +133,21 @@ function DashboardContainer() {
                 path={`/workspace/:${currentWorkspace}/chat`}
                 component={ChatroomContainer}
               />
-              <Route path={`/workspace/:${currentWorkspace}/docs`} component={CollabNoteContainer} />
-              <Route path={`/workspace/:${currentWorkspace}/dropbox`} component={DropboxContainer} />
-              <Route path={`/workspace/:${currentWorkspace}/tasks`} component={CollabTaskContainer} />
+              <Route
+                path={`/workspace/:${currentWorkspace}/docs`}
+                component={CollabNoteContainer}
+              />
+              <Route
+                path={`/workspace/:${currentWorkspace}/dropbox`}
+                component={DropboxContainer}
+              />
+              <Route path={`/workspace/:${currentWorkspace}/tasks`}>
+                <CollabTaskContainer
+                  currentWorkspace={currentWorkspace}
+                  currentUser={userName}
+                  currentUserId={userId}
+                />
+              </Route>
               <Route
                 path={`/workspace/:${currentWorkspace}/calender`}
                 component={CalenderContainer}

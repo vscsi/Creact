@@ -5,9 +5,9 @@ const Pagination = ({ tasksPerPage, totalTasks, paginate }) => {
   for (let i = 1; i <= Math.ceil(totalTasks / tasksPerPage); i++) {
     pageNumbers.push(i);
   }
-  console.log(pageNumbers);
-  console.log(tasksPerPage);
-  console.log(totalTasks);
+  // console.log(pageNumbers);
+  // console.log(tasksPerPage);
+  // console.log(totalTasks);
   return (
     <nav>
       <ul className="pagination">

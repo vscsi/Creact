@@ -1,15 +1,14 @@
 const knex = require("../models/knex");
 const jwt = require("jsonwebtoken");
 const config = require("../config.json");
-// const { jwtDecode } = require("../_helpers/jwt-handler");
 
 exports.createWorkspace = async (req, res) => {
   try {
     const { workspaceName, maxppl } = req.body;
     console.log(req.body);
     const token = req.headers["x-access-token"];
-    let userId;
-    let userName;
+    let userId = req.userId;
+    let userName = req.userName;
     let workspace;
     let workspaceId;
     console.log(token);
@@ -26,19 +25,6 @@ exports.createWorkspace = async (req, res) => {
     if (workspace.length === 0) {
       console.log("DB dont have this data yet");
       //2. get back the userId, which user create this workspace
-      jwt.verify(token, config.secret, (err, decoded) => {
-        if (err) {
-          res.json({ auth: false, message: "Your token is incorrect" });
-        } else {
-          //get user info using decoded
-          console.log("JWT token should be correct");
-          console.log("Decoding...");
-          console.log("Decoded is below");
-          console.log(decoded);
-          userId = decoded.id;
-          userName = decoded.name;
-        }
-      });
       //Check if user has created more than 5 workspaces (check from user_workspace)
       //if no, can allow create
       //if yes, than can not insert
@@ -96,30 +82,16 @@ exports.getWorkSpace = async (req, res) => {
     //1. decode the userId from token in header
     const token = req.headers["x-access-token"];
     console.log("Hi, get request from /workspace/list");
-    let userId;
-    let userName;
+    let userId = req.userId;
+    let userName = req.userName;
     const allWorkspaces = [];
-    jwt.verify(token, config.secret, (err, decoded) => {
-      if (err) {
-        res.json({ auth: false, message: "Your token is incorrect" });
-      } else {
-        //get user info using decoded
-        // console.log("JWT token should be correct");
-        // console.log("Decoding...");
-        // console.log("Decoded is below");
-        // console.log(decoded);
-        userId = decoded.id;
-        userName = decoded.name;
-      }
-    });
-    console.log(userId);
     //2. q1: search the user_workspace table base on the userID
     //3. return the array with all the workspaceID
     const userWorkspaces = await knex("user_workspace").where({
       user_id: userId,
     });
-    console.log("user_workspaces rendering from db");
-    console.log(userWorkspaces);
+    // console.log("user_workspaces rendering from db");
+    // console.log(userWorkspaces);
     //4. q2: search the workspace table base on each workspaceID
     for (let item of userWorkspaces) {
       let eachworkspaceId = item.workspace_id;
@@ -128,8 +100,8 @@ exports.getWorkSpace = async (req, res) => {
         id: eachworkspaceId,
       });
       allWorkspaces.push(eachWorkspace[0]["workspace_name"]);
-      console.log("Render each workspace from db");
-      console.log(eachWorkspace);
+      // console.log("Render each workspace from db");
+      // console.log(eachWorkspace);
     }
     //5. store all the workspace name into json obj and pass back to client
     console.log(allWorkspaces);
