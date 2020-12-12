@@ -6,21 +6,12 @@ import {
   Switch,
   Route,
   NavLink,
-  useHistory,
 } from "react-router-dom";
 import Link from "@material-ui/core/Link";
 
 
 function DashboardSidebar(props) {
-  //Check if active workspace
-  const [active, setActive] = useState(true);
-  function checkActive() {
-    if (active === true) {
-      return DashboardSidebarCss.workspaceIconActive;
-    }
-  }
 
-  const history = useHistory();
 
   return (
     <>

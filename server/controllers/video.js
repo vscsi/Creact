@@ -45,6 +45,7 @@ module.exports = function (io) {
         room = room.filter((id) => id !== socket.id);
         users[roomID] = room;
       }
+    
     });
   });
 };

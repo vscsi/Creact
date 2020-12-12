@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 import Peer from "simple-peer";
-import VideoContainerCss from './VideoContainer.module.css'
+import VideoConferenceRoomCss from './VideoConferenceRoom.module.css'
 
 const Video = (props) => {
     const ref = useRef();
@@ -13,7 +13,7 @@ const Video = (props) => {
     }, []);
 
     return (
-        <video className={VideoContainerCss.videoDiv} playsInline autoPlay ref={ref} />
+        <video className={VideoConferenceRoomCss.videoDiv} playsInline autoPlay ref={ref} />
     );
 }
 
@@ -23,7 +23,7 @@ const videoConstraints = {
     width: window.innerWidth / 2
 };
 
-const VideoContainer = (props) => {
+const VideoConferenceRoom = (props) => {
     const [peers, setPeers] = useState([]);
     const socketRef = useRef();
     const userVideo = useRef();
@@ -101,8 +101,8 @@ const VideoContainer = (props) => {
     }
 
     return (
-        <div className={VideoContainerCss.containerDiv}>
-            <video className={VideoContainerCss.videoDiv} muted ref={userVideo} autoPlay playsInline />
+        <div className={VideoConferenceRoomCss.containerDiv}>
+            <video className={VideoConferenceRoomCss.videoDiv} muted ref={userVideo} autoPlay playsInline />
             {peers.map((peer, index) => {
                 return (
                     <Video key={index} peer={peer} />
@@ -112,4 +112,4 @@ const VideoContainer = (props) => {
     );
 };
 
-export default VideoContainer;
+export default VideoConferenceRoom;

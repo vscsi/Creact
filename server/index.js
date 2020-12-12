@@ -29,6 +29,7 @@ const registerRoutes = require("./routes/register");
 const loginRoutes = require("./routes/login");
 const workspaceRoutes = require("./routes/workspace");
 const userRoutes = require("./routes/user");
+const videoCreateRoomRoutes = require("./routes/videoCreateRoom")
 
 //global error handler
 app.use(errorHandler);
@@ -38,6 +39,7 @@ app.use(registerRoutes);
 app.use(loginRoutes);
 app.use(workspaceRoutes);
 app.use(userRoutes);
+app.use(videoCreateRoomRoutes);
 //api routes
 
 const verifyJWT = (req, res, next) => {

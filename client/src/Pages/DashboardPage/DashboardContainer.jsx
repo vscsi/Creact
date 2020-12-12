@@ -14,14 +14,15 @@ import DropboxContainer from "./DashboardFeatures/DropboxPage/DropboxContainer";
 import CollabTaskContainer from "./DashboardFeatures/CollaborationTaskPage/CollabTaskContainer";
 import CalenderContainer from "./DashboardFeatures/CalenderPage/CalenderContainer";
 import WhiteboardContainer from "./DashboardFeatures/WhiteboardPage/WhiteboardContainer";
-import VideoContainer from "./DashboardFeatures/VideoPage/VideoContainer";
-import VideoCreateRoom from "./DashboardFeatures/VideoPage/VideoCreateRoom";
+// import VideoContainer from "./DashboardFeatures/VideoPage/VideoContainer";
 import DashboardAddSocial from "./DashboardComponent/DashboardAddSocial";
 import DashboardCreateWorkspace from "./DashboardComponent/DashboardCreateWorkspace";
 import DashboardProfileHome from "./DashboardComponent/DashboardProfileHome.js";
 import DashboardFeatureSidebar from "./DashboardComponent/DashboardFeatureSidebar";
 import DashboardProfileSidebar from "./DashboardComponent/DashboardProfieSidebar";
 import Axios from "axios";
+import VideoConferenceRoom from "./DashboardFeatures/VideoPage/VideoConferenceRoom";
+import VideoCreateRoom from "./DashboardFeatures/VideoPage/VideoCreateRoom";
 
 function DashboardContainer() {
   const [userName, setUserName] = useState("");
@@ -66,6 +67,7 @@ function DashboardContainer() {
     // console.log(currWorkspace);
     setCurrentWorkspace(currWorkspace);
   };
+
 
   useEffect(() => {
     getAllWorkspace();
@@ -118,15 +120,15 @@ function DashboardContainer() {
                 component={WhiteboardContainer}
               />
               <Route
-                path={`/workspace/:${currentWorkspace}/video`}
-                exact
-                component={VideoCreateRoom}
-              />
-              <Route
-                path={`/workspace/:${currentWorkspace}/video/:roomId`}
-                exact
-                component={VideoContainer}
-              />
+                    path={`/workspace/:${currentWorkspace}/video`}
+                    render={(props)=><VideoCreateRoom {...props} userName={userName} workspaces={workspaces} currentWorkspace={currentWorkspace}/>}
+                    exact
+                />
+                    <Route
+                        path={`/workspace/:${currentWorkspace}/video/:roomId`}
+                        exact
+                        component={VideoConferenceRoom}
+                    />
             </Switch>
           </Grid>
         </Router>
