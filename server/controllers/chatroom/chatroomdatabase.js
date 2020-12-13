@@ -1,3 +1,4 @@
+
 const knex = require("../../models/knex");
 
 const users = [];
@@ -58,6 +59,13 @@ const getServerTime = async (cb) => {
         cb (currentTimestamp)
 } 
 
+const writeToDatabase = async(roomId, userId, msg, cb) => {
+    knex('chatmessage').insert({
+        chatmessage_content: msg,
+        user_id: userId,
+        chatroom_id: roomId
+    }).then(()=> console.log('chatroomdatabase.js chatmessage inserted'))
+}   
 
 const getChatHistory = async (roomId, cb) => {
     console.log('database roomId',  roomId)
@@ -75,4 +83,4 @@ const getChatHistory = async (roomId, cb) => {
 
 
 
-module.exports = {addUser, removeUser, getUser, getUsersInRoom, findUserName, getChatHistory, getServerTime};
+module.exports = {addUser, removeUser, getUser, getUsersInRoom, findUserName, getChatHistory, getServerTime, writeToDatabase};

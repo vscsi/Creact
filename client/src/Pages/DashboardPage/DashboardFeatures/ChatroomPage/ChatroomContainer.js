@@ -25,6 +25,7 @@ function ChatroomContainer({location}) {
       path: '/chatroom'
     });
     setUserid(userid);
+    
     setRoom(room);
 
     //this is extra
@@ -44,10 +45,20 @@ function ChatroomContainer({location}) {
   useEffect(()=> {
     if (my_room) {
       socket.emit('chatHistory', my_room);
+      
     }
    
   }, [my_room])
     
+  useEffect(()=> {
+    socket.on('adminMessage', (data)=> {
+      console.log('admin data.data', data.data)
+      setMessages(data.data)
+      
+    })
+  },[])
+
+
   useEffect(()=> {
     socket.on('returnHistory', (data)=> {
       
@@ -61,17 +72,25 @@ function ChatroomContainer({location}) {
         }
       })
       console.log('on return History', updatedmessages)
-      setMessages([...messages, updatedmessages]);
+      let readydata = [...messages];
+      
+      updatedmessages.map( item => {
+        return readydata.push(item)
+      });
+      console.log('readydata', readydata)
+      setMessages(readydata)
     })
     
   }, [])
+
+  
 
 
   //get message
   useEffect(()=> {
     
     socket.on('message', (message)=> {
-      console.log('chatroomcontainer on message', message)
+      
       setMessages([...messages, message])
     })
     
@@ -80,9 +99,16 @@ function ChatroomContainer({location}) {
   const sendMessage = (e) => {
     e.preventDefault();
     if (message) {
-      socket.emit('sendMessage', message, ()=> setMessage(''))
+      socket.emit('sendMessage', {message:message, userId: my_userid, roomId: my_room}, ()=> setMessage(''))
     }
   }
+
+  //each message
+  useEffect(()=> {
+    socket.on('eachmessage', ()=>{
+      console.log('eachMessage triggered')
+    } )
+  })
 
   return (
     <div className="chat">
@@ -109,7 +135,11 @@ function ChatroomContainer({location}) {
           ) 
         })}
       </div>
-      <ChatInput message={message} name={my_userid} />
+      <ChatInput 
+        setMessage={setMessage}
+        sendMessage={sendMessage}
+        message={message} 
+        name={my_userid} />
     </div>
   )
 }

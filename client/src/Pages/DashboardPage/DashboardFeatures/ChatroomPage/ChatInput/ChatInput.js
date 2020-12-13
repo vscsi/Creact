@@ -11,7 +11,7 @@ function ChatInput({message, setMessage, sendMessage }) {
                   placeholder="Type your message..."  
                   value={message}
                   onChange={(e)=> setMessage(e.target.value)} ></input>
-                <button type="submit" onClick={(e=> sendMessage(e))} ></button>
+                <button type="submit" onClick={ sendMessage} ></button>
             </form>
             
         </div>
