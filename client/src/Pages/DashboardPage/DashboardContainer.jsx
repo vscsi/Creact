@@ -21,24 +21,28 @@ import DashboardCreateWorkspace from "./DashboardComponent/DashboardCreateWorksp
 import DashboardProfileHome from "./DashboardComponent/DashboardProfileHome.js";
 import DashboardFeatureSidebar from "./DashboardComponent/DashboardFeatureSidebar";
 import DashboardProfileSidebar from "./DashboardComponent/DashboardProfieSidebar";
+import DashboardSearchWorkspace from "./DashboardComponent/DashboardSearchWorkspace";
 import Axios from "axios";
 
 function DashboardContainer() {
   const [userName, setUserName] = useState("");
-  const [userId, setUserId] = useState(0);
-  const [workspaces, setWorkspaces] = useState([]);
+  const [userWorkspaces, setUserWorkspaces] = useState([]);
   const [currentWorkspace, setCurrentWorkspace] = useState("");
   const [isAdmin, setAdmin] = useState(false);
   const [users, setUsers] = useState([]);
+  const [allWorkspaces, setAllWorkspaces] = useState([]);
 
-  const getAllWorkspace = () => {
+  const getUserWorkspaces = () => {
     try {
       Axios.get("http://localhost:4000/workspace/list", {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
       }).then((res) => {
-        setWorkspaces(res.data.allWorkspaces);
+        console.log(`all workspaces`);
+        console.log(res);
+        // console.log(res.data.allWorkspaces);
+        setUserWorkspaces(res.data.userWorkspaces);
       });
     } catch (error) {
       console.error(error.message);
@@ -53,7 +57,6 @@ function DashboardContainer() {
         },
       }).then((res) => {
         setUserName(res.data.userName);
-        setUserId(res.data.id);
       });
     } catch (error) {
       console.error(error.message);
@@ -74,6 +77,21 @@ function DashboardContainer() {
     checkIfAdminUsers(currWorkspace);
   };
 
+  const getAllWorkspaces = () => {
+    try {
+      Axios.get("http://localhost:4000/workspace/all", {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      }).then((res) => {
+        console.log(`res from workspace/all`);
+        console.log(res);
+        setAllWorkspaces(res.data);
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
 
   const checkIfAdminUsers = (workspace) => {
     try {
@@ -101,9 +119,10 @@ function DashboardContainer() {
   };
 
   useEffect(() => {
-    getAllWorkspace();
+    getUserWorkspaces();
     getUserInfo();
     getCurrentWorkspace();
+    getAllWorkspaces();
   }, []);
 
   return (
@@ -115,7 +134,10 @@ function DashboardContainer() {
         className={`${DashboardContainerCss.containerHeight} ${DashboardContainerCss.containerBackground}`}
       >
         <Router>
-          <DashboardProfileSidebar name={userName} workspaces={workspaces} />
+          <DashboardProfileSidebar
+            name={userName}
+            workspaces={userWorkspaces}
+          />
           <DashboardFeatureSidebar currentWorkspace={currentWorkspace} />
           <Grid
             Container
@@ -128,11 +150,14 @@ function DashboardContainer() {
             <Switch>
               {/* for profile route */}
               <Route exact path="/profile" component={DashboardProfileHome} />
-              <Route path="/profile/find" component={DashboardAddSocial} />
+              {/* <Route path="/profile/find" component={DashboardAddSocial} /> */}
               <Route
                 path="/profile/create"
                 component={DashboardCreateWorkspace}
               />
+              <Route path="/profile/search">
+                <DashboardSearchWorkspace allWorkspaces={allWorkspaces} />
+              </Route>
               {/* for workspace route */}
               <Route
                 path={`/workspace/:${currentWorkspace}/chat`}
@@ -149,7 +174,11 @@ function DashboardContainer() {
               <Route
                 path={`/workspace/:${currentWorkspace}/tasks`}
                 render={(props) => (
-                  <CollabTaskContainer {...props} isAdmin={isAdmin} users={users}/>
+                  <CollabTaskContainer
+                    {...props}
+                    isAdmin={isAdmin}
+                    users={users}
+                  />
                 )}
               ></Route>
               <Route

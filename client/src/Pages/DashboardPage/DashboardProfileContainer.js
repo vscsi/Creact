@@ -14,20 +14,24 @@ import DashboardCreateWorkspace from "./DashboardComponent/DashboardCreateWorksp
 import DashboardProfileHome from "./DashboardComponent/DashboardProfileHome.js";
 import DashboardFriendSidebar from "./DashboardComponent/DashboardFriendSidebar";
 import Axios from "axios";
+import DashboardSearchWorkspace from "./DashboardComponent/DashboardSearchWorkspace";
 
 function DashboardProfileContainer() {
   const [userName, setUserName] = useState("");
-  const [workspaces, setWorkspaces] = useState([]);
+  const [userWorkspaces, setUserWorkspaces] = useState([]);
+  const [allWorkspaces, setAllWorkspaces] = useState([]);
 
-  const getAllWorkspace = () => {
+  const getUserWorkspaces = () => {
     try {
       Axios.get("http://localhost:4000/workspace/list", {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
       }).then((res) => {
-        setWorkspaces(res.data.allWorkspaces);
-        // console.log(res);
+        console.log(`all workspaces`);
+        console.log(res);
+        // console.log(res.data.allWorkspaces);
+        setUserWorkspaces(res.data.userWorkspaces);
       });
     } catch (error) {
       console.error(error.message);
@@ -47,13 +51,27 @@ function DashboardProfileContainer() {
       console.error(error.message);
     }
   };
-  
+
+  const getAllWorkspaces = () => {
+    try {
+      Axios.get("http://localhost:4000/workspace/all", {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      }).then((res) => {
+        console.log(`res from workspace/all`);
+        console.log(res);
+        setAllWorkspaces(res.data);
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
 
   useEffect(() => {
-    getAllWorkspace();
+    getUserWorkspaces();
     getUserName();
-    console.log(`userName = ${userName}`);
-    console.log(`workspaces = ${workspaces}`);
+    getAllWorkspaces();
   }, []);
 
   return (
@@ -65,7 +83,10 @@ function DashboardProfileContainer() {
         className={`${DashboardContainerCss.containerHeight} ${DashboardContainerCss.containerBackground}`}
       >
         <Router>
-          <DashboardProfileSidebar name={userName} workspaces={workspaces} />
+          <DashboardProfileSidebar
+            name={userName}
+            workspaces={userWorkspaces}
+          />
           <DashboardFriendSidebar />
           <Grid
             Container
@@ -77,11 +98,14 @@ function DashboardProfileContainer() {
             <DashboardNavbar />
             <Switch>
               <Route exact path="/profile" component={DashboardProfileHome} />
-              <Route path="/profile/find" component={DashboardAddSocial} />
+              {/* <Route path="/profile/find" component={DashboardAddSocial} /> */}
               <Route
                 path="/profile/create"
                 component={DashboardCreateWorkspace}
               />
+              <Route path="/profile/search">
+                <DashboardSearchWorkspace allWorkspaces={allWorkspaces} />
+              </Route>
             </Switch>
           </Grid>
         </Router>

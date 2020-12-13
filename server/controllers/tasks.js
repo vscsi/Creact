@@ -5,15 +5,15 @@ const config = require("../config.json");
 exports.postTasks = async (req, res, next) => {
   try {
     console.log(`post request from /tasks route`);
-    console.log(`workspaceName = ${req.body.workspaceName}`);
+    // console.log(`workspaceName = ${req.body.workspaceName}`);
     //1. get the workspaceId first
     const returnWorkspace = await knex("workspace").where({
       workspace_name: req.body.workspaceName,
     });
-    console.log(`returnWorkSpace is below`);
-    console.log(returnWorkspace);
+    // console.log(`returnWorkSpace is below`);
+    // console.log(returnWorkspace);
     const workspaceId = returnWorkspace[0].id;
-    console.log(`workspaceId = ${workspaceId}`);
+    // console.log(`workspaceId = ${workspaceId}`);
     //2. should be get the task of that workspace
     // const allTasks = await knex("task")
     //   .orderBy("deadline")
@@ -24,8 +24,8 @@ exports.postTasks = async (req, res, next) => {
         workspace_id: workspaceId,
       })
       .select("*");
-    console.log("get all tasks from database");
-    console.log(allTasks);
+    // console.log("get all tasks from database");
+    // console.log(allTasks);
     //3. base on the task_id to query in task table
     const allTasksInfo = [];
     for (let task of allTasks) {
@@ -36,8 +36,8 @@ exports.postTasks = async (req, res, next) => {
           id: taskId,
         })
         .select("*");
-      console.log(`eachTask is below`)
-      console.log(eachTask);
+      // console.log(`eachTask is below`)
+      // console.log(eachTask);
       const userId = eachTask[0].user_id;
       const returnUsername = await knex('users').where({
         id: userId
@@ -48,8 +48,8 @@ exports.postTasks = async (req, res, next) => {
       // console.log(`userName is ${userName}`);
       // console.log(`userId is ${userId}`);
       const eachObj = {...eachTask[0], userName};
-      console.log(`eachObj is below`);
-      console.log(eachObj);
+      // console.log(`eachObj is below`);
+      // console.log(eachObj);
       allTasksInfo.push(eachObj);
     }
     console.log(`allTasksInfo is below`);
