@@ -15,7 +15,7 @@ const CollabTaskListItem = (props) => {
       </div>
       <div className={styles.task_box}>
         <h3>Responsible: </h3>
-        <p>{props.task.first_name}</p>
+        <p>{props.task.userName}</p>
       </div>
       <div className={styles.task_box}>
         <h3>Deadline: </h3>

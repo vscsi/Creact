@@ -9,6 +9,8 @@ const jwt = require("jsonwebtoken");
 const session = require("express-session");
 const config = require("./config.json");
 const bcrypt = require("bcrypt");
+// const expressJwt = require("express-jwt");
+const { verifyJWT } = require("./_helpers/jwt-handler");
 
 //socket set up
 const http = require("http");
@@ -20,8 +22,6 @@ const socketio = socket(server);
 app.use(cors());
 app.use(express.json()); //req.body
 app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(jwt()); //use jtw auth to secure the api
-
 
 //routers
 const taskRoutes = require("./routes/task");
@@ -29,6 +29,15 @@ const registerRoutes = require("./routes/register");
 const loginRoutes = require("./routes/login");
 const workspaceRoutes = require("./routes/workspace");
 const userRoutes = require("./routes/user");
+
+//jwt
+// app.use(
+//   expressJwt({
+//     secret: config.secret,
+//   }).unless({
+//     path: ["/login", "/register"],
+//   })
+// );
 
 //global error handler
 app.use(errorHandler);
@@ -40,32 +49,10 @@ app.use(workspaceRoutes);
 app.use(userRoutes);
 //api routes
 
-const verifyJWT = (req, res, next) => {
-  const token = req.headers["x-access-token"];
-
-  if (!token) {
-    res.send("Yo we need a token, please give it to us next time!");
-  } else {
-    jwt.verify(token, config.secret, (err, decoded) => {
-      if (err) {
-        res.json({ auth: false, message: "U failed to authenticated" });
-      } else {
-        //get user info using decoded
-        console.log("JWT token should be correct");
-        console.log("Decoding...");
-        console.log("Decoded is below");
-        console.log(decoded);
-        req.userId = decoded.id;
-        req.userName = decoded.name;
-        next();
-      }
-    });
-  }
-};
-
 //Auth stuff
 app.get("/isUserAuth", verifyJWT, (req, res) => {
   //if after decoding the JWT, found the userID is existed in db, then is authenticated
+  console.log("Getting From /isUserAuth");
   console.log(req.userId);
   console.log(req.userName);
   res.json({
