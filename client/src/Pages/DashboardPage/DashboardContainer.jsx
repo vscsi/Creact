@@ -20,24 +20,30 @@ import DashboardCreateWorkspace from "./DashboardComponent/DashboardCreateWorksp
 import DashboardProfileHome from "./DashboardComponent/DashboardProfileHome.js";
 import DashboardFeatureSidebar from "./DashboardComponent/DashboardFeatureSidebar";
 import DashboardProfileSidebar from "./DashboardComponent/DashboardProfieSidebar";
+import DashboardSearchWorkspace from "./DashboardComponent/DashboardSearchWorkspace";
 import Axios from "axios";
 import VideoConferenceRoom from "./DashboardFeatures/VideoPage/VideoConferenceRoom";
 import VideoCreateRoom from "./DashboardFeatures/VideoPage/VideoCreateRoom";
 
 function DashboardContainer() {
   const [userName, setUserName] = useState("");
-  const [userId, setUserId] = useState(0);
-  const [workspaces, setWorkspaces] = useState([]);
+  const [userWorkspaces, setUserWorkspaces] = useState([]);
   const [currentWorkspace, setCurrentWorkspace] = useState("");
+  const [isAdmin, setAdmin] = useState(false);
+  const [users, setUsers] = useState([]);
+  const [allWorkspaces, setAllWorkspaces] = useState([]);
 
-  const getAllWorkspace = () => {
+  const getUserWorkspaces = () => {
     try {
       Axios.get("http://localhost:4000/workspace/list", {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
       }).then((res) => {
-        setWorkspaces(res.data.allWorkspaces);
+        console.log(`all workspaces`);
+        console.log(res);
+        // console.log(res.data.allWorkspaces);
+        setUserWorkspaces(res.data.userWorkspaces);
       });
     } catch (error) {
       console.error(error.message);
@@ -52,7 +58,6 @@ function DashboardContainer() {
         },
       }).then((res) => {
         setUserName(res.data.userName);
-        setUserId(res.data.id);
       });
     } catch (error) {
       console.error(error.message);
@@ -70,14 +75,30 @@ function DashboardContainer() {
     const currWorkspace = result[1];
     setCurrentWorkspace(currWorkspace);
     //send post request to server and check if user is admin
-    checkIfAdmin(currWorkspace);
+    checkIfAdminUsers(currWorkspace);
   };
 
-  const checkIfAdmin = (workspace) => {
+  const getAllWorkspaces = () => {
+    try {
+      Axios.get("http://localhost:4000/workspace/all", {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      }).then((res) => {
+        console.log(`res from workspace/all`);
+        console.log(res);
+        setAllWorkspaces(res.data);
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const checkIfAdminUsers = (workspace) => {
     try {
       //1. send post request to server, query to "user_workspace" table
       Axios.post(
-        "http://localhost:4000/task/checkadmin",
+        "http://localhost:4000/workspace/check",
         {
           workspaceName: workspace,
         },
@@ -85,8 +106,10 @@ function DashboardContainer() {
           headers: { "x-access-token": localStorage.getItem("token") },
         }
       ).then((res) => {
-        console.log(`Getting post request in client`);
+        console.log(`Getting post request in /workspace/check`);
         console.log(res);
+        setAdmin(res.data.isAdmin);
+        setUsers(res.data.allUsers);
       });
       //2. check if that user is the workspace_admin, return the workspace_admin boolean
       //3. if yes, that user can have the right to assign task, and can see the create task UI
@@ -97,9 +120,10 @@ function DashboardContainer() {
   };
 
   useEffect(() => {
-    getAllWorkspace();
+    getUserWorkspaces();
     getUserInfo();
     getCurrentWorkspace();
+    getAllWorkspaces();
   }, []);
 
   return (
@@ -111,7 +135,10 @@ function DashboardContainer() {
         className={`${DashboardContainerCss.containerHeight} ${DashboardContainerCss.containerBackground}`}
       >
         <Router>
-          <DashboardProfileSidebar name={userName} workspaces={workspaces} />
+          <DashboardProfileSidebar
+            name={userName}
+            workspaces={userWorkspaces}
+          />
           <DashboardFeatureSidebar currentWorkspace={currentWorkspace} />
           <Grid
             Container
@@ -124,11 +151,14 @@ function DashboardContainer() {
             <Switch>
               {/* for profile route */}
               <Route exact path="/profile" component={DashboardProfileHome} />
-              <Route path="/profile/find" component={DashboardAddSocial} />
+              {/* <Route path="/profile/find" component={DashboardAddSocial} /> */}
               <Route
                 path="/profile/create"
                 component={DashboardCreateWorkspace}
               />
+              <Route path="/profile/search">
+                <DashboardSearchWorkspace allWorkspaces={allWorkspaces} />
+              </Route>
               {/* for workspace route */}
               <Route
                 path={`/workspace/:${currentWorkspace}/chat`}
@@ -142,13 +172,16 @@ function DashboardContainer() {
                 path={`/workspace/:${currentWorkspace}/dropbox`}
                 component={DropboxContainer}
               />
-              <Route path={`/workspace/:${currentWorkspace}/tasks`}>
-                <CollabTaskContainer
-                  currentWorkspace={currentWorkspace}
-                  currentUser={userName}
-                  currentUserId={userId}
-                />
-              </Route>
+              <Route
+                path={`/workspace/:${currentWorkspace}/tasks`}
+                render={(props) => (
+                  <CollabTaskContainer
+                    {...props}
+                    isAdmin={isAdmin}
+                    users={users}
+                  />
+                )}
+              ></Route>
               <Route
                 path={`/workspace/:${currentWorkspace}/calender`}
                 component={CalenderContainer}

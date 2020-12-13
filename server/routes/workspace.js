@@ -12,4 +12,10 @@ router.post(
 );
 router.get("/workspace/list", verifyJWT, workspaceController.getWorkSpace);
 
+router.post("/workspace/check", verifyJWT, workspaceController.postCheck);
+
+router.get("/workspace/all", verifyJWT, workspaceController.getAllWorkspaces);
+
+router.post("/workspace/join", verifyJWT, workspaceController.postJoin);
+
 module.exports = router;

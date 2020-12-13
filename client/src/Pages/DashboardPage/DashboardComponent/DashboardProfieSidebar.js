@@ -27,10 +27,6 @@ function DashboardProfileSidebar(props) {
       console.error(error.message);
     }
   };
-  
-  useEffect(()=>{
-    console.log(props)
-  }, [])
 
   const history = useHistory();
 
@@ -56,18 +52,23 @@ function DashboardProfileSidebar(props) {
 
         {props.workspaces.map((item, index) => {
           return (
-            <Link href={`/workspace/${item}`} key={index}>
+            <Link href={`/workspace/${item.eachWorkspaceName}`} key={index}>
               <MaterialUI.Tooltip
                 title="Create Workspace"
                 placement="right-end"
               >
-                <div className={DashboardSidebarCss.workspaceIcon}>{item}</div>
+                <div className={DashboardSidebarCss.workspaceIcon}>
+                  {item.eachWorkspaceName}
+                </div>
               </MaterialUI.Tooltip>
             </Link>
           );
         })}
 
-        <NavLink to="/profile/create">
+        <NavLink
+          to="/profile/create"
+          activeClassName={DashboardSidebarCss.isActive}
+        >
           <MaterialUI.Tooltip title="Create Workspace" placement="right-end">
             <div className={DashboardSidebarCss.workspaceIcon}>
               Create workspace
@@ -75,7 +76,10 @@ function DashboardProfileSidebar(props) {
           </MaterialUI.Tooltip>
         </NavLink>
 
-        <NavLink to="/profile/find">
+        <NavLink
+          to="/profile/search"
+          activeClassName={DashboardSidebarCss.isActive}
+        >
           <MaterialUI.Tooltip title="Find Workspace" placement="right-end">
             <div className={DashboardSidebarCss.workspaceIcon}>
               Find workspaces
@@ -83,7 +87,11 @@ function DashboardProfileSidebar(props) {
           </MaterialUI.Tooltip>
         </NavLink>
 
-        <MaterialUI.Tooltip title="Logout" placement="right-end">
+        <MaterialUI.Tooltip
+          title="Logout"
+          placement="right-end"
+          activeClassName={DashboardSidebarCss.isActive}
+        >
           <div
             className={DashboardSidebarCss.workspaceIcon}
             onClick={handleLogout}

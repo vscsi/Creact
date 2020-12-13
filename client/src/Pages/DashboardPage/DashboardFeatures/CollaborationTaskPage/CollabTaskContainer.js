@@ -4,6 +4,7 @@ import CollabTaskList from "./components/CollabTaskList";
 import Pagination from "./components/Pagination";
 import styles from "./CollabTaskContainer.module.css";
 import Axios from "axios";
+import { getCurrentWorkspace } from "../../../../services/getCurrentWorkspace";
 
 const CollabTaskContainer = (props) => {
   const [tasks, setTasks] = useState([]);
@@ -11,20 +12,24 @@ const CollabTaskContainer = (props) => {
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [tasksPerPage, setTasksPerPage] = useState(4);
-  const [currentWorkspace, setCurrentWorkspace] = useState("");
-  const [currentUser, setCurrentUser] = useState("");
-  const [currentUserId, setCurrentUserId] = useState(0);
 
   //get all tasks function
-  const getTasks = async () => {
+  const getTasks = () => {
     try {
+      const currentWorkspace = getCurrentWorkspace();
       setLoading(true);
-      Axios.get("/http://localhost:4000/tasks", {
-        headers: { "x-access-token": localStorage.getItem("token") },
-      }).then((res) => {
+      Axios.post(
+        "http://localhost:4000/tasks",
+        {
+          workspaceName: currentWorkspace,
+        },
+        {
+          headers: { "x-access-token": localStorage.getItem("token") },
+        }
+      ).then((res) => {
         console.log("get res from '/tasks");
         console.log(res);
-        // setTasks(jsonData);
+        setTasks(res.data);
         // console.log(jsonData);
       });
 
@@ -34,43 +39,9 @@ const CollabTaskContainer = (props) => {
     }
   };
 
-  const checkIfAdmin = () => {
-    try {
-      //1. send post request to server, query to "user_workspace" table
-      Axios.post(
-        "http://localhost:4000/task/checkadmin",
-        {
-          userId: currentUserId,
-          workspaceName: currentWorkspace,
-        },
-        {
-          headers: { "x-access-token": localStorage.getItem("token") },
-        }
-      ).then((res) => {
-        console.log(`Getting post request in client`);
-        console.log(res);
-      });
-      //2. check if that user is the workspace_admin, return the workspace_admin boolean
-      //3. if yes, that user can have the right to assign task, and can see the create task UI
-      //4. if no, that user can only see all the tasklists in that workspace
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
-
-  // useEffect(() => {
-  //   let ignore = false;
-  //   getTasks();
-  //   if (!ignore) {
-  //     setCurrentWorkspace(props.currentWorkspace);
-  //     setCurrentUser(props.currentUser);
-  //     setCurrentUserId(props.currentUserId);
-  //   }
-  //   checkIfAdmin();
-  //   return () => {
-  //     ignore = true;
-  //   };
-  // }, []);
+  useEffect(() => {
+    getTasks();
+  }, []);
 
   //Get current task
   const indexOfLastTask = currentPage * tasksPerPage;
@@ -99,7 +70,7 @@ const CollabTaskContainer = (props) => {
 
   return (
     <div className={styles.wrapper}>
-      <CollabTaskBox />
+      {props.isAdmin && <CollabTaskBox users={props.users} />}
       <CollabTaskList
         tasks={currentTasks}
         handleDelete={handleDelete}
