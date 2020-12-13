@@ -28,6 +28,8 @@ function DashboardContainer() {
   const [userId, setUserId] = useState(0);
   const [workspaces, setWorkspaces] = useState([]);
   const [currentWorkspace, setCurrentWorkspace] = useState("");
+  const [isAdmin, setAdmin] = useState(false);
+  const [users, setUsers] = useState([]);
 
   const getAllWorkspace = () => {
     try {
@@ -69,14 +71,15 @@ function DashboardContainer() {
     const currWorkspace = result[1];
     setCurrentWorkspace(currWorkspace);
     //send post request to server and check if user is admin
-    checkIfAdmin(currWorkspace);
+    checkIfAdminUsers(currWorkspace);
   };
 
-  const checkIfAdmin = (workspace) => {
+
+  const checkIfAdminUsers = (workspace) => {
     try {
       //1. send post request to server, query to "user_workspace" table
       Axios.post(
-        "http://localhost:4000/task/checkadmin",
+        "http://localhost:4000/workspace/check",
         {
           workspaceName: workspace,
         },
@@ -84,8 +87,10 @@ function DashboardContainer() {
           headers: { "x-access-token": localStorage.getItem("token") },
         }
       ).then((res) => {
-        console.log(`Getting post request in client`);
+        console.log(`Getting post request in /workspace/check`);
         console.log(res);
+        setAdmin(res.data.isAdmin);
+        setUsers(res.data.allUsers);
       });
       //2. check if that user is the workspace_admin, return the workspace_admin boolean
       //3. if yes, that user can have the right to assign task, and can see the create task UI
@@ -141,13 +146,12 @@ function DashboardContainer() {
                 path={`/workspace/:${currentWorkspace}/dropbox`}
                 component={DropboxContainer}
               />
-              <Route path={`/workspace/:${currentWorkspace}/tasks`}>
-                <CollabTaskContainer
-                  currentWorkspace={currentWorkspace}
-                  currentUser={userName}
-                  currentUserId={userId}
-                />
-              </Route>
+              <Route
+                path={`/workspace/:${currentWorkspace}/tasks`}
+                render={(props) => (
+                  <CollabTaskContainer {...props} isAdmin={isAdmin} users={users}/>
+                )}
+              ></Route>
               <Route
                 path={`/workspace/:${currentWorkspace}/calender`}
                 component={CalenderContainer}

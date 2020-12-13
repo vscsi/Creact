@@ -35,10 +35,6 @@ function DashboardProfileSidebar(props) {
     }
   };
   
-  useEffect(()=>{
-    console.log(props)
-  }, [])
-
   const history = useHistory();
 
   return (

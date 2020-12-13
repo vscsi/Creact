@@ -110,3 +110,54 @@ exports.getWorkSpace = async (req, res) => {
     console.error(error.message);
   }
 };
+
+exports.postCheck = async (req, res) => {
+  try {
+    console.log("In /workspace/check");
+    const { workspaceName } = req.body;
+    console.log(`userId = ${req.userId}`);
+    console.log(`workspaceName = ${workspaceName}`);
+    //1. find the workspaceId from workspace table
+    const returnWorkspace = await knex("workspace")
+      .where({ workspace_name: workspaceName })
+      .select("*");
+    console.log(`workspace is below`);
+    console.log(returnWorkspace);
+    const workspaceId = returnWorkspace[0].id;
+    const returnUserWorkspace = await knex("user_workspace")
+      .where({
+        workspace_id: workspaceId,
+        user_id: req.userId,
+      })
+      .select("*");
+    console.log("Checking workspaceAdmin from db");
+    console.log(returnUserWorkspace);
+    const isAdmin = returnUserWorkspace[0]["workspace_admin"];
+    console.log(isAdmin);
+
+    const returnNumWorkspace = await knex("user_workspace")
+      .where({
+        workspace_id: workspaceId,
+      })
+      .select("*");
+    console.log("Checking number of users in workspace from db");
+    console.log(returnNumWorkspace);
+    let allUsers = [];
+    for (let user of returnNumWorkspace) {
+      let userId = user.user_id;
+      let eachUserInfo = await knex("users").where({
+        id: userId,
+      });
+      allUsers.push({
+        user_name: eachUserInfo[0].username,
+        user_id: userId
+      });
+      console.log("Each user info");
+      console.log(eachUserInfo);
+    }
+    console.log(allUsers);
+    res.json({ isAdmin: isAdmin, allUsers: allUsers });
+  } catch (error) {
+    console.error(error.message);
+  }
+};
