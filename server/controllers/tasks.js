@@ -4,6 +4,9 @@ const config = require("../config.json");
 
 exports.getTasks = async (req, res, next) => {
   try {
+    console.log(`get request from /tasks route`);
+    console.log(`run from jwt middleware`);
+    console.log(req.userId);
     const allTasks = await knex("task")
       .orderBy("deadline")
       .join("users", "users.id", "task.user_id")
@@ -26,24 +29,14 @@ exports.getTasks = async (req, res, next) => {
 exports.postTask = async (req, res, next) => {
   try {
     //1. decode the userId from token in header
+    console.log(`get request from /workspace/tasks route`);
+    console.log(`run from jwt middleware`);
+    console.log(req.userId);
     const token = req.headers["x-access-token"];
     console.log("Hi, post request from /post");
     console.log(token);
     let userId;
     let userName;
-    jwt.verify(token, config.secret, (err, decoded) => {
-      if (err) {
-        res.json({ auth: false, message: "Your token is incorrect" });
-      } else {
-        //get user info using decoded
-        // console.log("JWT token should be correct");
-        // console.log("Decoding...");
-        // console.log("Decoded is below");
-        // console.log(decoded);
-        userId = decoded.id;
-        userName = decoded.name;
-      }
-    });
     const { taskName, taskContent, taskDeadline, taskUser } = req.body;
     console.log(req.body);
     await knex("task").insert({
@@ -63,6 +56,32 @@ exports.deleteTasks = async (req, res) => {
     const { id } = req.params;
     const deleteTask = await knex("task").where("id", id).del();
     res.json("Task is deleted");
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
+exports.postCheckAdmin = async (req, res) => {
+  try {
+    console.log("In /task/checkadmin");
+    console.log(req.headers["x-access-token"]);
+    const { workspaceName } = req.body;
+    console.log(`useId = ${req.userId}`);
+    console.log(`workspaceName = ${workspaceName}`);
+    //1. find the workspaceId from workspace table
+    const returnWorkspace = await knex("workspace")
+      .where({ workspace_name: workspaceName })
+      .select("*");
+    console.log(`workspace is below`);
+    console.log(returnWorkspace);
+    // const returnResult = await knex("user_workspace")
+    //   .where({
+    //     workspace_id: workspaceId,
+    //     user_id: userId,
+    //   })
+    //   .select("*");
+    console.log("Checking workspaceAdmin from db");
+    // console.log(returnResult);
   } catch (error) {
     console.error(error.message);
   }

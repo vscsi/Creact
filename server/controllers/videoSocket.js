@@ -7,8 +7,7 @@ module.exports = function (io) {
     console.log("From server/index.js: io.on connection running");
     socket.on("join room", (roomID) => {
       console.log("From server/index.js: io.on join-room running");
-      console.log(socket.id);
-      if (users[roomID]) {
+      if (users[roomID]) { 
         const length = users[roomID].length;
         if (length === 4) {
           socket.emit("room full");

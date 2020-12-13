@@ -47,10 +47,13 @@ function DashboardProfileContainer() {
       console.error(error.message);
     }
   };
+  
 
   useEffect(() => {
     getAllWorkspace();
     getUserName();
+    console.log(`userName = ${userName}`);
+    console.log(`workspaces = ${workspaces}`);
   }, []);
 
   return (

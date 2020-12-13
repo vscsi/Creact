@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as MaterialUI from "@material-ui/core";
 import DashboardSidebarCss from "./DashboardSidebar.module.css";
 import {
@@ -27,6 +27,10 @@ function DashboardProfileSidebar(props) {
       console.error(error.message);
     }
   };
+  
+  useEffect(()=>{
+    console.log(props)
+  }, [])
 
   const history = useHistory();
 

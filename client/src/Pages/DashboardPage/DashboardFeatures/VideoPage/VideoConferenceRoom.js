@@ -4,6 +4,7 @@ import Peer from "simple-peer";
 import VideoConferenceRoomCss from './VideoConferenceRoom.module.css'
 
 const Video = (props) => {
+    console.log(props, 'props from videoconference room');
     const ref = useRef();
 
     useEffect(() => {
@@ -30,7 +31,51 @@ const VideoConferenceRoom = (props) => {
     //build a collection of peers
     const peersRef = useRef([]);
     const roomID = props.match.params.roomID;
+    const [checkHost, setCheckHost] = useState(false);
 
+    //render close room button
+    useEffect(()=>{
+        async function checkHost(){
+            try{
+                const returnHost = await fetch(`http://localhost:4000/workspace/${props.currentWorkspace}/video/:videoRoomId`,{
+                    method:"GET",
+                    headers: {
+                        "Content-Type":"application/json",
+                        "x-access-token": localStorage.getItem("token")
+                    },
+                })
+                const response = await returnHost.json();
+                setCheckHost(response.checkHost);
+                console.log(checkHost);
+                console.log('from videoConferenceRoom',response)
+            }catch(e){
+                console.error(e.message);
+            }
+        }
+        checkHost();
+    },[])
+
+    const handleClick = (e) =>{
+        e.preventDefault();
+        async function deleteVideoRoom(){
+            try{
+                const deleteRoom =  await fetch(`http://localhost:4000/workspace/${currentWorkspace}/video/${videoRoomId}`,{
+                    method:"DELETE",
+                    headers: {
+                        "Content-Type":"application/json",
+                        "x-access-token": localStorage.getItem("token")
+                    },
+                })
+                const response = await deleteRoom.json();
+                console.log('from client/videoConferenceRoom deleteVideoRoom',response);
+            }catch(e){
+                console.error(e.message)
+            }
+        }
+        deleteVideoRoom();
+    };
+
+    //connect socket
     useEffect(() => {
         socketRef.current = io.connect("/");
         navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true }).then(stream => {
@@ -108,6 +153,11 @@ const VideoConferenceRoom = (props) => {
                     <Video key={index} peer={peer} />
                 );
             })}
+            {
+                checkHost?
+                <Button onClick={handleClick}>Close room</Button>:
+                ''
+            }
         </div>
     );
 };
