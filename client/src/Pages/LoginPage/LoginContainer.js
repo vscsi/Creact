@@ -12,17 +12,17 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import {
-  Link as RouterLink,
-  Route,
-  BrowserRouter as Router,
-} from "react-router-dom";
+// import {
+//   // Link as RouterLink,
+//   // Route,
+//   // BrowserRouter as Router,
+// } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import Axios from "axios";
-import AuthService from "../../services/auth.service";
+// import AuthService from "../../services/auth.service";
 
-import DashboardContainer from "../DashboardPage/DashboardContainer";
-import RegisterContainer from "../RegisterPage/RegisterContainer";
+// import DashboardContainer from "../DashboardPage/DashboardContainer";
+// import RegisterContainer from "../RegisterPage/RegisterContainer";
 
 function Copyright() {
   return (
@@ -61,6 +61,7 @@ export default function SignIn() {
   const classes = useStyles();
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  // eslint-disable-next-line 
   const [loginStatus, setLoginStatus] = useState(false);
 
   const history = createBrowserHistory();

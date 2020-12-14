@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import DashboardContainer from "./Pages/DashboardPage/DashboardContainer";
 import DashboardProfileContainer from "./Pages/DashboardPage/DashboardProfileContainer";
 import LandingPageContainer from "./Pages/LandingPage/LandingPageContainer";
 import LoginContainer from "./Pages/LoginPage/LoginContainer";
-import ErrorContainer from "./Pages/ErrorPage/ErrorContainer";
+// import ErrorContainer from "./Pages/ErrorPage/ErrorContainer";
 import RegisterContainer from "./Pages/RegisterPage/RegisterContainer";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Axios from "axios";

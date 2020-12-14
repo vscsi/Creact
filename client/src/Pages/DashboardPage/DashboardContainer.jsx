@@ -5,7 +5,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  useParams,
+  // useParams,
 } from "react-router-dom";
 import DashboardNavbar from "./DashboardComponent/DashboardNavbar";
 import ChatroomContainer from "./DashboardFeatures/ChatroomPage/ChatroomContainer";
@@ -16,7 +16,7 @@ import CalenderContainer from "./DashboardFeatures/CalenderPage/CalenderContaine
 import WhiteboardContainer from "./DashboardFeatures/WhiteboardPage/WhiteboardContainer";
 import VideoContainer from "./DashboardFeatures/VideoPage/VideoContainer";
 import VideoCreateRoom from "./DashboardFeatures/VideoPage/VideoCreateRoom";
-import DashboardAddSocial from "./DashboardComponent/DashboardAddSocial";
+// import DashboardAddSocial from "./DashboardComponent/DashboardAddSocial";
 import DashboardCreateWorkspace from "./DashboardComponent/DashboardCreateWorkspace";
 import DashboardProfileHome from "./DashboardComponent/DashboardProfileHome.js";
 import DashboardFeatureSidebar from "./DashboardComponent/DashboardFeatureSidebar";
@@ -69,6 +69,7 @@ function DashboardContainer() {
     const path = window.location.pathname;
     // console.log(`url is below`);
     // console.log(path);
+    // eslint-disable-next-line
     const regex = /\/workspace\/([^\/]+)/;
     const result = path.match(regex);
     // console.log(`currworkspace url is below`);
@@ -127,6 +128,7 @@ function DashboardContainer() {
     getUserInfo();
     getCurrentWorkspace();
     getAllWorkspaces();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
