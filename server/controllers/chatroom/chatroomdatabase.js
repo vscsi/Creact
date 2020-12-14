@@ -11,9 +11,14 @@ const addUser=({id, name, room})=> {
                     //.find iterate throught users and find user base on condition
     const exitingUser = users.find(user=>user.room===room && user.name===name);
 
-    // if (exitingUser) {
-    //     return {error: "Username is taken"};
-    // }
+    if (exitingUser) {
+        console.log('if exiting user',exitingUser)
+        let index = users.findIndex((user)=> user.name ===exitingUser.name && user.room===exitingUser.room)
+        console.log ('indexOf exiting User', index)
+        users.splice(index, 1); 
+        console.log('exiting user spliceed')
+        // return {error: "Username is taken"};
+    }
 
     //user object consist of an object the consist of all info
     const user= {id, name, room};
@@ -26,7 +31,7 @@ const addUser=({id, name, room})=> {
 
 const removeUser=(id)=>{
     const index = users.findIndex((user)=> user.id ===id);
-
+    console.log('user remove triggered')
     if (index !== -1) {
         //[0] is calling the item from the array that splice create
         return users.splice(index, 1)[0];
@@ -41,6 +46,7 @@ const getUsersInRoom = (room) => users.filter((user)=> user.room === room);
 
 
 const findUserName = async (userid, cb ) => {
+    console.log('FinduserName triggered')
     let query = await knex.select('first_name').where('id', userid)
     .from('users')
     
@@ -51,7 +57,17 @@ const findUserName = async (userid, cb ) => {
     cb (result)
 }
 
+const findAdminId = async (cb) => {
+    console.log("findadminId triggered")
+    let query = await knex.select('id').where('first_name', 'Admin').from('users')
+
+    console.log("admin id Found", typeof query[0].id);
+    cb(query[0].id)   
+}
+
+
 const getServerTime = async (cb) => {
+    console.log('getServerTime triggered')
     let time = await knex.raw("SELECT CURRENT_TIMESTAMP")
 
         const currentTimestamp = time.rows[0].current_timestamp;
@@ -68,8 +84,8 @@ const writeToDatabase = async(roomId, userId, msg, cb) => {
 }   
 
 const getChatHistory = async (roomId, cb) => {
-    console.log('database roomId',  roomId)
-    let query = await knex.select('chatmessage_content', 'created_at', 'users.first_name')
+    console.log('getChatHistory triggered')
+        let query = await knex.select('chatmessage_content', 'created_at', 'users.first_name')
                 .where('chatroom_id', roomId )
                 .from ('chatmessage')
                 .join('users', 'chatmessage.user_id', '=', "users.id")
@@ -77,10 +93,12 @@ const getChatHistory = async (roomId, cb) => {
                 // let timestamp = (query[0].created_at)
                 // console.log(timestamp.toLocaleString())
                  cb (query)
+    
+    
                 
 }
 
 
 
 
-module.exports = {addUser, removeUser, getUser, getUsersInRoom, findUserName, getChatHistory, getServerTime, writeToDatabase};
+module.exports = {addUser, removeUser, getUser, getUsersInRoom, findUserName, findAdminId, getChatHistory, getServerTime, writeToDatabase};

@@ -1,4 +1,4 @@
-const {addUser, removeUser, getUser, getUsersInRoom, findUserName, getChatHistory, getServerTime, writeToDatabase} = require('./chatroomdatabase');
+const {addUser, removeUser, getUser, getUsersInRoom, findUserName, findAdminId, getChatHistory, getServerTime, writeToDatabase} = require('./chatroomdatabase');
 
 
 
@@ -6,7 +6,7 @@ module.exports = function (io) {
     
     io.sockets.on('connect', (socket)=> {
         console.log('client side have connected with socketid :' + socket.id);
-        let socketId = socket.id;
+        
         io.to(socket.id).emit('onConnect', {
             socket_id: socket.id
         });
@@ -18,7 +18,7 @@ module.exports = function (io) {
                  let userName = result;
                 //  console.log('chatroomjs', room)
             const {error, user} = addUser({id: socket.id, name: userName, room: room});
-                
+                console.log('user object get', error, user)
             if(error) {
                 return console.log(error);
             } 
@@ -26,51 +26,76 @@ module.exports = function (io) {
             let welcomeMsg = [{userName: 'admin', message: `${userName}, welcome to room ${room} !`, timestamp: "now", userImage:'https://storage.cloud.google.com/imagetest_1/Untitled-Artwork.png'}];
 
             let joinedMsg = [{userName:'admin', message: `${userName}, has joined! `, timestamp: 'now', userImage: 'https://storage.cloud.google.com/imagetest_1/Untitled-Artwork.png'}];
+            findAdminId((adminId)=> {
+                 writeToDatabase(room, adminId, `${userName}, has joined! `)
+            })
+            
+               
 
-            socket.emit('adminMessage', {data: welcomeMsg});
+                // io.to(user.room).emit('message', {userName: user.name, message: message, timestamp: readableTime, userImage: 'https://picsum.photos/200'})
+                
+                io.to(room).emit('eachMessage', user )
             
+
             
-            socket.broadcast.to(user.room).emit('adminMessage', {data: joinedMsg})
-    
+            let usersInRoom = getUsersInRoom(user.room);
+            console.log('users get from array',  usersInRoom);
+            
             socket.join(user.room);
-
+            
+            
+            
+            io.to(user.room).emit('usersInRoom', {usersInRoom: usersInRoom})
             })
         
             callback;
            
         })
+        
+     
+
 
         socket.on('chatHistory', (roomId) => {
-            console.log("chatroom.js", roomId)
-             getChatHistory(roomId, (data) => {
+            if(roomId){
+                 getChatHistory(roomId, (data) => {
+                     
                 io.to(roomId).emit('returnHistory', {rows: data})
                
             })
+            }
+            
         })
 
 
     
-        socket.on('sendMessage', (message, callback) => {
+        socket.on('sendMessage', (message,  callback) => {
             const user = getUser(socket.id);
-            getServerTime((time)=> {
-                let readableTime = time.toLocaleString();
-                
-                console.log(message)
+            console.log( 'after getUser', user);
+            console.log(message)
                 writeToDatabase(message.roomId, message.userId, message.message)
 
                 // io.to(user.room).emit('message', {userName: user.name, message: message, timestamp: readableTime, userImage: 'https://picsum.photos/200'})
-                console.log(user.room)
-                io.to(user.room).emit('eachMessage')
-            })
+                
+                io.to(message.roomId).emit('eachMessage', user )
+            
+            
+            // getServerTime((time)=> {
+            //     let readableTime = time.toLocaleString();
+                
+                
+            // })
             
     
             callback();
     
         })
+
+
+        
     
-        socket.on('disconnect', ()=> {
-            const user = removeUser(socket.id);
-    
+        socket.on('disconnect', (data)=> {
+            const user = removeUser(data.socket_id);
+           
             if (user) {
                 io.to(user.room).emit('message', {user: "admin", text: `${user.name} has left`})
                 io.to(user.room).emit('roomData', {room: user.room, users: getUsersInRoom(user.room)})

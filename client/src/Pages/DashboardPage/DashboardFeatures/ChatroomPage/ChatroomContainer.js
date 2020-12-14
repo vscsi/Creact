@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import io from 'socket.io-client';
 import queryString from 'query-string';
+import ScrollToBottom from 'react-scroll-to-bottom';
 import ChatInput from "./ChatInput/ChatInput"
 import HelpIcon from '@material-ui/icons/Help';
 import Message from './Message/Message'
@@ -12,10 +13,11 @@ function ChatroomContainer({location}) {
   const [my_userid, setUserid] = useState('');
   const [my_name, setName] = useState('');
   const [my_room, setRoom] = useState('');
-  const [my_socket_id, setSocketId] =useState('');
+  const [my_socketid, setSocketId] =useState('');
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const [roomUsers, setRoomUsers] = useState('');
+
 
   useEffect(()=> {
     // let data = {name: 'Charles', room: '1'};
@@ -24,15 +26,23 @@ function ChatroomContainer({location}) {
      socket = io(ENDPOINT, {
       path: '/chatroom'
     });
+
+    socket.on('onConnect', data=> {
+      setSocketId(data.socket_id)
+     
+    })
+
+    
+
     setUserid(userid);
     
     setRoom(room);
 
-    //this is extra
+    
     socket.emit('join', {userid, room})
 
     return () => {
-      // socket.emit('disconnect');
+      socket.emit('disconnect', {socket_id: my_socketid});
       
       socket.off();
   }
@@ -40,23 +50,33 @@ function ChatroomContainer({location}) {
 
   }, [ENDPOINT, location.search]);
 
+  useEffect(()=> {
+    socket.on('usersInRoom', (data)=> {
+    console.log('usersInRoom received' )
+    let result = [];
+     data.usersInRoom.map((user)=> {
+      let name=user.name;
+      let capname = name.charAt(0).toUpperCase() + name.slice(1)
+      result.push(capname)
+      return result
+    })
+    setRoomUsers( result.join(' '));
+
+    // console.log('userInRoom', result.join(' '))
+  })
+  }, [roomUsers])
+
+  
 
   //Get history 
   useEffect(()=> {
     if (my_room) {
       socket.emit('chatHistory', my_room);
-      
     }
    
   }, [my_room])
     
-  useEffect(()=> {
-    socket.on('adminMessage', (data)=> {
-      console.log('admin data.data', data.data)
-      setMessages(data.data)
-      
-    })
-  },[])
+  
 
 
   useEffect(()=> {
@@ -71,19 +91,23 @@ function ChatroomContainer({location}) {
           userImage: 'https://picsum.photos/200'
         }
       })
-      console.log('on return History', updatedmessages)
+      // console.log('on return History', updatedmessages)
       let readydata = [...messages];
       
       updatedmessages.map( item => {
         return readydata.push(item)
       });
-      console.log('readydata', readydata)
+      // console.log('readydata', readydata)
       setMessages(readydata)
     })
     
   }, [])
 
-  
+  useEffect(()=> {
+    socket.on('eachMessage', (_)=>{
+      socket.emit('chatHistory', my_room);
+    })
+  }, [my_room])
 
 
   //get message
@@ -100,15 +124,13 @@ function ChatroomContainer({location}) {
     e.preventDefault();
     if (message) {
       socket.emit('sendMessage', {message:message, userId: my_userid, roomId: my_room}, ()=> setMessage(''))
+      
     }
+
   }
 
-  //each message
-  useEffect(()=> {
-    socket.on('eachmessage', ()=>{
-      console.log('eachMessage triggered')
-    } )
-  })
+  
+  
 
   return (
     <div className="chat">
@@ -116,14 +138,14 @@ function ChatroomContainer({location}) {
         <div className="chat__headerLeft">
           <h4 className="chat__channelName">
             <strong># Room Name</strong>
-            <span className="user__in__room" >Users in room</span>
+            <span className="user__in__room" > {roomUsers}</span>
           </h4>
         </div>
         <div className="chat__headerRight">
           <HelpIcon /> 
         </div>
       </div>
-      <div className="chat__messages" >
+      <ScrollToBottom className="chat__messages" >
         {messages.map(({userName, message, userImage, timestamp}, i)=> {
           return(
             <Message 
@@ -134,7 +156,7 @@ function ChatroomContainer({location}) {
               userName={userName} />
           ) 
         })}
-      </div>
+      </ScrollToBottom>
       <ChatInput 
         setMessage={setMessage}
         sendMessage={sendMessage}
