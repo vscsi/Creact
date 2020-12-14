@@ -23,7 +23,8 @@ function DashboardProfileContainer() {
 
   const getUserWorkspaces = () => {
     try {
-      Axios.get("http://localhost:4000/workspace/list", {
+      // Axios.get("http://localhost:4000/workspace/list", {
+      Axios.get(`${process.env.REACT_APP_SERVER}/workspace/list`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -40,7 +41,8 @@ function DashboardProfileContainer() {
 
   const getUserName = () => {
     try {
-      Axios.get("http://localhost:4000/username", {
+      // Axios.get("http://localhost:4000/username", {
+      Axios.get(`${process.env.REACT_APP_SERVER}/username`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -54,7 +56,8 @@ function DashboardProfileContainer() {
 
   const getAllWorkspaces = () => {
     try {
-      Axios.get("http://localhost:4000/workspace/all", {
+      // Axios.get("http://localhost:4000/workspace/all", {
+      Axios.get(`${process.env.REACT_APP_SERVER}/workspace/all`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
