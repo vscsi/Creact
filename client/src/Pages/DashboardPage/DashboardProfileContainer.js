@@ -8,17 +8,19 @@ import {
   Route,
 } from "react-router-dom";
 import DashboardNavbar from "./DashboardComponent/DashboardNavbar";
-import DashboardAddSocial from "./DashboardComponent/DashboardAddSocial";
+// import DashboardAddSocial from "./DashboardComponent/DashboardAddSocial";
 import DashboardCreateWorkspace from "./DashboardComponent/DashboardCreateWorkspace";
 import DashboardProfileHome from "./DashboardComponent/DashboardProfileHome.js";
 import DashboardFriendSidebar from "./DashboardComponent/DashboardFriendSidebar";
 import Axios from "axios";
+import DashboardSearchWorkspace from "./DashboardComponent/DashboardSearchWorkspace";
 
 function DashboardProfileContainer() {
   const [userName, setUserName] = useState("");
-  const [workspaces, setWorkspaces] = useState([]);
+  const [userWorkspaces, setUserWorkspaces] = useState([]);
+  const [allWorkspaces, setAllWorkspaces] = useState([]);
 
-  const getAllWorkspace = () => {
+  const getUserWorkspaces = () => {
     try {
       Axios.get("http://localhost:4000/workspace/list", {
       // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/list`, {
@@ -26,8 +28,10 @@ function DashboardProfileContainer() {
           "x-access-token": localStorage.getItem("token"),
         },
       }).then((res) => {
-        setWorkspaces(res.data.allWorkspaces);
-        // console.log(res);
+        console.log(`all workspaces`);
+        console.log(res);
+        // console.log(res.data.allWorkspaces);
+        setUserWorkspaces(res.data.userWorkspaces);
       });
     } catch (error) {
       console.error(error.message);
@@ -36,8 +40,8 @@ function DashboardProfileContainer() {
 
   const getUserName = () => {
     try {
-      Axios.get("http://localhost:4000/username", {
-      // Axios.get(`${process.env.REACT_APP_API_SERVER}/username`, {
+      // Axios.get("http://localhost:4000/username", {
+      Axios.get(`${process.env.REACT_APP_API_SERVER}/username`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -49,9 +53,27 @@ function DashboardProfileContainer() {
     }
   };
 
+  const getAllWorkspaces = () => {
+    try {
+      // Axios.get("http://localhost:4000/workspace/all", {
+      Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/all`, {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      }).then((res) => {
+        console.log(`res from workspace/all`);
+        console.log(res);
+        setAllWorkspaces(res.data);
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   useEffect(() => {
-    getAllWorkspace();
+    getUserWorkspaces();
     getUserName();
+    getAllWorkspaces();
   }, []);
 
   return (
@@ -63,7 +85,10 @@ function DashboardProfileContainer() {
         className={`${DashboardContainerCss.containerHeight} ${DashboardContainerCss.containerBackground}`}
       >
         <Router>
-          <DashboardProfileSidebar name={userName} workspaces={workspaces} />
+          <DashboardProfileSidebar
+            name={userName}
+            workspaces={userWorkspaces}
+          />
           <DashboardFriendSidebar />
           <Grid
             Container
@@ -75,11 +100,14 @@ function DashboardProfileContainer() {
             <DashboardNavbar />
             <Switch>
               <Route exact path="/profile" component={DashboardProfileHome} />
-              <Route path="/profile/find" component={DashboardAddSocial} />
+              {/* <Route path="/profile/find" component={DashboardAddSocial} /> */}
               <Route
                 path="/profile/create"
                 component={DashboardCreateWorkspace}
               />
+              <Route path="/profile/search">
+                <DashboardSearchWorkspace allWorkspaces={allWorkspaces} />
+              </Route>
             </Switch>
           </Grid>
         </Router>

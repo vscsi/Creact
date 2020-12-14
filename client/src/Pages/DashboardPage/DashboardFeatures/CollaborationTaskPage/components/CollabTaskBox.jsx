@@ -1,34 +1,35 @@
 import React, { useState } from "react";
 import styles from "./CollabTaskBox.module.css";
+import Axios from "axios";
+import { getCurrentWorkspace } from "../../../../../services/getCurrentWorkspace";
 
 const CollabTaskBox = (props) => {
   const [taskName, setTaskName] = useState("");
   const [taskContent, setTaskContent] = useState("");
   const [taskDeadline, setTaskDeadline] = useState("");
-  const [taskUser, setTaskUser] = useState("1");
+  const [taskUser, setTaskUser] = useState(0);
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
+      const currentWorkspace = getCurrentWorkspace();
       const body = {
         taskName,
         taskContent,
         taskDeadline,
         taskUser,
+        currentWorkspace
       };
       console.log("Form is submtted");
       console.log(body);
-      const response = await fetch(`${process.env.REACT_APP_API_SERVER}/task`, {
-      // const response = await fetch("http://localhost:4000/task", {
-        method: "POST",
+      // const response = await Axios.post("http://localhost:4000/task", body, {
+      const response = await Axios.post(`${process.env.REACT_APP_API_SERVER}`, body, {
         headers: {
-          "Content-Type": "application/json",
           "x-access-token": localStorage.getItem("token"),
         },
-        body: JSON.stringify(body),
       });
       console.log(response);
-      window.location = "/workspace/tasks";
+      window.location = `/workspace/${currentWorkspace}/tasks`;
     } catch (err) {
       console.error(err.message);
     }
@@ -74,12 +75,16 @@ const CollabTaskBox = (props) => {
             <select
               name="task_user"
               id=""
-              onChange={(e) => setTaskUser(e.target.value)}
+              onChange={(e) => setTaskUser(parseInt(e.target.value))}
             >
-              <option value="1">Martin</option>
-              <option value="2">Winnie</option>
-              <option value="3">Venus</option>
-              <option value="4">Charles</option>
+              {props.users.map((item, index) => {
+                return (
+                  //value should be user.id
+                  <option key={index} value={item.user_id}>
+                    {item.user_name}
+                  </option>
+                );
+              })}
             </select>
           </div>
           <div className={styles.box_input}>

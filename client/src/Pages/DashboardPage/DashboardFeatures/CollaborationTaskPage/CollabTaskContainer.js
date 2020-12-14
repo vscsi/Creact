@@ -3,8 +3,10 @@ import CollabTaskBox from "./components/CollabTaskBox";
 import CollabTaskList from "./components/CollabTaskList";
 // import Pagination from "./components/Pagination";
 import styles from "./CollabTaskContainer.module.css";
+import Axios from "axios";
+import { getCurrentWorkspace } from "../../../../services/getCurrentWorkspace";
 
-const CollabTaskContainer = () => {
+const CollabTaskContainer = (props) => {
   const [tasks, setTasks] = useState([]);
   //For Pagination
   const [loading, setLoading] = useState(false);
@@ -13,15 +15,27 @@ const CollabTaskContainer = () => {
 
   console.log(loading, setTasksPerPage)
   //get all tasks function
-  const getTasks = async () => {
+  const getTasks = () => {
     try {
+      const currentWorkspace = getCurrentWorkspace();
       setLoading(true);
-      // const response = await fetch("http://localhost:4000/workspace/tasks");
-      const response = await fetch(`${process.env.REACT_APP_API_SERVER}:4000/workspace/tasks`);
-      const jsonData = await response.json();
-      setTasks(jsonData);
-      setLoading(false);
-      console.log(jsonData);
+      Axios.post(
+        // "http://localhost:4000/tasks",
+        `${process.env.REACT_APP_API_SERVER}/tasks`,
+        {
+          workspaceName: currentWorkspace,
+        },
+        {
+          headers: { "x-access-token": localStorage.getItem("token") },
+        }
+      ).then((res) => {
+        console.log("get res from '/tasks");
+        console.log(res);
+        setTasks(res.data);
+        // console.log(jsonData);
+      });
+
+      // setLoading(false);
     } catch (error) {
       console.error(error.message);
     }
@@ -59,7 +73,7 @@ const CollabTaskContainer = () => {
 
   return (
     <div className={styles.wrapper}>
-      <CollabTaskBox />
+      {props.isAdmin && <CollabTaskBox users={props.users} />}
       <CollabTaskList
         tasks={currentTasks}
         handleDelete={handleDelete}

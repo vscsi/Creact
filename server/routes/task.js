@@ -1,16 +1,18 @@
 //==== Routers set up ====//
 
 //require modules
-const express = require('express');
+const express = require("express");
 const router = express.Router();
+const { verifyJWT } = require("../_helpers/jwt-handler");
 
-const taskController = require('../controllers/tasks');
+const taskController = require("../controllers/tasks");
 
-router.get('/workspace/tasks', taskController.getTasks);
+router.post("/tasks", verifyJWT, taskController.postTasks);
 
-router.post('/task', taskController.postTask);
+router.post("/task", verifyJWT, taskController.postTask);
 
-router.delete('/tasks/:id', taskController.deleteTasks)
+router.delete("/tasks/:id", verifyJWT, taskController.deleteTasks);
+
 
 
 module.exports = router;
