@@ -29,6 +29,7 @@ const registerRoutes = require("./routes/register");
 const loginRoutes = require("./routes/login");
 const workspaceRoutes = require("./routes/workspace");
 const userRoutes = require("./routes/user");
+// const docsRoutes = require("./routes/docs")
 
 //jwt
 // app.use(
@@ -41,6 +42,7 @@ const userRoutes = require("./routes/user");
 
 //global error handler
 app.use(errorHandler);
+
 //task
 app.use(taskRoutes);
 app.use(registerRoutes);
@@ -62,7 +64,7 @@ app.get("/isUserAuth", verifyJWT, (req, res) => {
 });
 
 //docs
-app.use(docsRoutes);
+// app.use(docsRoutes);
 
 //Video
 const videoIo = require("./controllers/video")(socketio);

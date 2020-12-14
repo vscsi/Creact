@@ -1,14 +1,14 @@
-//==== Routers set up ====//
+// //==== Routers set up ====//
 
-//require modules
-const express = require('express');
-const router = express.Router();
+// //require modules
+// const express = require('express');
+// const router = express.Router();
 
-const docsController = require('../controllers/docs');
+// const docsController = require('../controllers/docs');
 
-router.get('/workspace/docs', docsController.getTasks);
+// router.get('/workspace/docs', docsController.getTasks);
 
-router.post('/docs', docsController.postTask);
+// router.post('/docs', docsController.postTask);
 
 
-module.exports = router;
+// module.exports = router;
