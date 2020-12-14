@@ -74,12 +74,15 @@ const CollabTaskBox = (props) => {
             <select
               name="task_user"
               id=""
-              onChange={(e) => setTaskUser(parseInt(e.target.value))}
+              onChange={(e) => {
+                console.log(e.target.value);
+                setTaskUser(parseInt(e.target.value))
+              }}
             >
               {props.users.map((item, index) => {
                 return (
                   //value should be user.id
-                  <option key={index} value={item.user_id}>
+                  <option key={item.user_id} value={item.user_id}>
                     {item.user_name}
                   </option>
                 );

@@ -15,6 +15,7 @@ const CollabTaskList = (props) => {
               id={task.id}
               handleDelete={props.handleDelete}
               task={task}
+              currentUser={props.currentUser}
             />
           );
         })}

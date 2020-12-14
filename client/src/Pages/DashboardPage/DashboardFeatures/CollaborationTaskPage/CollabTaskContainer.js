@@ -54,15 +54,19 @@ const CollabTaskContainer = (props) => {
   //delete task function
   const handleDelete = async (id) => {
     try {
-      const deleteTask = await fetch(`http://localhost:4000/tasks/${id}`, {
-        method: "DELETE",
+      Axios.delete(`http://localhost:4000/tasks/${id}`, {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      }).then((res) => {
+        console.log(`delete res from '/tasks/id`);
+        console.log(res);
+        setTasks(
+          tasks.filter((task, index) => {
+            return task.id !== id;
+          })
+        );
       });
-      console.log(deleteTask);
-      setTasks(
-        tasks.filter((task, index) => {
-          return task.id !== id;
-        })
-      );
     } catch (error) {
       console.error(error.message);
     }
@@ -77,6 +81,7 @@ const CollabTaskContainer = (props) => {
         tasksPerPage={tasksPerPage}
         totalTasks={tasks.length}
         paginate={paginate}
+        currentUser={props.name}
       />
     </div>
   );

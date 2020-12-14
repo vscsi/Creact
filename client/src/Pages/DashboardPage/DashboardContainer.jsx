@@ -178,6 +178,7 @@ function DashboardContainer() {
                     {...props}
                     isAdmin={isAdmin}
                     users={users}
+                    name={userName}
                   />
                 )}
               ></Route>

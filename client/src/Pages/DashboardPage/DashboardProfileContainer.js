@@ -28,7 +28,7 @@ function DashboardProfileContainer() {
           "x-access-token": localStorage.getItem("token"),
         },
       }).then((res) => {
-        console.log(`all workspaces`);
+        console.log(`all user workspaces`);
         console.log(res);
         // console.log(res.data.allWorkspaces);
         setUserWorkspaces(res.data.userWorkspaces);
@@ -45,6 +45,8 @@ function DashboardProfileContainer() {
           "x-access-token": localStorage.getItem("token"),
         },
       }).then((res) => {
+        console.log(`res from /username`);
+        console.log(res.data.userName);
         setUserName(res.data.userName);
       });
     } catch (error) {

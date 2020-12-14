@@ -36,6 +36,7 @@ const DashboardSearchWorkspace = (props) => {
                 <li value={index + 1}>
                   <p>{item.workspace_name}</p>
                   <p>Maximum User: {item.max_user}</p>
+                  <p>Current Users: {item.numOfUsers}</p>
                   <button
                     onClick={() => {
                       handleJoin(item.workspace_name);
