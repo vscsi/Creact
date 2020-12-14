@@ -7,7 +7,7 @@ const DashboardSearchWorkspace = (props) => {
     try {
       Axios.post(
         // "http://localhost:4000/workspace/join",
-        `${process.env.REACT_APP_SERVER}/workspace/join`,
+        `${process.env.REACT_APP_SERVER}/api/workspace/join`,
         {
           workspaceName: workspaceName,
         },

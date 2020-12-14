@@ -22,7 +22,7 @@ const CollabTaskContainer = (props) => {
       setLoading(true);
       Axios.post(
         // "http://localhost:4000/tasks",
-        `${process.env.REACT_APP_SERVER}/tasks`,
+        `${process.env.REACT_APP_SERVER}/api/tasks`,
         {
           workspaceName: currentWorkspace,
         },
@@ -58,7 +58,7 @@ const CollabTaskContainer = (props) => {
   const handleDelete = async (id) => {
     try {
       // const deleteTask = await fetch(`http://localhost:4000/tasks/${id}`, {
-      const deleteTask = await fetch(`${process.env.REACT_APP_SERVER}/tasks/${id}`, {
+      const deleteTask = await fetch(`${process.env.REACT_APP_SERVER}/api/tasks/${id}`, {
         method: "DELETE",
       });
       console.log(deleteTask);

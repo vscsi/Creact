@@ -91,17 +91,20 @@ function RegisterContainer() {
     const { username, firstname, lastname, email, password } = values;
     const body = { username, firstname, lastname, email, password };
     // const url = "http://localhost:4000/register";
-    const url = `${process.env.REACT_APP_SERVER}/register`;
+    const url = `${process.env.REACT_APP_SERVER}/api/register`;
     async function postRegister() {
       try {
         const response = await fetch(url, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),
-        });
+        })
+        // .then(res => res.text())
+        // .then(text => console.log(text, "FUCKYOU"))
         const result = await response.json();
         console.log(result);
     } catch (e) {
+        
         console.error(e.message);
       }
     }

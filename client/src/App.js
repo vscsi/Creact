@@ -14,7 +14,7 @@ function App() {
   //1. if already have token stored in localstorage, send get request to server, check if the token is correct, if yes, setLogin to true
   const isAuthenticate = () => {
     // Axios.get("http://localhost:4000/isUserAuth", {
-    Axios.get(`${process.env.REACT_APP_SERVER}/isUserAuth`, {
+    Axios.get(`${process.env.REACT_APP_SERVER}/api/isUserAuth`, {
       headers: {
         "x-access-token": localStorage.getItem("token"),
       },

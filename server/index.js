@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const path = require('path')
 const bodyParser = require("body-parser");
 const cors = require("cors");
 // const jwt = require("./_helpers/jwt");
@@ -12,6 +13,8 @@ const bcrypt = require("bcrypt");
 // const expressJwt = require("express-jwt");
 const { verifyJWT } = require("./_helpers/jwt-handler");
 
+
+
 //socket set up
 const http = require("http");
 const server = http.createServer(app);
@@ -19,9 +22,16 @@ const socket = require("socket.io");
 const socketio = socket(server);
 
 //middleware
-app.use(cors());
+app.use(cors({ origin: true }));
 app.use(express.json()); //req.body
 app.use(bodyParser.urlencoded({ extended: true }));
+
+//cors setup
+app.use((req, res, next) => {
+  res.header('Acces-Control-Allow-Origin', 'https://creact-app.com');
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+})
 
 //routers
 const taskRoutes = require("./routes/task");
@@ -63,6 +73,11 @@ app.get("/isUserAuth", verifyJWT, (req, res) => {
 
 //Video
 const videoIo = require("./controllers/video")(socketio);
+
+// app.get('*', (req, res)=>{
+//   res.sendFile(path.join(__dirname + '/client/build/index.html'))
+
+// })
 
 server.listen(4000, () => {
   console.log("Creact server, Listening to port 4000");
