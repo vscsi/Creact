@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "./DashboardSearchWorkspace.module.css";
 import Axios from "axios";
 
@@ -6,7 +6,8 @@ const DashboardSearchWorkspace = (props) => {
   const handleJoin = (workspaceName) => {
     try {
       Axios.post(
-        "http://localhost:4000/workspace/join",
+        // "http://localhost:4000/workspace/join",
+        `${process.env.REACT_APP_SERVER}/api/workspace/join`,
         {
           workspaceName: workspaceName,
         },
