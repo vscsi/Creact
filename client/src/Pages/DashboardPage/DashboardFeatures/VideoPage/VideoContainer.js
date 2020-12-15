@@ -10,6 +10,7 @@ const Video = (props) => {
         props.peer.on("stream", stream => {
             ref.current.srcObject = stream;
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
@@ -68,6 +69,7 @@ const VideoContainer = (props) => {
                 item.peer.signal(payload.signal);
             });
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     function createPeer(userToSignal, callerID, stream) {
