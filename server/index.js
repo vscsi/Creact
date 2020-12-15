@@ -17,6 +17,9 @@ const http = require("http");
 const server = http.createServer(app);
 const socket = require("socket.io");
 const socketio = socket(server);
+const chatio = socket(server, {
+  path:'/chatroom'
+})
 
 //middleware
 app.use(cors());
@@ -63,6 +66,8 @@ app.get("/isUserAuth", verifyJWT, (req, res) => {
 
 //Video
 const videoIo = require("./controllers/video")(socketio);
+//Chat
+const chatroom = require("./controllers/chatroom/chatroom")(chatio);
 
 server.listen(4000, () => {
   console.log("Creact server, Listening to port 4000");
