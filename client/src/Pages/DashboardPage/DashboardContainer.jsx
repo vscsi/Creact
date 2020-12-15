@@ -34,8 +34,8 @@ function DashboardContainer() {
 
   const getUserWorkspaces = () => {
     try {
-      // Axios.get("http://localhost:4000/workspace/list", {
-      Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/list`, {
+      Axios.get("http://localhost:4000/workspace/list", {
+      // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/list`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -52,8 +52,8 @@ function DashboardContainer() {
 
   const getUserInfo = () => {
     try {
-      // Axios.get("http://localhost:4000/username", {
-      Axios.get(`${process.env.REACT_APP_API_SERVER}/username`, {
+      Axios.get("http://localhost:4000/username", {
+      // Axios.get(`${process.env.REACT_APP_API_SERVER}/username`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -82,8 +82,8 @@ function DashboardContainer() {
 
   const getAllWorkspaces = () => {
     try {
-      // Axios.get("http://localhost:4000/workspace/all", {
-      Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/all`, {
+      Axios.get("http://localhost:4000/workspace/all", {
+      // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/all`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -101,8 +101,8 @@ function DashboardContainer() {
     try {
       //1. send post request to server, query to "user_workspace" table
       Axios.post(
-        // "http://localhost:4000/workspace/check",
-        `${process.env.REACT_APP_API_SERVER}/workspace/check`,
+        "http://localhost:4000/workspace/check",
+        // `${process.env.REACT_APP_API_SERVER}/workspace/check`,
         {
           workspaceName: workspace,
         },
