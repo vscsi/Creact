@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./CollabTaskList.module.css";
 
 const CollabTaskListItem = (props) => {
@@ -25,15 +25,17 @@ const CollabTaskListItem = (props) => {
         <h3>Description: </h3>
         <p>{props.task.task_content}</p>
       </div>
-      <div className={styles.task_box}>
-        <input
-          type="button"
-          value="Finish Task"
-          onClick={() => {
-            props.handleDelete(props.id);
-          }}
-        />
-      </div>
+      {props.currentUser === props.task.userName && (
+        <div className={styles.task_box}>
+          <input
+            type="button"
+            value="Finish Task"
+            onClick={() => {
+              props.handleDelete(props.id);
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 };

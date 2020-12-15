@@ -61,6 +61,7 @@ app.get("/isUserAuth", verifyJWT, (req, res) => {
     message: "Yo u are authenticated",
     userId: req.userId,
   });
+  // res.send("yo you are authenticated")
 });
 
 //docs

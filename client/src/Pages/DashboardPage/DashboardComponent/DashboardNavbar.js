@@ -3,7 +3,7 @@ import * as MaterialUI from '@material-ui/core';
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import DashboardNavbarCss from './DashboardNavbar.module.css'
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
+// import Paper from '@material-ui/core/Paper';
 
 function DashboardNavbar() {
   //overriding Avatar root class
