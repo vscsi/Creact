@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as MaterialUI from "@material-ui/core";
 import DashboardSidebarCss from "./DashboardSidebar.module.css";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect,
   NavLink,
   useHistory,
 } from "react-router-dom";
+import Link from "@material-ui/core/Link";
 
-function DashboardSidebar() {
+function DashboardProfileSidebar(props) {
   //Check if active workspace
   const [active, setActive] = useState(true);
   function checkActive() {
@@ -17,6 +19,21 @@ function DashboardSidebar() {
       return DashboardSidebarCss.workspaceIconActive;
     }
   }
+
+  const handleLogout = () => {
+    try {
+      //1. remove localstorage of JWT
+      console.log("Handling logout");
+      localStorage.removeItem("token");
+      // console.log(localStorage.getItem('token'));
+      // //2. redirect to landing page
+      history.push("/");
+      window.location.reload();
+      // //3. set logout state to be false
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
 
   const history = useHistory();
 
@@ -32,10 +49,33 @@ function DashboardSidebar() {
         direction="column"
         className={DashboardSidebarCss.sideBarBorder}
       >
-        <div className={DashboardSidebarCss.workspaceIconUser}>User</div>
+        <Link href="/profile">
+          <div className={DashboardSidebarCss.workspaceIconUser}>
+            {props.name}
+          </div>
+        </Link>
 
         <div className={DashboardSidebarCss.workSpaceSeparator}></div>
-        <NavLink to="/create">
+
+        {props.workspaces.map((item, index) => {
+          return (
+            <Link href={`/workspace/${item.eachWorkspaceName}`} key={index}>
+              <MaterialUI.Tooltip
+                title="Create Workspace"
+                placement="right-end"
+              >
+                <div className={DashboardSidebarCss.workspaceIcon}>
+                  {item.eachWorkspaceName}
+                </div>
+              </MaterialUI.Tooltip>
+            </Link>
+          );
+        })}
+
+        <NavLink
+          to="/profile/create"
+          activeClassName={DashboardSidebarCss.isActive}
+        >
           <MaterialUI.Tooltip title="Create Workspace" placement="right-end">
             <div className={DashboardSidebarCss.workspaceIcon}>
               Create workspace
@@ -43,28 +83,27 @@ function DashboardSidebar() {
           </MaterialUI.Tooltip>
         </NavLink>
 
-        <NavLink to="/find">
+        <NavLink
+          to="/profile/search"
+          activeClassName={DashboardSidebarCss.isActive}
+        >
           <MaterialUI.Tooltip title="Find Workspace" placement="right-end">
             <div className={DashboardSidebarCss.workspaceIcon}>
               Find workspaces
             </div>
           </MaterialUI.Tooltip>
         </NavLink>
-      </MaterialUI.Grid>
 
-      {/* sidebar2 */}
-      <MaterialUI.Grid
-        container
-        md={2}
-        spacing={0}
-        alignItems="center"
-        justify="flex-start"
-        direction="column"
-        className={`${DashboardSidebarCss.sideBarBorder} ${DashboardSidebarCss.sidebar2Background}`}
-      >
-        <MaterialUI.Tooltip title="Add friends" placement="right-end">
-          <div className={DashboardSidebarCss.workspaceIcon}>
-            Find Your friends
+        <MaterialUI.Tooltip
+          title="Logout"
+          placement="right-end"
+          activeClassName={DashboardSidebarCss.isActive}
+        >
+          <div
+            className={DashboardSidebarCss.workspaceIcon}
+            onClick={handleLogout}
+          >
+            Logout
           </div>
         </MaterialUI.Tooltip>
       </MaterialUI.Grid>
@@ -72,4 +111,4 @@ function DashboardSidebar() {
   );
 }
 
-export default DashboardSidebar;
+export default DashboardProfileSidebar;

@@ -1,0 +1,8 @@
+.workspaceList{
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+
+.eachWorkspace{
+    border: 1px solid black;
+}

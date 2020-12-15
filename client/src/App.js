@@ -33,16 +33,25 @@ function App() {
     <Router>
       <Switch>
         <Route path="/" exact component={LandingPageContainer} />
-        <Route path="/login" component={LoginContainer} />
+        <Route
+          path="/login"
+          component={isLogin ? DashboardProfileContainer : LoginContainer}
+        />
         <Route path="/register" component={RegisterContainer} />
         <Route
           path="/profile"
-          component={isLogin ? DashboardProfileContainer : ErrorContainer}
+          component={isLogin && DashboardProfileContainer}
         />
-        <Route
+        {/* <Route
           path="/workspace"
-          component={isLogin ? DashboardContainer : ErrorContainer}
+          exact
+          component={isLogin && DashboardContainer}
+        /> */}
+        <Route
+          path="/workspace/:workspaceName"
+          component={isLogin && DashboardContainer}
         />
+        <Route path="*" component={() => "404 not found"} />
       </Switch>
     </Router>
   );

@@ -1,16 +1,79 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import DashboardContainerCss from "./DashboardContainer.module.css";
-import DashboardSidebar from "./DashboardComponent/DashboardSidebar";
 import DashboardProfileSidebar from "./DashboardComponent/DashboardProfieSidebar";
-import DashboardMain from "./DashboardComponent/DashboardMain";
 import { Grid } from "@material-ui/core";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import DashboardNavbar from "./DashboardComponent/DashboardNavbar";
-import DashboardMainCss from "./DashboardComponent/DashboardMain.module.css";
 import DashboardAddSocial from "./DashboardComponent/DashboardAddSocial";
 import DashboardCreateWorkspace from "./DashboardComponent/DashboardCreateWorkspace";
+import DashboardProfileHome from "./DashboardComponent/DashboardProfileHome.js";
+import DashboardFriendSidebar from "./DashboardComponent/DashboardFriendSidebar";
+import Axios from "axios";
+import DashboardSearchWorkspace from "./DashboardComponent/DashboardSearchWorkspace";
 
 function DashboardProfileContainer() {
+  const [userName, setUserName] = useState("");
+  const [userWorkspaces, setUserWorkspaces] = useState([]);
+  const [allWorkspaces, setAllWorkspaces] = useState([]);
+
+  const getUserWorkspaces = () => {
+    try {
+      Axios.get("http://localhost:4000/workspace/list", {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      }).then((res) => {
+        console.log(`all workspaces`);
+        console.log(res);
+        // console.log(res.data.allWorkspaces);
+        setUserWorkspaces(res.data.userWorkspaces);
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const getUserName = () => {
+    try {
+      Axios.get("http://localhost:4000/username", {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      }).then((res) => {
+        setUserName(res.data.userName);
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const getAllWorkspaces = () => {
+    try {
+      Axios.get("http://localhost:4000/workspace/all", {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      }).then((res) => {
+        console.log(`res from workspace/all`);
+        console.log(res);
+        setAllWorkspaces(res.data);
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    getUserWorkspaces();
+    getUserName();
+    getAllWorkspaces();
+  }, []);
+
   return (
     <>
       <Grid
@@ -20,8 +83,11 @@ function DashboardProfileContainer() {
         className={`${DashboardContainerCss.containerHeight} ${DashboardContainerCss.containerBackground}`}
       >
         <Router>
-          <DashboardProfileSidebar />
-          {/* <DashboardSidebar /> */}
+          <DashboardProfileSidebar
+            name={userName}
+            workspaces={userWorkspaces}
+          />
+          <DashboardFriendSidebar />
           <Grid
             Container
             direction="row"
@@ -31,11 +97,16 @@ function DashboardProfileContainer() {
           >
             <DashboardNavbar />
             <Switch>
-              <Route path="/find" component={DashboardAddSocial} />
-              <Route path="/create" component={DashboardCreateWorkspace} />
+              <Route exact path="/profile" component={DashboardProfileHome} />
+              {/* <Route path="/profile/find" component={DashboardAddSocial} /> */}
+              <Route
+                path="/profile/create"
+                component={DashboardCreateWorkspace}
+              />
+              <Route path="/profile/search">
+                <DashboardSearchWorkspace allWorkspaces={allWorkspaces} />
+              </Route>
             </Switch>
-            {/* <DashboardAddSocial /> */}
-            {/* <DashboardCreateWorkspace /> */}
           </Grid>
         </Router>
       </Grid>

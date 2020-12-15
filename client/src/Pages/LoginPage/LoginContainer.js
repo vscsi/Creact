@@ -87,13 +87,9 @@ export default function SignIn() {
         console.log(response);
         localStorage.setItem("token", response.accessToken);
         setLoginStatus(true);
-        history.push("/workspace");
+        history.push("/profile");
         window.location.reload();
       }
-      // AuthService.login(username, password).then(() => {
-      //   history.push("/workspace");
-      //   window.location.reload();
-      // });
     } catch (error) {
       console.error(error.message);
     }
@@ -119,11 +115,6 @@ export default function SignIn() {
 
   return (
     <>
-      {/* {loginStatus ? (
-        <>
-          <DashboardContainer />
-        </>
-      ) : ( */}
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
