@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
+import EventCalendar from "./component/EventCalendar";
+import { getTasks } from "../../../../api/task/task";
 
 function CalenderContainer() {
-  return (
-    <div>
-      Calendar Container
-    </div>
-  )
+  const [tasks, setTasks] = useState([]);
+  useEffect(() => {
+    getTasks((res)=>{
+      setTasks(res)
+    });
+  }, []);
+  return <EventCalendar tasks={tasks}/>;
 }
 
-export default CalenderContainer
+export default CalenderContainer;
