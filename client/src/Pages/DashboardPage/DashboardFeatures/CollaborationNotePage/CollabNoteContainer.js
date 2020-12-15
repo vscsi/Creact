@@ -33,18 +33,7 @@ class MyEditor extends Component {
         })
     }
 
-    
-    componentDidMount() {
-        let val = null;
-        fetch("http://localhost:4000/workspace/docs").then(val = val.json())
-        .then(rawContent => { 
-            if (rawContent) {
-                this.setState({ editorState: EditorState.createWithContent(convertFromRaw(rawContent)) })
-            } else {
-                this.setState({ editorState: EditorState.createEmpty() })
-            }
-        })
-    }
+
 
     render(){
         const { editorState } = this.state
