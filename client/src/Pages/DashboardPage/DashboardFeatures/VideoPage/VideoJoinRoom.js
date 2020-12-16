@@ -1,5 +1,6 @@
 import {React, useState, useEffect} from 'react'
 
+// eslint-disable-next-line 
 function VideoJoinRoom({userName, currentWorkspace, url, pw, roomName}) {
         const [jitsi, setJitsi] = useState({});
 
@@ -49,6 +50,8 @@ function VideoJoinRoom({userName, currentWorkspace, url, pw, roomName}) {
           }, []);
 
           const iframeAllow = "camera; microphone; fullscreen; display-capture";
+
+          
 
         return (
           <>

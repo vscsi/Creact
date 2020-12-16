@@ -1,6 +1,5 @@
 const knex = require("../models/knex");
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
+const cryptoRandomString = require('crypto-random-string');
 
 exports.getVideoConferenceRoom = async(req,res)=>{
   const userId = req.userId;
@@ -29,8 +28,11 @@ exports.deleteVideoConferenceRoom = async(req,res)=>{
 
 
 exports.postVideoCreateRoom = async(req,res) =>{
-  const {room, userName, currentWorkspace, password, customRoomName, videoUrl} = req.body;
-  
+  const {userName, currentWorkspace, customRoomName} = req.body;
+  const password = cryptoRandomString({length: 10});
+  const room = cryptoRandomString({length: 10});
+  const videoUrl = `https://meet.jit.si/${room}`
+
   try{
       if(customRoomName!==''&& password!==''&&room!==''){
         console.log('from server/videoCreateRoom',room, userName, currentWorkspace, password, customRoomName, videoUrl)
@@ -42,15 +44,15 @@ exports.postVideoCreateRoom = async(req,res) =>{
          });
          //extract id from video table
          let videoOutput = await knex('video').select().where("video_room_pw",password);
-         console.log('from server/videoCreateRoom videoOutput id',videoOutput);
+        //  console.log('from server/videoCreateRoom videoOutput id',videoOutput);
      
          //extract id from workspace table
          let workspaceOutput = await knex('workspace').select().where("workspace_name",currentWorkspace)
-         console.log('from server/videoCreateRoom wsOutput id',workspaceOutput);
+        //  console.log('from server/videoCreateRoom wsOutput id',workspaceOutput);
          
          //extract id from users table
          let usersOutput = await knex('users').select().where("username",userName)
-         console.log('from server/videoCreateRoom usersOutput id', usersOutput);
+        //  console.log('from server/videoCreateRoom usersOutput id', usersOutput);
    
          //insert to video_workspace table 
          await knex('video_workspace').insert({
@@ -61,6 +63,8 @@ exports.postVideoCreateRoom = async(req,res) =>{
      
          res.json({
            message: 'server received video creator data',
+           password: password,
+           room: room
          })
       
       }else{
