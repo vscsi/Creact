@@ -5,6 +5,7 @@ import ScrollToBottom from 'react-scroll-to-bottom';
 import ChatInput from "./ChatInput/ChatInput"
 import HelpIcon from '@material-ui/icons/Help';
 import Message from './Message/Message'
+import {getCurrentWorkspace} from '../../../../services/getCurrentWorkspace'
 import "./Chat.css";
 let socket;
 
@@ -134,7 +135,7 @@ function ChatroomContainer({location}) {
 
   }
 
-  
+  const workspaceName = getCurrentWorkspace();
   
 
   return (
@@ -142,7 +143,7 @@ function ChatroomContainer({location}) {
       <div className="chat__header">
         <div className="chat__headerLeft">
           <h4 className="chat__channelName">
-            <strong># Room Name</strong>
+            <strong># {workspaceName} chatroom</strong>
             <span className="user__in__room" > {roomUsers}</span>
           </h4>
         </div>
