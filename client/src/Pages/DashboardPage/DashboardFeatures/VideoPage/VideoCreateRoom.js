@@ -107,7 +107,11 @@ function VideoCreateRoom({userName, currentWorkspace}) {
             <>
             <h1>You are the host of this meeting.</h1>
             <h2>password for participants to join this meeting: {password}</h2>
+            {/* <div id={jitsiContainerId} >
+
+            </div> */}
             <Jutsu
+            id={jitsiContainerId}
             roomName={room}
             displayName={userName}
             password={password}
