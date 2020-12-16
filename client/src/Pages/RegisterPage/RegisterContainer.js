@@ -5,9 +5,6 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { FormHelperText} from '@material-ui/core';
 import {
-  Link as RouterLink,
-  Route,
-  BrowserRouter as Router,
   Redirect
 } from "react-router-dom";
 
@@ -38,9 +35,9 @@ function RegisterContainer() {
     if(!values.lastname){
       errors.lastname = "lastname is required"
     }
-
     if (!values.email) {
       errors.email = "Email is required";
+      // eslint-disable-next-line
     } else if (!/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(values.email)) {
       errors.email = "Email address is invalid";
     }
@@ -81,6 +78,7 @@ function RegisterContainer() {
       if (Object.keys(errors).length === 0 && isSubmitting) {
         setIsSubmitted(true);
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [errors]);
 
     useEffect(()=>{

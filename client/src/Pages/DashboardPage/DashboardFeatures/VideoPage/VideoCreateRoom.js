@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Jutsu, useJitsi } from 'react-jutsu';
-import { Route, Link } from 'react-router-dom';
-import VideoConferenceRoom from './VideoConferenceRoom';
+import {  Link } from 'react-router-dom';
     
 function VideoCreateRoom({userName, currentWorkspace}) {
     //room represents hashed room
@@ -63,21 +62,6 @@ function VideoCreateRoom({userName, currentWorkspace}) {
         const handleClick = async(event) =>{
             event.preventDefault();
             console.log(jitsiInit, 'this is jitsiInit');
-            // const videoArr = [];
-            // const generatePassword = uuid();
-            // const generateRoom = uuid();
-            // videoArr.push(generatePassword, generateRoom)
-            // setPassword(generatePassword);
-            // setRoom(generateRoom);
-            // setPassword(videoArr[0]);
-            // setRoom(videoArr[1]);
-            // console.log(generatePassword, 'this is generatePassword')
-            // console.log(generateRoom, 'this is generatewRoom')
-            // console.log(password, 'this is password')
-            // console.log(room, 'this is room')
-            // if (customRoomName&&room&&password) setCall(true);
-            // const videoUrl = `https://meet.jit.si/${room}`
-            // const body = {room, userName, currentWorkspace, password, customRoomName, videoUrl} // put values into body object
             const body = { userName, currentWorkspace, customRoomName} // put values into body object
             try{
                 console.log('sending video room info to server')
