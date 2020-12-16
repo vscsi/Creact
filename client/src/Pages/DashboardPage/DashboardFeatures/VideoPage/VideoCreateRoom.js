@@ -77,8 +77,8 @@ function VideoCreateRoom({userName, currentWorkspace}) {
             const body = {room, userName, currentWorkspace, password, customRoomName, videoUrl} // put values into body object
             try{
                 console.log('sending video room info to server')
-                // const sendVideo = await fetch(`http://localhost:4000/workspace/${currentWorkspace}/video`,{
-                const sendVideo = await fetch(`${process.env.REACT_APP_API_SERVER}/workspace/${currentWorkspace}/video`,{
+                const sendVideo = await fetch(`http://localhost:4000/workspace/${currentWorkspace}/video`,{
+                // const sendVideo = await fetch(`${process.env.REACT_APP_API_SERVER}/workspace/${currentWorkspace}/video`,{
                     method:"POST",
                     headers: {
                         "Content-Type":"application/json",
