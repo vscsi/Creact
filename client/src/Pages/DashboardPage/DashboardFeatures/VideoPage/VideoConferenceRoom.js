@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Paper } from '@material-ui/core';
-// import {
-//     Link
-//   } from "react-router-dom";
+import {
+    Link
+  } from "react-router-dom";
 // import Link from "@material-ui/core/Link";
 
 const VideoConferenceRoom = ({currentWorkspace, handleClick}) => {
@@ -41,17 +41,16 @@ const VideoConferenceRoom = ({currentWorkspace, handleClick}) => {
     return(
     <>
          <h1>Join the video meetings!</h1>
-
                         {currentVideoRoom.map((item) => (
                             <Paper elevation={3}>
                             <p>Room {item.id}</p>
                             <p>Room name: {item.video_room_name}</p>
                             <p>Room password(use this password to join the meeting!) : {item.video_room_pw}</p>
                             <button  onClick={()=>handleConferenceClick({item})}>
-                                {/* <Link to ={`/workspace/${currentWorkspace}/video/join`}> */}
+                                <Link to ={`/workspace/${currentWorkspace}/video/rooms/join`}>
                                 {/* <Link href="www.google.com" target="_blank">  */}
                                     Join meeting
-                                {/* </Link> */}
+                                </Link>
                                 {/* </Link>                                     */}
                             </button>
                             </Paper>
