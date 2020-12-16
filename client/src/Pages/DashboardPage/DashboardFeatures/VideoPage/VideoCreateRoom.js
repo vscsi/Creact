@@ -39,6 +39,7 @@ function VideoCreateRoom({userName, currentWorkspace}) {
             if (!window.JitsiMeetExternalAPI) {
             await loadJitsiScript();
             }
+            // eslint-disable-next-line 
             const myOverwrite ={
                  remoteVideoMenu: {
                         // If set to true the 'Kick out' button will be disabled.

@@ -12,8 +12,8 @@ const DashboardCreateWorkspace = () => {
     };
     try {
       Axios.post(
-        "http://localhost:4000/workspace/create",
-        // `${process.env.REACT_APP_API_SERVER}/workspace/create`,
+        // "http://localhost:4000/workspace/create",
+        `${process.env.REACT_APP_API_SERVER}/workspace/create`,
         {
           workspaceName: workspaceName,
           maxppl: maxppl,
