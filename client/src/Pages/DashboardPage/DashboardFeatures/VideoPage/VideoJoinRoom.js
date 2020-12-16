@@ -55,6 +55,7 @@ function VideoJoinRoom({userName, currentWorkspace, url, pw, roomName}) {
           <h1>Video Join room</h1>
           <h2>You are in room: {roomName}</h2>
           <h2>You are the participant of the room.</h2>
+          {/* eslint-disable-next-line */}
           <iframe allow={iframeAllow} 
           src={url}
           style={{height: "70%", width: "70%", marginLeft:"10%"}}></iframe>
