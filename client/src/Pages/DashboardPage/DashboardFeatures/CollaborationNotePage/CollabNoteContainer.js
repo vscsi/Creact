@@ -15,6 +15,7 @@ class MyEditor extends Component {
     
 
     onEditorStateChange = editorState =>{
+        console.log('operation')
         this.setState({
             editorState
         })

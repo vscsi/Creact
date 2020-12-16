@@ -43,6 +43,7 @@ const videoShowRoomRoutes = require('./routes/videoShowRoom')
 
 //global error handler
 app.use(errorHandler);
+
 //task
 app.use(taskRoutes);
 app.use(registerRoutes);
@@ -65,6 +66,9 @@ app.get("/isUserAuth", verifyJWT, (req, res) => {
   });
   // res.send("yo you are authenticated")
 });
+
+//docs
+// app.use(docsRoutes);
 
 //Video
 // const videoIo = require("./controllers/videoSocket")(socketio);
