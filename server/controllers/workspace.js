@@ -240,3 +240,4 @@ exports.postJoin = async (req, res) => {
     res.json("The user is already in this workspace");
   }
 };
+
