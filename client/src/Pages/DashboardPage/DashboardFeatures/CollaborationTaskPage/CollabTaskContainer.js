@@ -21,8 +21,8 @@ const CollabTaskContainer = (props) => {
       const currentWorkspace = getCurrentWorkspace();
       setLoading(true);
       Axios.post(
-        "http://localhost:4000/tasks",
-        // `${process.env.REACT_APP_API_SERVER}/tasks`,
+        // "http://localhost:4000/tasks",
+        `${process.env.REACT_APP_API_SERVER}/tasks`,
         {
           workspaceName: currentWorkspace,
         },
