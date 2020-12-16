@@ -69,6 +69,9 @@ app.get("/isUserAuth", verifyJWT, (req, res) => {
 //Video
 // const videoIo = require("./controllers/videoSocket")(socketio);
 
+//Check online users
+
+
 server.listen(4000, () => {
   console.log("Creact server, Listening to port 4000");
 });
