@@ -60,7 +60,7 @@ exports.createWorkspace = async (req, res) => {
           user_id: userId,
           workspace_admin: true,
         });
-        console.log("Data has inserted into user_workspace table");
+        // console.log("Data has inserted into user_workspace table");
       }
     } else {
       res.json({
@@ -78,7 +78,7 @@ exports.createWorkspace = async (req, res) => {
 exports.getWorkSpace = async (req, res) => {
   try {
     //1. decode the userId from token in header
-    console.log("Hi, get request from /workspace/list");
+    // console.log("Hi, get request from /workspace/list");
     let userId = req.userId;
     let userName = req.userName;
     const userWorkspaces = [];
@@ -109,8 +109,8 @@ exports.getWorkSpace = async (req, res) => {
       // console.log(eachWorkspace);
     }
     //5. store all the workspace name into json obj and pass back to client
-    console.log(`userWorkspaces is below`);
-    console.log(userWorkspaces);
+    // console.log(`userWorkspaces is below`);
+    // console.log(userWorkspaces);
     res.json({ userWorkspaces: userWorkspaces });
   } catch (error) {
     console.error(error.message);
@@ -119,7 +119,7 @@ exports.getWorkSpace = async (req, res) => {
 
 exports.getAllWorkspaces = async (req, res) => {
   try {
-    console.log("In /workspace/all");
+    // console.log("In /workspace/all");
     const returnAllWorkspaces = await knex("workspace").select(
       "id",
       "workspace_name",
@@ -134,14 +134,21 @@ exports.getAllWorkspaces = async (req, res) => {
         workspace_id: workspaceId,
       });
       const numOfUsers = returnUserWorkspace.length;
+<<<<<<< HEAD
+      const eachObj = {...workspace, numOfUsers};
+      // console.log(`numOfUsers = ${numOfUsers}`);
+      // console.log(`workspace is below`);
+      // console.log(workspace);
+=======
       const eachObj = { ...workspace, numOfUsers };
       console.log(`numOfUsers = ${numOfUsers}`);
       console.log(`workspace is below`);
       console.log(workspace);
+>>>>>>> ef35368b94fbe75fa79d970e162552d5c9f23964
       allWorkspaces.push(eachObj);
     }
-    console.log(`allWorkspaces is below`);
-    console.log(allWorkspaces);
+    // console.log(`allWorkspaces is below`);
+    // console.log(allWorkspaces);
     res.json(allWorkspaces);
   } catch (error) {
     console.error(error.message);
@@ -197,30 +204,35 @@ exports.postCheck = async (req, res) => {
         user_id: userId,
       });
     }
+<<<<<<< HEAD
+    // console.log(allUsers);
+    res.json({ isAdmin: isAdmin, allUsers: allUsers });
+=======
     console.log(allUsers);
     res.json({
       isAdmin: isAdmin,
       allUsers: allUsers,
       firstEmptyUsers: firstEmptyUsers,
     });
+>>>>>>> ef35368b94fbe75fa79d970e162552d5c9f23964
   } catch (error) {
     console.error(error.message);
   }
 };
 
 exports.postJoin = async (req, res) => {
-  console.log(`post from '/workspace/join`);
+  // console.log(`post from '/workspace/join`);
   const userId = req.userId;
-  console.log(`userId = ${userId}`);
-  console.log(`body = ${req.body.workspaceName}`);
+  // console.log(`userId = ${userId}`);
+  // console.log(`body = ${req.body.workspaceName}`);
   //1. get the workspace id from the workspace name
   const returnWorkspace = await knex("workspace").where({
     workspace_name: req.body.workspaceName,
   });
   const workspaceId = returnWorkspace[0].id;
   const workspaceMaxUsers = returnWorkspace[0].max_user;
-  console.log(`workspaceId = ${workspaceId}`);
-  console.log(`workspaceMaxUsers = ${workspaceMaxUsers}`);
+  // console.log(`workspaceId = ${workspaceId}`);
+  // console.log(`workspaceMaxUsers = ${workspaceMaxUsers}`);
   //2. check if that userId have that workspace id already
   const returnUserWorkspace = await knex("user_workspace").where({
     workspace_id: workspaceId,
@@ -235,17 +247,56 @@ exports.postJoin = async (req, res) => {
       workspace_id: workspaceId,
     });
     if (returnUsersInWorkspace.length >= workspaceMaxUsers) {
-      console.log("The workspace is full");
+      // console.log("The workspace is full");
       res.json("The workspace is full, the user can not join");
     } else {
       await knex("user_workspace").insert({
         workspace_id: workspaceId,
         user_id: userId,
       });
-      console.log("This user has joined the workspace");
+      // console.log("This user has joined the workspace");
       res.json("The user has joined the workspace successfully");
     }
   } else {
     res.json("The user is already in this workspace");
   }
 };
+
+exports.chatroomInit = async (req, res) => {
+  const {workspaceName} = req.body;
+  let finalResult
+  let result1 = await knex.select('id', 'max_user').where('workspace_name', workspaceName).from('workspace');
+    
+   let workspaceId = result1[0].id;
+   let maxNum = result1[0].max_user;
+  //  console.log('first step of chatroomIni', workspaceId)
+
+   let step2 = await knex.select('*').where('workspace_id', workspaceId).from('workspace_chatroom')
+  //  console.log('result of step 2 of chatroomIni', step2)
+   if (step2.length===0) {
+    //  console.log('no workspace"s chatroom exist, then insert new chatroom entries and return id ');
+     finalResult = await knex('chatroom').insert({chatroom_type: true}).returning('id');
+      // console.log('returning of insert chatroom type', finalResult)
+     await knex('workspace_chatroom').insert({chatroom_id: finalResult[0], workspace_id: workspaceId})
+
+     console.log('final result to be res.json from new chatroom', finalResult)
+     res.json(finalResult)
+     
+   } else {
+    //  console.log('workspace already opened chatroom')
+     finalResult = await knex.select('chatroom_id').where('workspace_id', workspaceId).from('workspace_chatroom');
+     console.log('workspace already have chatroom final reult', finalResult)
+     res.json(finalResult[0].chatroom_id)
+   }
+
+   
+  //  
+    
+  //  let chatroomId = result2[0];
+  // console.log('chatrooomInit chatroom Id', chatroomId)
+  //  await knex('workspace_chatroom').insert({workspace_id: workspaceId, chatroom_id: chatroomId});
+
+
+
+  //  res.json(chatroomId);
+}
