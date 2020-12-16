@@ -18,7 +18,7 @@ const CollabTaskBox = (props) => {
         taskContent,
         taskDeadline,
         taskUser,
-        currentWorkspace
+        currentWorkspace,
       };
       console.log("Form is submtted");
       console.log(body);
@@ -77,10 +77,10 @@ const CollabTaskBox = (props) => {
               id=""
               onChange={(e) => {
                 console.log(e.target.value);
-                setTaskUser(parseInt(e.target.value))
+                setTaskUser(parseInt(e.target.value));
               }}
             >
-              {props.users.map((item, index) => {
+              {props.firstEmptyUsers.map((item, index) => {
                 return (
                   //value should be user.id
                   <option key={item.user_id} value={item.user_id}>

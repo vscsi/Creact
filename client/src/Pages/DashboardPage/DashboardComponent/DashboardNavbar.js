@@ -25,7 +25,7 @@ function DashboardNavbar() {
         </div>
 
         <div className ={DashboardNavbarCss.userIcon}>
-          <MaterialUI.Avatar 
+          {/* <MaterialUI.Avatar 
             classes={{root: classes.root}}>
           <PermIdentityIcon color='action'/>
           </MaterialUI.Avatar>
@@ -39,7 +39,7 @@ function DashboardNavbar() {
             classes={{root: classes.root}}>
           <PermIdentityIcon color ='secondary'/>
           </MaterialUI.Avatar>
-          
+           */}
         </div>
        
       </nav>
