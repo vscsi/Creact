@@ -3,6 +3,8 @@ const knex = require("../../models/knex");
 
 const users = [];
 
+let existed = false
+
 
 const addUser=({id, name, room})=> {
     name=name.trim().toLowerCase();
@@ -10,14 +12,14 @@ const addUser=({id, name, room})=> {
 
                     //.find iterate throught users and find user base on condition
     const exitingUser = users.find(user=>user.room===room && user.name===name);
-
+    
     if (exitingUser) {
         console.log('if exiting user',exitingUser)
         let index = users.findIndex((user)=> user.name ===exitingUser.name && user.room===exitingUser.room)
         console.log ('indexOf exiting User', index)
         users.splice(index, 1); 
         console.log('exiting user spliceed')
-        // return {error: "Username is taken"};
+        existed = true
     }
 
     //user object consist of an object the consist of all info
@@ -25,7 +27,7 @@ const addUser=({id, name, room})=> {
 
     users.push(user);
    
-    return { user }
+    return { user, exist: existed }
 };
 
 

@@ -49,6 +49,7 @@ function DashboardContainer() {
           "x-access-token": localStorage.getItem("token"),
         },
       }).then(res => {
+        console.log('chatroominit', res)
         console.log('chatroom Id', res.data)
         setChatroomId(res.data)
       })
@@ -107,11 +108,11 @@ function DashboardContainer() {
     // console.log(`currworkspace url is below`);
     // console.log(result);
     const currWorkspace = result[1];
-   
+   console.log('currWorkspace value', currWorkspace)
+    chatroomInit(currWorkspace);
     setCurrentWorkspace(currWorkspace);
     //send post request to server and check if user is admin
     checkIfAdminUsers(currWorkspace);
-    chatroomInit(currWorkspace)
   };
 
   const getAllWorkspaces = () => {

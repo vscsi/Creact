@@ -33,7 +33,7 @@ function ChatroomContainer({location}) {
      
     })
 
-    
+    setTrigger(!trigger)
 
     setUserid(userid);
     
@@ -126,8 +126,7 @@ function ChatroomContainer({location}) {
   const sendMessage = (e) => {
     e.preventDefault();
     setTrigger(!trigger)
-    setTrigger(!trigger)
-    setTrigger(!trigger)
+    
     if (message) {
       socket.emit('sendMessage', {message:message, userId: my_userid, roomId: my_room}, ()=> setMessage(''))
       
