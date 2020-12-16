@@ -5,7 +5,8 @@ const getTasks = (cb) => {
   try {
     const currentWorkspace = getCurrentWorkspace();
     Axios.post(
-      "http://localhost:4000/tasks",
+      // "http://localhost:4000/tasks",
+      `${process.env.REACT_APP_API_SERVER}/tasks`,
       {
         workspaceName: currentWorkspace,
       },
