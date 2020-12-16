@@ -23,7 +23,6 @@ function RegisterContainer() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isUsernameRepeated, setIsUsernameRepeated] = useState(false);
-  
 
   //validating login
   const validateLogin=(values)=>{

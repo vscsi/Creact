@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { EditorState, convertToRaw }  from 'draft-js'
+import { EditorState }  from 'draft-js'
 // import draftToHtml from 'draftjs-to-html;
 import { Editor } from 'react-draft-wysiwyg'
 import './CollaborationNote.css'

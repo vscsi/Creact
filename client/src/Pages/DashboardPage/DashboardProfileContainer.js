@@ -6,10 +6,10 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
+  // Redirect,
 } from "react-router-dom";
 import DashboardNavbar from "./DashboardComponent/DashboardNavbar";
-import DashboardAddSocial from "./DashboardComponent/DashboardAddSocial";
+// import DashboardAddSocial from "./DashboardComponent/DashboardAddSocial";
 import DashboardCreateWorkspace from "./DashboardComponent/DashboardCreateWorkspace";
 import DashboardProfileHome from "./DashboardComponent/DashboardProfileHome.js";
 import DashboardFriendSidebar from "./DashboardComponent/DashboardFriendSidebar";
@@ -24,11 +24,12 @@ function DashboardProfileContainer() {
   const getUserWorkspaces = () => {
     try {
       Axios.get("http://localhost:4000/workspace/list", {
+      // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/list`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
       }).then((res) => {
-        console.log(`all workspaces`);
+        console.log(`all user workspaces`);
         console.log(res);
         // console.log(res.data.allWorkspaces);
         setUserWorkspaces(res.data.userWorkspaces);
@@ -41,10 +42,13 @@ function DashboardProfileContainer() {
   const getUserName = () => {
     try {
       Axios.get("http://localhost:4000/username", {
+      // Axios.get(`${process.env.REACT_APP_API_SERVER}/username`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
       }).then((res) => {
+        console.log(`res from /username`);
+        console.log(res.data.userName);
         setUserName(res.data.userName);
       });
     } catch (error) {
@@ -55,6 +59,7 @@ function DashboardProfileContainer() {
   const getAllWorkspaces = () => {
     try {
       Axios.get("http://localhost:4000/workspace/all", {
+      // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/all`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },

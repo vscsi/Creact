@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "./DashboardSearchWorkspace.module.css";
 import Axios from "axios";
 
@@ -7,6 +7,7 @@ const DashboardSearchWorkspace = (props) => {
     try {
       Axios.post(
         "http://localhost:4000/workspace/join",
+        // `${process.env.REACT_APP_API_SERVER}/workspace/join`,
         {
           workspaceName: workspaceName,
         },
@@ -36,6 +37,7 @@ const DashboardSearchWorkspace = (props) => {
                 <li value={index + 1}>
                   <p>{item.workspace_name}</p>
                   <p>Maximum User: {item.max_user}</p>
+                  <p>Current Users: {item.numOfUsers}</p>
                   <button
                     onClick={() => {
                       handleJoin(item.workspace_name);

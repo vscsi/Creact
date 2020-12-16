@@ -1,17 +1,33 @@
-import React, { useState } from "react";
+import React from "react";
 import * as MaterialUI from "@material-ui/core";
 import DashboardSidebarCss from "./DashboardSidebar.module.css";
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
+  // BrowserRouter as Router,
+  // Switch,
+  // Route,
   NavLink,
+<<<<<<< HEAD
+=======
+  // useHistory,
+>>>>>>> 1440eaab9975b2f440c3599cb3df1af9fb1d055c
 } from "react-router-dom";
 import Link from "@material-ui/core/Link";
 
 
 function DashboardSidebar(props) {
+<<<<<<< HEAD
 
+=======
+  //Check if active workspace
+  // const [active, setActive] = useState(true);
+  // function checkActive() {
+  //   if (active === true) {
+  //     return DashboardSidebarCss.workspaceIconActive;
+  //   }
+  // }
+
+  // const history = useHistory();
+>>>>>>> 1440eaab9975b2f440c3599cb3df1af9fb1d055c
 
   return (
     <>

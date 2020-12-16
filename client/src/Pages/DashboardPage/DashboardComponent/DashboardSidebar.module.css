@@ -43,6 +43,21 @@
   box-shadow: 0 3px 5px 2px rgba(175, 27, 63, 0.4);
 }
 
+.workspaceIconActive {
+  color: black;
+  font-size: 0.8rem;
+  background: yellow;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.5rem;
+  width: 6.5rem;
+  height: 3rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 3px 5px 2px rgba(175, 27, 63, 0.4);
+}
+
 .workspaceIcon:hover {
   text-decoration-line: none;
   border-radius: 50%;

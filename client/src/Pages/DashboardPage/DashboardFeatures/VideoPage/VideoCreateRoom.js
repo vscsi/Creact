@@ -68,7 +68,7 @@ function VideoCreateRoom({userName, currentWorkspace}) {
             console.log(password, 'this is password')
             console.log(room, 'this is room')
             const videoUrl = `meet.jit.si/${room}`
-            if (room&&password&&customRoomName) setCall(true);
+            if (customRoomName&&room&&password) setCall(true);
             const body = {room, userName, currentWorkspace, password, customRoomName, videoUrl} // put values into body object
             try{
                 console.log('sending video room info to server')
