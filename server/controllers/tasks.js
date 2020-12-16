@@ -52,8 +52,8 @@ exports.postTasks = async (req, res, next) => {
       // console.log(eachObj);
       allTasksInfo.push(eachObj);
     }
-    console.log(`allTasksInfo is below`);
-    console.log(allTasksInfo);
+    // console.log(`allTasksInfo is below`);
+    // console.log(allTasksInfo);
     res.json(allTasksInfo);
   } catch (error) {
     console.error(error.message);
