@@ -23,7 +23,7 @@ import DashboardSearchWorkspace from "./DashboardComponent/DashboardSearchWorksp
 import Axios from "axios";
 // import VideoConferenceRoom from "./DashboardFeatures/VideoPage/VideoConferenceRoom";
 // import VideoCreateRoom from "./DashboardFeatures/VideoPage/VideoCreateRoom";
-import VideoContainer from './DashboardFeatures/VideoPage/VideoContainer'
+import VideoContainer from "./DashboardFeatures/VideoPage/VideoContainer";
 
 function DashboardContainer() {
   const [userName, setUserName] = useState("");
@@ -31,6 +31,7 @@ function DashboardContainer() {
   const [currentWorkspace, setCurrentWorkspace] = useState("");
   const [isAdmin, setAdmin] = useState(false);
   const [users, setUsers] = useState([]);
+  const [firstEmptyUsers, setFirstEmptyUsers] = useState([]);
   const [allWorkspaces, setAllWorkspaces] = useState([]);
 
   const getUserWorkspaces = () => {
@@ -115,6 +116,7 @@ function DashboardContainer() {
         console.log(res);
         setAdmin(res.data.isAdmin);
         setUsers(res.data.allUsers);
+        setFirstEmptyUsers(res.data.firstEmptyUsers);
       });
       //2. check if that user is the workspace_admin, return the workspace_admin boolean
       //3. if yes, that user can have the right to assign task, and can see the create task UI
@@ -123,8 +125,6 @@ function DashboardContainer() {
       console.error(error.message);
     }
   };
-
-
 
   useEffect(() => {
     getUserWorkspaces();
@@ -188,6 +188,7 @@ function DashboardContainer() {
                     isAdmin={isAdmin}
                     users={users}
                     name={userName}
+                    firstEmptyUsers={firstEmptyUsers}
                   />
                 )}
               ></Route>
@@ -199,7 +200,10 @@ function DashboardContainer() {
                 path={`/workspace/:${currentWorkspace}/whiteboard`}
                 component={WhiteboardContainer}
               />
-              <VideoContainer currentWorkspace={currentWorkspace} userName={userName}/>
+              <VideoContainer
+                currentWorkspace={currentWorkspace}
+                userName={userName}
+              />
             </Switch>
           </Grid>
         </Router>

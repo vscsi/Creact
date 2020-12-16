@@ -77,7 +77,12 @@ const CollabTaskContainer = (props) => {
 
   return (
     <div className={styles.wrapper}>
-      {props.isAdmin && <CollabTaskBox users={props.users} />}
+      {props.isAdmin && (
+        <CollabTaskBox
+          users={props.users}
+          firstEmptyUsers={props.firstEmptyUsers}
+        />
+      )}
       <CollabTaskList
         tasks={currentTasks}
         handleDelete={handleDelete}
