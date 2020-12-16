@@ -14,7 +14,6 @@ import DropboxContainer from "./DashboardFeatures/DropboxPage/DropboxContainer";
 import CollabTaskContainer from "./DashboardFeatures/CollaborationTaskPage/CollabTaskContainer";
 import CalenderContainer from "./DashboardFeatures/CalenderPage/CalenderContainer";
 import WhiteboardContainer from "./DashboardFeatures/WhiteboardPage/WhiteboardContainer";
-// import VideoContainer from "./DashboardFeatures/VideoPage/VideoContainer";
 import DashboardAddSocial from "./DashboardComponent/DashboardAddSocial";
 import DashboardCreateWorkspace from "./DashboardComponent/DashboardCreateWorkspace";
 import DashboardProfileHome from "./DashboardComponent/DashboardProfileHome.js";
@@ -22,8 +21,9 @@ import DashboardFeatureSidebar from "./DashboardComponent/DashboardFeatureSideba
 import DashboardProfileSidebar from "./DashboardComponent/DashboardProfieSidebar";
 import DashboardSearchWorkspace from "./DashboardComponent/DashboardSearchWorkspace";
 import Axios from "axios";
-import VideoConferenceRoom from "./DashboardFeatures/VideoPage/VideoConferenceRoom";
-import VideoCreateRoom from "./DashboardFeatures/VideoPage/VideoCreateRoom";
+// import VideoConferenceRoom from "./DashboardFeatures/VideoPage/VideoConferenceRoom";
+// import VideoCreateRoom from "./DashboardFeatures/VideoPage/VideoCreateRoom";
+import VideoContainer from './DashboardFeatures/VideoPage/VideoContainer'
 
 function DashboardContainer() {
   const [userName, setUserName] = useState("");
@@ -119,6 +119,8 @@ function DashboardContainer() {
     }
   };
 
+
+
   useEffect(() => {
     getUserWorkspaces();
     getUserInfo();
@@ -190,11 +192,7 @@ function DashboardContainer() {
                 path={`/workspace/:${currentWorkspace}/whiteboard`}
                 component={WhiteboardContainer}
               />
-              <Route
-                    path={`/workspace/:${currentWorkspace}/video`}
-                    render={(props)=><VideoCreateRoom {...props} userName={userName} workspaces={workspaces} currentWorkspace={currentWorkspace}/>}
-                    exact
-                />
+              <VideoContainer currentWorkspace={currentWorkspace} userName={userName}/>
             </Switch>
           </Grid>
         </Router>

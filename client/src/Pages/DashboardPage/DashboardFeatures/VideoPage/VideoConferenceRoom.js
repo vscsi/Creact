@@ -1,165 +1,58 @@
-import React, { useEffect, useRef, useState } from "react";
-import io from "socket.io-client";
-import Peer from "simple-peer";
-import VideoConferenceRoomCss from './VideoConferenceRoom.module.css'
+import React, { useEffect, useState } from "react";
+import { Paper } from '@material-ui/core';
+import {
+    Link
+  } from "react-router-dom";
 
-const Video = (props) => {
-    console.log(props, 'props from videoconference room');
-    const ref = useRef();
+const VideoConferenceRoom = ({currentWorkspace, handleClick}) => {
+    const [currentVideoRoom, setCurrentVideoRoom] = useState([]);
 
-    useEffect(() => {
-        props.peer.on("stream", stream => {
-            ref.current.srcObject = stream;
-        })
-    }, []);
-
-    return (
-        <video className={VideoConferenceRoomCss.videoDiv} playsInline autoPlay ref={ref} />
-    );
-}
-
-
-const videoConstraints = {
-    height: window.innerHeight / 2,
-    width: window.innerWidth / 2
-};
-
-const VideoConferenceRoom = (props) => {
-    const [peers, setPeers] = useState([]);
-    const socketRef = useRef();
-    const userVideo = useRef();
-    //build a collection of peers
-    const peersRef = useRef([]);
-    const roomID = props.match.params.roomID;
-    const [checkHost, setCheckHost] = useState(false);
-
-    //render close room button
     useEffect(()=>{
-        async function checkHost(){
-            try{
-                const returnHost = await fetch(`http://localhost:4000/workspace/${props.currentWorkspace}/video/:videoRoomId`,{
-                    method:"GET",
-                    headers: {
-                        "Content-Type":"application/json",
-                        "x-access-token": localStorage.getItem("token")
-                    },
-                })
-                const response = await returnHost.json();
-                setCheckHost(response.checkHost);
-                console.log(checkHost);
-                console.log('from videoConferenceRoom',response)
-            }catch(e){
-                console.error(e.message);
-            }
-        }
-        checkHost();
-    },[])
-
-    const handleClick = (e) =>{
-        e.preventDefault();
-        async function deleteVideoRoom(){
-            try{
-                const deleteRoom =  await fetch(`http://localhost:4000/workspace/${currentWorkspace}/video/${videoRoomId}`,{
-                    method:"DELETE",
-                    headers: {
-                        "Content-Type":"application/json",
-                        "x-access-token": localStorage.getItem("token")
-                    },
-                })
-                const response = await deleteRoom.json();
-                console.log('from client/videoConferenceRoom deleteVideoRoom',response);
-            }catch(e){
-                console.error(e.message)
-            }
-        }
-        deleteVideoRoom();
-    };
-
-    //connect socket
-    useEffect(() => {
-        socketRef.current = io.connect("/");
-        navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true }).then(stream => {
-            //get our own stream so that we can see our own video
-            userVideo.current.srcObject = stream;
-            socketRef.current.emit("join room", roomID);
-            socketRef.current.on("all users", users => {
-                const peers = [];
-                users.forEach(userID => {
-                    //for each peer in array we use createPeer funtion to create peers
-                    const peer = createPeer(userID, socketRef.current.id, stream);
-                    peersRef.current.push({
-                        //userID other than us
-                        peerID: userID,
-                        //the peer object
-                        peer,
+        const getVideo = async()=>{
+            const body = {currentWorkspace};
+                try{
+                    const getVideoInfo = await fetch(`http://localhost:4000/workspace/${currentWorkspace}/video/rooms`,{
+                        method:"POST",
+                        headers: {
+                            "Content-Type":"application/json",
+                            "x-access-token": localStorage.getItem("token")
+                        },
+                        body: JSON.stringify(body)
                     })
-                    peers.push(peer);
-                })
-                setPeers(peers);
-            })
-
-            socketRef.current.on("user joined", payload => {
-                const peer = addPeer(payload.signal, payload.callerID, stream);
-                peersRef.current.push({
-                    peerID: payload.callerID,
-                    peer,
-                })
-
-                setPeers(users => [...users, peer]);
-            });
-
-            socketRef.current.on("receiving returned signal", payload => {
-                const item = peersRef.current.find(p => p.peerID === payload.id);
-                item.peer.signal(payload.signal);
-            });
-        })
-    }, []);
-
-    function createPeer(userToSignal, callerID, stream) {
-        const peer = new Peer({
-            initiator: true,
-            trickle: false,
-            stream,
-        });
-
-        peer.on("signal", signal => {
-            socketRef.current.emit("sending signal", { userToSignal, callerID, signal })
-        })
-
-        return peer;
-    }
-
-    function addPeer(incomingSignal, callerID, stream) {
-        const peer = new Peer({
-            initiator: false,
-            trickle: false,
-            stream,
-        })
-
-        peer.on("signal", signal => {
-            socketRef.current.emit("returning signal", { signal, callerID })
-        })
-
-        peer.signal(incomingSignal);
-
-        return peer;
-    }
-
-    return (
-        <div className={VideoConferenceRoomCss.containerDiv}>
-            <video className={VideoConferenceRoomCss.videoDiv} muted ref={userVideo} autoPlay playsInline />
-            {peers.map((peer, index) => {
-                return (
-                    <Video key={index} peer={peer} />
-                );
-            })}
-            {
-                checkHost?
-                <Button onClick={handleClick}>Close room</Button>:
-                ''
+                    const response = await getVideoInfo.json();
+                    //the ...response.videoRooms allows you to access each element in the array that is returned
+                    setCurrentVideoRoom([...response.videoRooms])
+                    // console.log(response.videoRooms); 
+                    // console.log(currentVideoRoom);
+                }catch(e){
+                    console.error(e.message);
+                }
             }
-        </div>
-    );
+        getVideo();
+    },[]);
+
+    const handleConferenceClick = (item)=>{
+        handleClick(item)
+    }
+
+    return(
+    <>
+         <h1>Join the video meetings!</h1>
+
+                        {currentVideoRoom.map((item) => (
+                            <Paper elevation={3}>
+                            <p>Room {item.id}</p>
+                            <p>Room name: {item.video_room_name}</p>
+                            <p>Room password(use this password to join the meeting!) : {item.video_room_pw}</p>
+                            <button  onClick={()=>handleConferenceClick({item})}>
+                                <Link to ={`/workspace/${currentWorkspace}/video/join`}>
+                                    Join meeting
+                                </Link>                                    
+                            </button>
+                            </Paper>
+                        ))}
+                            </>
+            )
 };
 
 export default VideoConferenceRoom;

@@ -42,7 +42,7 @@ function RegisterContainer() {
 
     if (!values.email) {
       errors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(values.email)) {
+    } else if (!/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(values.email)) {
       errors.email = "Email address is invalid";
     }
 
@@ -96,7 +96,7 @@ function RegisterContainer() {
             body: JSON.stringify(body)
           });
          const result = await response.json();
-         console.log(result.userNameRepeated);
+         console.log(result);
         if(result.isUsernameRepeated){
            setIsUsernameRepeated(true);
         }
@@ -105,6 +105,7 @@ function RegisterContainer() {
         }
       }
       postRegister();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     },[isSubmitted])
 
     return (
@@ -177,7 +178,8 @@ function RegisterContainer() {
 
             <Button 
             variant="outlined"
-            type="submit">
+            type="submit"
+            >
               Sign up
             </Button>
 

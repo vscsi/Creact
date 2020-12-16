@@ -4,6 +4,7 @@ exports.up = function(knex) {
       table.increments('id').primary();
       table.text('video_room_pw');
       table.text('video_room_name');
+      table.text('video_hashed_room_name');
       table.text('video_room_url');
   })
 };
