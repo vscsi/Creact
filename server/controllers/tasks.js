@@ -119,7 +119,17 @@ exports.postTask = async (req, res, next) => {
 
 exports.deleteTasks = async (req, res) => {
   try {
+    console.log(`delete from '/tasks/id`)
     const { id } = req.params;
+    //1. delete from task_workspace
+    const userId = req.userId;
+    console.log(`taskId = ${id}`);
+    console.log(`userId = ${userId}`);
+    const deleteTaskWorkspace = await knex('task_workspace').where({
+      task_id: id,
+      user_id: userId
+    }).del();
+    //2. delete from task
     const deleteTask = await knex("task").where("id", id).del();
     res.json("Task is deleted");
   } catch (error) {

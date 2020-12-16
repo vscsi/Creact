@@ -23,6 +23,7 @@ const CollabTaskBox = (props) => {
       console.log("Form is submtted");
       console.log(body);
       const response = await Axios.post("http://localhost:4000/task", body, {
+      // const response = await Axios.post(`${process.env.REACT_APP_API_SERVER}/task`, body, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -74,12 +75,15 @@ const CollabTaskBox = (props) => {
             <select
               name="task_user"
               id=""
-              onChange={(e) => setTaskUser(parseInt(e.target.value))}
+              onChange={(e) => {
+                console.log(e.target.value);
+                setTaskUser(parseInt(e.target.value))
+              }}
             >
               {props.users.map((item, index) => {
                 return (
                   //value should be user.id
-                  <option key={index} value={item.user_id}>
+                  <option key={item.user_id} value={item.user_id}>
                     {item.user_name}
                   </option>
                 );

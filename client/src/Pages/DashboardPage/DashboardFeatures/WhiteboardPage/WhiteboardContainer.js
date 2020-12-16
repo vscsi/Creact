@@ -1,6 +1,6 @@
 import React from 'react'
 
-function WhiteboardContainer() {
+function WhiteboardContainer(props) {
   return (
     <div>
       whiteboard container

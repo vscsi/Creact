@@ -5,7 +5,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  useParams,
+  // useParams,
 } from "react-router-dom";
 import DashboardNavbar from "./DashboardComponent/DashboardNavbar";
 import ChatroomContainer from "./DashboardFeatures/ChatroomPage/ChatroomContainer";
@@ -14,8 +14,6 @@ import DropboxContainer from "./DashboardFeatures/DropboxPage/DropboxContainer";
 import CollabTaskContainer from "./DashboardFeatures/CollaborationTaskPage/CollabTaskContainer";
 import CalenderContainer from "./DashboardFeatures/CalenderPage/CalenderContainer";
 import WhiteboardContainer from "./DashboardFeatures/WhiteboardPage/WhiteboardContainer";
-import VideoContainer from "./DashboardFeatures/VideoPage/VideoContainer";
-import VideoCreateRoom from "./DashboardFeatures/VideoPage/VideoCreateRoom";
 import DashboardAddSocial from "./DashboardComponent/DashboardAddSocial";
 import DashboardCreateWorkspace from "./DashboardComponent/DashboardCreateWorkspace";
 import DashboardProfileHome from "./DashboardComponent/DashboardProfileHome.js";
@@ -23,6 +21,9 @@ import DashboardFeatureSidebar from "./DashboardComponent/DashboardFeatureSideba
 import DashboardProfileSidebar from "./DashboardComponent/DashboardProfieSidebar";
 import DashboardSearchWorkspace from "./DashboardComponent/DashboardSearchWorkspace";
 import Axios from "axios";
+// import VideoConferenceRoom from "./DashboardFeatures/VideoPage/VideoConferenceRoom";
+// import VideoCreateRoom from "./DashboardFeatures/VideoPage/VideoCreateRoom";
+import VideoContainer from './DashboardFeatures/VideoPage/VideoContainer'
 
 function DashboardContainer() {
   const [userName, setUserName] = useState("");
@@ -64,6 +65,7 @@ function DashboardContainer() {
   const getUserWorkspaces = () => {
     try {
       Axios.get("http://localhost:4000/workspace/list", {
+        // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/list`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -81,6 +83,7 @@ function DashboardContainer() {
   const getUserInfo = () => {
     try {
       Axios.get("http://localhost:4000/username", {
+        // Axios.get(`${process.env.REACT_APP_API_SERVER}/username`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -98,6 +101,7 @@ function DashboardContainer() {
     const path = window.location.pathname;
     // console.log(`url is below`);
     // console.log(path);
+    // eslint-disable-next-line
     const regex = /\/workspace\/([^\/]+)/;
     const result = path.match(regex);
     // console.log(`currworkspace url is below`);
@@ -113,6 +117,7 @@ function DashboardContainer() {
   const getAllWorkspaces = () => {
     try {
       Axios.get("http://localhost:4000/workspace/all", {
+        // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/all`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -131,6 +136,7 @@ function DashboardContainer() {
       //1. send post request to server, query to "user_workspace" table
       Axios.post(
         "http://localhost:4000/workspace/check",
+        // `${process.env.REACT_APP_API_SERVER}/workspace/check`,
         {
           workspaceName: workspace,
         },
@@ -151,12 +157,14 @@ function DashboardContainer() {
     }
   };
 
+
+
   useEffect(() => {
     getUserWorkspaces();
     getUserInfo();
     getCurrentWorkspace();
     getAllWorkspaces();
-    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -212,6 +220,7 @@ function DashboardContainer() {
                     {...props}
                     isAdmin={isAdmin}
                     users={users}
+                    name={userName}
                   />
                 )}
               ></Route>
@@ -223,16 +232,7 @@ function DashboardContainer() {
                 path={`/workspace/:${currentWorkspace}/whiteboard`}
                 component={WhiteboardContainer}
               />
-              <Route
-                path={`/workspace/:${currentWorkspace}/video`}
-                exact
-                component={VideoCreateRoom}
-              />
-              <Route
-                path={`/workspace/:${currentWorkspace}/video/:roomId`}
-                exact
-                component={VideoContainer}
-              />
+              <VideoContainer currentWorkspace={currentWorkspace} userName={userName}/>
             </Switch>
           </Grid>
         </Router>

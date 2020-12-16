@@ -32,6 +32,8 @@ const registerRoutes = require("./routes/register");
 const loginRoutes = require("./routes/login");
 const workspaceRoutes = require("./routes/workspace");
 const userRoutes = require("./routes/user");
+const videoCreateRoomRoutes = require("./routes/videoCreateRoom");
+const videoShowRoomRoutes = require('./routes/videoShowRoom')
 
 //jwt
 // app.use(
@@ -44,12 +46,15 @@ const userRoutes = require("./routes/user");
 
 //global error handler
 app.use(errorHandler);
+
 //task
 app.use(taskRoutes);
 app.use(registerRoutes);
 app.use(loginRoutes);
 app.use(workspaceRoutes);
 app.use(userRoutes);
+app.use(videoCreateRoomRoutes);
+app.use(videoShowRoomRoutes);
 //api routes
 
 //Auth stuff
@@ -62,10 +67,14 @@ app.get("/isUserAuth", verifyJWT, (req, res) => {
     message: "Yo u are authenticated",
     userId: req.userId,
   });
+  // res.send("yo you are authenticated")
 });
 
+//docs
+// app.use(docsRoutes);
+
 //Video
-const videoIo = require("./controllers/video")(socketio);
+// const videoIo = require("./controllers/video")(socketio);
 //Chat
 const chatroom = require("./controllers/chatroom/chatroom")(chatio);
 

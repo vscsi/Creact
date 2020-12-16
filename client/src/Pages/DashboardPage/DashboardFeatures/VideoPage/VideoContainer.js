@@ -1,115 +1,51 @@
-import React, { useEffect, useRef, useState } from "react";
-import io from "socket.io-client";
-import Peer from "simple-peer";
-import VideoContainerCss from './VideoContainer.module.css'
+import {React, useState} from 'react'
+import {
+  Route,
+} from "react-router-dom";
+import VideoConferenceRoom from './VideoConferenceRoom';
+import VideoCreateRoom from './VideoCreateRoom';
+import VideoJoinRoom from './VideoJoinRoom';
 
-const Video = (props) => {
-    const ref = useRef();
+function VideoContainer({userName,currentWorkspace}) {
+  const [joinVideo, setJoinVideo] = useState(false)
+  const [joinRoomUrl, setJoinRoomUrl] = useState('');
+  const [joinRoomPw, setRoomPw] = useState('');
+  const [joinRoomName, setJoinRoomName] = useState('');
 
-    useEffect(() => {
-        props.peer.on("stream", stream => {
-            ref.current.srcObject = stream;
-        })
-    }, []);
+  function handleVideoJoinClick(item){
+    // console.log(item['video_room_url'], item['video_room_pw'], item[video_room_name], 'this is from handleVideoJoinClick')
+    console.log(item.item.video_room_url, 'this is from handleVideoJoinClick')
+    setJoinVideo(true)
+    // setTimeout(()=> console.log(joinVideo, 'this is value from VideoContainer after'), 
+    //   2000)
+    setJoinRoomUrl(item.item.video_room_url)
+    setRoomPw(item.item.video_room_pw)
+    setJoinRoomName(item.item.video_room_name)
+    console.log(joinVideo, joinRoomUrl,'this is joinVideo from VideoContainer');
+  }
 
-    return (
-        <video className={VideoContainerCss.videoDiv} playsInline autoPlay ref={ref} />
-    );
+  return joinVideo ?(
+    <>
+      <Route
+      path={`/workspace/${currentWorkspace}/video/rooms/join`}
+      render={(props)=><VideoJoinRoom {...props} userName={userName} currentWorkspace={currentWorkspace} url={joinRoomUrl} pw={joinRoomPw} roomName={joinRoomName}/>}  
+      exact
+      />
+      </>              
+  ):(
+    <>
+    <Route
+          path={`/workspace/:${currentWorkspace}/video`}
+          render={(props)=><VideoCreateRoom {...props} userName={userName} currentWorkspace={currentWorkspace}/>}
+          exact
+          />
+    <Route 
+          path={`/workspace/${currentWorkspace}/video/rooms`}
+          render={(props)=><VideoConferenceRoom handleClick ={handleVideoJoinClick} {...props} currentWorkspace={currentWorkspace}/>}  
+          exact
+          />
+  </>
+  )
 }
 
-
-const videoConstraints = {
-    height: window.innerHeight / 2,
-    width: window.innerWidth / 2
-};
-
-const VideoContainer = (props) => {
-    const [peers, setPeers] = useState([]);
-    const socketRef = useRef();
-    const userVideo = useRef();
-    //build a collection of peers
-    const peersRef = useRef([]);
-    const roomID = props.match.params.roomID;
-
-    useEffect(() => {
-        socketRef.current = io.connect("/");
-        navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true }).then(stream => {
-            //get our own stream so that we can see our own video
-            userVideo.current.srcObject = stream;
-            socketRef.current.emit("join room", roomID);
-            socketRef.current.on("all users", users => {
-                const peers = [];
-                users.forEach(userID => {
-                    //for each peer in array we use createPeer funtion to create peers
-                    const peer = createPeer(userID, socketRef.current.id, stream);
-                    peersRef.current.push({
-                        //userID other than us
-                        peerID: userID,
-                        //the peer object
-                        peer,
-                    })
-                    peers.push(peer);
-                })
-                setPeers(peers);
-            })
-
-            socketRef.current.on("user joined", payload => {
-                const peer = addPeer(payload.signal, payload.callerID, stream);
-                peersRef.current.push({
-                    peerID: payload.callerID,
-                    peer,
-                })
-
-                setPeers(users => [...users, peer]);
-            });
-
-            socketRef.current.on("receiving returned signal", payload => {
-                const item = peersRef.current.find(p => p.peerID === payload.id);
-                item.peer.signal(payload.signal);
-            });
-        })
-    }, []);
-
-    function createPeer(userToSignal, callerID, stream) {
-        const peer = new Peer({
-            initiator: true,
-            trickle: false,
-            stream,
-        });
-
-        peer.on("signal", signal => {
-            socketRef.current.emit("sending signal", { userToSignal, callerID, signal })
-        })
-
-        return peer;
-    }
-
-    function addPeer(incomingSignal, callerID, stream) {
-        const peer = new Peer({
-            initiator: false,
-            trickle: false,
-            stream,
-        })
-
-        peer.on("signal", signal => {
-            socketRef.current.emit("returning signal", { signal, callerID })
-        })
-
-        peer.signal(incomingSignal);
-
-        return peer;
-    }
-
-    return (
-        <div className={VideoContainerCss.containerDiv}>
-            <video className={VideoContainerCss.videoDiv} muted ref={userVideo} autoPlay playsInline />
-            {peers.map((peer, index) => {
-                return (
-                    <Video key={index} peer={peer} />
-                );
-            })}
-        </div>
-    );
-};
-
-export default VideoContainer;
+export default VideoContainer

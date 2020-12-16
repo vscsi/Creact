@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import * as MaterialUI from "@material-ui/core";
 import DashboardSidebarCss from "./DashboardSidebar.module.css";
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
+  // BrowserRouter as Router,
+  // Switch,
+  // Route,
   NavLink,
-  useHistory,
-  useParams,
+  // useHistory,
+  // useParams,
 } from "react-router-dom";
 
 const DashboardFeatureSidebar = (props) => {
-  const { name } = useParams();
+  
   console.log('dashboardfeaturessidebar props.chatroomId', props.chatroomId)
   return (
     <MaterialUI.Grid
