@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Jutsu, useJitsi } from 'react-jutsu';
 import {  Link } from 'react-router-dom';
+
     
 function VideoCreateRoom({userName, currentWorkspace}) {
     //room represents hashed room
@@ -65,7 +66,8 @@ function VideoCreateRoom({userName, currentWorkspace}) {
             const body = { userName, currentWorkspace, customRoomName} // put values into body object
             try{
                 console.log('sending video room info to server')
-                const sendVideo = await fetch(`http://localhost:4000/workspace/${currentWorkspace}/video`,{
+                // const sendVideo = await fetch(`http://localhost:4000/workspace/${currentWorkspace}/video`,{
+                const sendVideo = await fetch(`${process.env.REACT_APP_API_SERVER}/workspace/${currentWorkspace}/video`,{
                     method:"POST",
                     headers: {
                         "Content-Type":"application/json",

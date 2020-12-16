@@ -11,7 +11,7 @@ import {
 } from "react-router-dom";
 import Link from "@material-ui/core/Link";
 import DashboardSidebarEachWorkspace from "./DashboardSidebarEachWorkspace";
-import { getCurrentWorkspace } from "../../../services/getCurrentWorkspace";
+// import { getCurrentWorkspace } from "../../../services/getCurrentWorkspace";
 
 function DashboardProfileSidebar(props) {
   //Check if active workspace

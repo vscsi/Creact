@@ -2,6 +2,7 @@
   "name": "capstone",
   "homepage": "https://creact-app.com",
   "private": true,
+  "proxy": "https://creact-app.xyz",
   "dependencies": {
     "@fullcalendar/core": "^5.4.0",
     "@fullcalendar/daygrid": "^5.4.0",
