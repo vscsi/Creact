@@ -4,6 +4,8 @@ exports.up = function(knex) {
         table.increments('id').primary();
         table.boolean('chatroom_type').defaultTo('false').notNullable;
         table.integer('number_of_users');
+        table.integer('workspace_id').unsigned();
+        table.foreign('workspace_id').references('workspace.id');
     })
   };
   
