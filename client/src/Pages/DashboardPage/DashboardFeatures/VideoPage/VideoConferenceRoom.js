@@ -41,7 +41,6 @@ const VideoConferenceRoom = ({currentWorkspace, handleClick}) => {
     return(
     <>
          <h1>Join the video meetings!</h1>
-
                         {currentVideoRoom.map((item) => (
                             <Paper elevation={3}>
                             <p>Room {item.id}</p>

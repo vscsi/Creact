@@ -42,7 +42,12 @@ function VideoCreateRoom({userName, currentWorkspace}) {
 
             const _jitsi = new window.JitsiMeetExternalAPI("meet.jit.si", {
             parentNode: document.getElementById(jitsiContainerId),
-            
+            interfaceConfigOverwrite:{
+                disableKick: true
+            },
+            configOverwrite:{
+                disableKick: true
+            },
             });
 
             setJitsi(_jitsi)
@@ -99,15 +104,20 @@ function VideoCreateRoom({userName, currentWorkspace}) {
 
 
         return call ? (
+            <>
+            <h1>You are the host of this meeting.</h1>
+            <h2>password for participants to join this meeting: {password}</h2>
             <Jutsu
             roomName={room}
             displayName={userName}
             password={password}
-            onMeetingEnd={() => console.log('Meeting has ended')}
+            onMeetingEnd={() => console.log('Meeting has end')}
             loadingComponent={<p>loading ...</p>}
             errorComponent={<p>Oops, something went wrong</p>} 
-            containerStyles={{width: '100%', height: '80%', marginTop:'5%'}}
+            containerStyles={{width: '100%', height: '70%'}}
+            
             />
+            </>
                     
         ) : (
             <>

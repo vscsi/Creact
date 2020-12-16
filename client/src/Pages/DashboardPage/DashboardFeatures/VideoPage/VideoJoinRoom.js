@@ -59,6 +59,9 @@ function VideoJoinRoom({userName, currentWorkspace, url, pw, roomName}) {
             errorComponent={<p>Oops, something went wrong</p>} 
             containerStyles={{width: '100%', height: '80%', marginTop:'5%'}}
           />
+          // <>
+          // {/* <iframe allow="camera; microphone; fullscreen; display-capture" src="https://meet.jit.si/52d187e1-3f4c-11eb-bc02-97fbff81d7a0" style="height: 100%; width: 100%; border: 0px;"></iframe> */}
+          // </>
         )
 }
 
