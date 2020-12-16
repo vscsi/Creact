@@ -214,3 +214,23 @@ exports.postJoin = async (req, res) => {
     res.json("The user is already in this workspace");
   }
 };
+
+exports.chatroomInit = async (req, res) => {
+  const {workspaceName} = req.body;
+  
+  let result = await knex.select('id', 'max_user').where('workspace_name', workspaceName).from('workspace');
+    
+   let workspaceId = result[0].id;
+   let maxNum = result[0].max_user;
+   console.log('first step of chatroomIni', workspaceId)
+
+  //  let result2 = await knex('chatroom').insert({chatroom_type: true}).returning('id');
+    
+  //  let chatroomId = result2[0];
+  // console.log('chatrooomInit chatroom Id', chatroomId)
+  //  await knex('workspace_chatroom').insert({workspace_id: workspaceId, chatroom_id: chatroomId});
+
+
+
+   res.json(chatroomId);
+}

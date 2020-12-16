@@ -60,6 +60,7 @@ module.exports = function (io) {
                  getChatHistory(roomId, (data) => {
                      
                 io.to(roomId).emit('returnHistory', {rows: data})
+                console.log('chattHistory emmited')
                
             })
             }
@@ -77,7 +78,7 @@ module.exports = function (io) {
                 // io.to(user.room).emit('message', {userName: user.name, message: message, timestamp: readableTime, userImage: 'https://picsum.photos/200'})
                 
                 io.to(message.roomId).emit('eachMessage', user )
-            
+                console.log('eachMessage emitted')
             
             // getServerTime((time)=> {
             //     let readableTime = time.toLocaleString();

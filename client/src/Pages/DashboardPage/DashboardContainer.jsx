@@ -31,6 +31,35 @@ function DashboardContainer() {
   const [isAdmin, setAdmin] = useState(false);
   const [users, setUsers] = useState([]);
   const [allWorkspaces, setAllWorkspaces] = useState([]);
+  const [chatroomId, setChatroomId] = useState('');
+  const [userId, setUserId] = useState('')
+  
+
+
+  const chatroomInit = (workspace) => {
+    console.log('chatroomInit receive', workspace)
+    try {
+      Axios.post("http://localhost:4000/workspace/chatroominit", 
+      {
+        workspaceName: workspace,
+      },
+      {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      }).then(res => {
+        console.log('chatroom Id', res.data)
+        setChatroomId(res.data)
+      })
+    } catch (error) {
+
+    }
+  }
+
+  
+
+
+  
 
   const getUserWorkspaces = () => {
     try {
@@ -39,9 +68,9 @@ function DashboardContainer() {
           "x-access-token": localStorage.getItem("token"),
         },
       }).then((res) => {
-        console.log(`all workspaces`);
-        console.log(res);
-        // console.log(res.data.allWorkspaces);
+        // console.log(`all workspaces`);
+        // console.log(res);
+        console.log('this is userworkspaceSS', res.data.allWorkspaces);
         setUserWorkspaces(res.data.userWorkspaces);
       });
     } catch (error) {
@@ -56,6 +85,8 @@ function DashboardContainer() {
           "x-access-token": localStorage.getItem("token"),
         },
       }).then((res) => {
+        
+        setUserId(res.data.id)
         setUserName(res.data.userName);
       });
     } catch (error) {
@@ -72,9 +103,11 @@ function DashboardContainer() {
     // console.log(`currworkspace url is below`);
     // console.log(result);
     const currWorkspace = result[1];
+   
     setCurrentWorkspace(currWorkspace);
     //send post request to server and check if user is admin
     checkIfAdminUsers(currWorkspace);
+    chatroomInit(currWorkspace)
   };
 
   const getAllWorkspaces = () => {
@@ -84,8 +117,8 @@ function DashboardContainer() {
           "x-access-token": localStorage.getItem("token"),
         },
       }).then((res) => {
-        console.log(`res from workspace/all`);
-        console.log(res);
+        // console.log(`res from workspace/all`);
+        // console.log(res);
         setAllWorkspaces(res.data);
       });
     } catch (error) {
@@ -105,8 +138,8 @@ function DashboardContainer() {
           headers: { "x-access-token": localStorage.getItem("token") },
         }
       ).then((res) => {
-        console.log(`Getting post request in /workspace/check`);
-        console.log(res);
+        // console.log(`Getting post request in /workspace/check`);
+        // console.log(res);
         setAdmin(res.data.isAdmin);
         setUsers(res.data.allUsers);
       });
@@ -123,6 +156,7 @@ function DashboardContainer() {
     getUserInfo();
     getCurrentWorkspace();
     getAllWorkspaces();
+    
   }, []);
 
   return (
@@ -138,7 +172,7 @@ function DashboardContainer() {
             name={userName}
             workspaces={userWorkspaces}
           />
-          <DashboardFeatureSidebar currentWorkspace={currentWorkspace} />
+          <DashboardFeatureSidebar currentWorkspace={currentWorkspace} userId={userId} chatroomId={chatroomId}  />
           <Grid
             Container
             direction="row"

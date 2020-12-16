@@ -11,12 +11,13 @@ let socket;
 function ChatroomContainer({location}) {
   const ENDPOINT = 'localhost:4000';
   const [my_userid, setUserid] = useState('');
-  const [my_name, setName] = useState('');
+  // const [my_name, setName] = useState('');
   const [my_room, setRoom] = useState('');
   const [my_socketid, setSocketId] =useState('');
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const [roomUsers, setRoomUsers] = useState('');
+  const [trigger, setTrigger] = useState(true);
 
 
   useEffect(()=> {
@@ -74,14 +75,13 @@ function ChatroomContainer({location}) {
       socket.emit('chatHistory', my_room);
     }
    
-  }, [my_room])
+  }, [my_room, trigger])
     
   
 
 
   useEffect(()=> {
     socket.on('returnHistory', (data)=> {
-      
       
       const updatedmessages = data.rows.map(msg => {
         return {
@@ -97,17 +97,17 @@ function ChatroomContainer({location}) {
       updatedmessages.map( item => {
         return readydata.push(item)
       });
-      // console.log('readydata', readydata)
+      
       setMessages(readydata)
     })
     
-  }, [])
+  },[])
 
   useEffect(()=> {
     socket.on('eachMessage', (_)=>{
       socket.emit('chatHistory', my_room);
     })
-  }, [my_room])
+  }, [my_room, trigger])
 
 
   //get message
@@ -120,8 +120,14 @@ function ChatroomContainer({location}) {
     
   }, [messages])
 
+
+  
+
   const sendMessage = (e) => {
     e.preventDefault();
+    setTrigger(!trigger)
+    setTrigger(!trigger)
+    setTrigger(!trigger)
     if (message) {
       socket.emit('sendMessage', {message:message, userId: my_userid, roomId: my_room}, ()=> setMessage(''))
       

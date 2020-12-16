@@ -18,4 +18,6 @@ router.get("/workspace/all", verifyJWT, workspaceController.getAllWorkspaces);
 
 router.post("/workspace/join", verifyJWT, workspaceController.postJoin);
 
+router.post("/workspace/chatroominit", verifyJWT, workspaceController.chatroomInit);
+
 module.exports = router;
