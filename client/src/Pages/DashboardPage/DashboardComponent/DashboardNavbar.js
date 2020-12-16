@@ -1,20 +1,20 @@
 import React from 'react'
-import * as MaterialUI from '@material-ui/core';
-import PermIdentityIcon from '@material-ui/icons/PermIdentity';
+// import * as MaterialUI from '@material-ui/core';
+// import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import DashboardNavbarCss from './DashboardNavbar.module.css'
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
 // import Paper from '@material-ui/core/Paper';
 
 function DashboardNavbar() {
   //overriding Avatar root class
-  const styles =makeStyles(
-    {
-      root: {
-        margin:'0.5rem'
-      }
-    }
-  );
-  const classes = styles();
+  // const styles =makeStyles(
+  //   {
+  //     root: {
+  //       margin:'0.5rem'
+  //     }
+  //   }
+  // );
+  // const classes = styles();
   /////
   return (
     <>

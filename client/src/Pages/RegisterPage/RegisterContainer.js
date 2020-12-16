@@ -1,13 +1,10 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import RegisterCss from './Register.module.css'
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { FormHelperText} from '@material-ui/core';
 import {
-  Link as RouterLink,
-  Route,
-  BrowserRouter as Router,
   Redirect
 } from "react-router-dom";
 
@@ -41,6 +38,7 @@ function RegisterContainer() {
 
     if (!values.email) {
       errors.email = "Email is required";
+    // eslint-disable-next-line 
     } else if (!/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(values.email)) {
       errors.email = "Email address is invalid";
     }
@@ -76,17 +74,19 @@ function RegisterContainer() {
     setIsSubmitting(true);
   }
 
-    //if there is no errors, go ahead to submit
-    useEffect(() => {
-      if (Object.keys(errors).length === 0 && isSubmitting) {
-        setIsSubmitted(true);
-      }
-    }, [errors]);
+  //if there is no errors, go ahead to submit
+  useEffect(() => {
+    if (Object.keys(errors).length === 0 && isSubmitting) {
+      setIsSubmitted(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [errors]);
 
     useEffect(()=>{
       const {username, firstname, lastname, email,password} =values;
       const body = {username, firstname, lastname, email, password};
-      const url = "http://localhost:4000/register";
+      // const url = "http://localhost:4000/register";
+      const url = `${process.env.REACT_APP_API_SERVER}/register`;
       async function postRegister(){
         try{
           const response = await fetch(url,{

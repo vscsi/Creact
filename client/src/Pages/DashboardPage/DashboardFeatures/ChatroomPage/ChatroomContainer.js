@@ -9,7 +9,8 @@ import "./Chat.css";
 let socket;
 
 function ChatroomContainer({location}) {
-  const ENDPOINT = 'localhost:4000';
+  // const ENDPOINT = 'localhost:4000';
+  const ENDPOINT = process.env.REACT_APP_API_SERVER;
   const [my_userid, setUserid] = useState('');
   // const [my_name, setName] = useState('');
   const [my_room, setRoom] = useState('');
@@ -48,7 +49,7 @@ function ChatroomContainer({location}) {
       socket.off();
   }
 
-
+// eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ENDPOINT, location.search]);
 
   useEffect(()=> {
@@ -100,7 +101,7 @@ function ChatroomContainer({location}) {
       
       setMessages(readydata)
     })
-    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
   useEffect(()=> {
