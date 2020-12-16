@@ -1,5 +1,4 @@
 import {React, useState, useEffect} from 'react'
-import { Jutsu } from 'react-jutsu';
 
 function VideoJoinRoom({userName, currentWorkspace, url, pw, roomName}) {
         const [jitsi, setJitsi] = useState({});
@@ -47,21 +46,19 @@ function VideoJoinRoom({userName, currentWorkspace, url, pw, roomName}) {
             initialiseJitsi();
             return () => jitsi?.dispose?.();
             // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, []);
+          }, []);
+
+          const iframeAllow = "camera; microphone; fullscreen; display-capture";
 
         return (
-          <Jutsu
-            roomName={roomName}
-            password={pw}
-            displayName={userName}
-            onMeetingEnd={() => console.log('Meeting has ended')}
-            loadingComponent={<p>loading ...</p>}
-            errorComponent={<p>Oops, something went wrong</p>} 
-            containerStyles={{width: '100%', height: '80%', marginTop:'5%'}}
-          />
-          // <>
-          // {/* <iframe allow="camera; microphone; fullscreen; display-capture" src="https://meet.jit.si/52d187e1-3f4c-11eb-bc02-97fbff81d7a0" style="height: 100%; width: 100%; border: 0px;"></iframe> */}
-          // </>
+          <>
+          <h1>Video Join room</h1>
+          <h2>You are in room: {roomName}</h2>
+          <h2>You are the participant of the room.</h2>
+          <iframe allow={iframeAllow} 
+          src={url}
+          style={{height: "70%", width: "70%", marginLeft:"10%"}}></iframe>
+          </>
         )
 }
 
