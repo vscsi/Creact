@@ -134,17 +134,10 @@ exports.getAllWorkspaces = async (req, res) => {
         workspace_id: workspaceId,
       });
       const numOfUsers = returnUserWorkspace.length;
-<<<<<<< HEAD
       const eachObj = {...workspace, numOfUsers};
       // console.log(`numOfUsers = ${numOfUsers}`);
       // console.log(`workspace is below`);
       // console.log(workspace);
-=======
-      const eachObj = { ...workspace, numOfUsers };
-      console.log(`numOfUsers = ${numOfUsers}`);
-      console.log(`workspace is below`);
-      console.log(workspace);
->>>>>>> ef35368b94fbe75fa79d970e162552d5c9f23964
       allWorkspaces.push(eachObj);
     }
     // console.log(`allWorkspaces is below`);
@@ -204,17 +197,12 @@ exports.postCheck = async (req, res) => {
         user_id: userId,
       });
     }
-<<<<<<< HEAD
-    // console.log(allUsers);
-    res.json({ isAdmin: isAdmin, allUsers: allUsers });
-=======
     console.log(allUsers);
     res.json({
       isAdmin: isAdmin,
       allUsers: allUsers,
       firstEmptyUsers: firstEmptyUsers,
     });
->>>>>>> ef35368b94fbe75fa79d970e162552d5c9f23964
   } catch (error) {
     console.error(error.message);
   }
