@@ -127,14 +127,14 @@ exports.getAllWorkspaces = async (req, res) => {
     );
     const allWorkspaces = [];
     //1. for each workspace name, check how many users inside the workspace
-    for(let workspace of returnAllWorkspaces){
+    for (let workspace of returnAllWorkspaces) {
       //3. base on that workspace id, find the length of user_workspace
       const workspaceId = workspace.id;
       const returnUserWorkspace = await knex("user_workspace").where({
-        workspace_id: workspaceId
-      })
+        workspace_id: workspaceId,
+      });
       const numOfUsers = returnUserWorkspace.length;
-      const eachObj = {...workspace, numOfUsers};
+      const eachObj = { ...workspace, numOfUsers };
       console.log(`numOfUsers = ${numOfUsers}`);
       console.log(`workspace is below`);
       console.log(workspace);
@@ -180,6 +180,7 @@ exports.postCheck = async (req, res) => {
     // console.log("Checking number of users in workspace from db");
     // console.log(returnNumWorkspace);
     let allUsers = [];
+    let firstEmptyUsers = [{ user_name: "Please select user", user_id: 0 }];
     for (let user of returnNumWorkspace) {
       let userId = user.user_id;
       let eachUserInfo = await knex("users").where({
@@ -191,9 +192,17 @@ exports.postCheck = async (req, res) => {
       });
       // console.log("Each user info");
       // console.log(eachUserInfo);
+      firstEmptyUsers.push({
+        user_name: eachUserInfo[0].username,
+        user_id: userId,
+      });
     }
     console.log(allUsers);
-    res.json({ isAdmin: isAdmin, allUsers: allUsers });
+    res.json({
+      isAdmin: isAdmin,
+      allUsers: allUsers,
+      firstEmptyUsers: firstEmptyUsers,
+    });
   } catch (error) {
     console.error(error.message);
   }
@@ -240,4 +249,3 @@ exports.postJoin = async (req, res) => {
     res.json("The user is already in this workspace");
   }
 };
-
