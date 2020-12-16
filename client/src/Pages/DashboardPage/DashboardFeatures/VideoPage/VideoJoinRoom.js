@@ -51,6 +51,8 @@ function VideoJoinRoom({userName, currentWorkspace, url, pw, roomName}) {
 
           const iframeAllow = "camera; microphone; fullscreen; display-capture";
 
+          
+
         return (
           <>
           <h1>Video Join room</h1>
