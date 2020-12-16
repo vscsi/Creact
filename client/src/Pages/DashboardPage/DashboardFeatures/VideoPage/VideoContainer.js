@@ -24,16 +24,13 @@ function VideoContainer({userName,currentWorkspace}) {
     console.log(joinVideo, joinRoomUrl,'this is joinVideo from VideoContainer');
   }
 
-  return joinVideo ?(
+  return (
     <>
       <Route
       path={`/workspace/${currentWorkspace}/video/rooms/join`}
       render={(props)=><VideoJoinRoom {...props} userName={userName} currentWorkspace={currentWorkspace} url={joinRoomUrl} pw={joinRoomPw} roomName={joinRoomName}/>}  
       exact
       />
-      </>              
-  ):(
-    <>
     <Route
           path={`/workspace/:${currentWorkspace}/video`}
           render={(props)=><VideoCreateRoom {...props} userName={userName} currentWorkspace={currentWorkspace}/>}
@@ -46,6 +43,7 @@ function VideoContainer({userName,currentWorkspace}) {
           />
   </>
   )
+ 
 }
 
 export default VideoContainer
