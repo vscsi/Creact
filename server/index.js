@@ -29,6 +29,8 @@ const registerRoutes = require("./routes/register");
 const loginRoutes = require("./routes/login");
 const workspaceRoutes = require("./routes/workspace");
 const userRoutes = require("./routes/user");
+const videoCreateRoomRoutes = require("./routes/videoCreateRoom");
+const videoShowRoomRoutes = require('./routes/videoShowRoom')
 
 //jwt
 // app.use(
@@ -47,6 +49,8 @@ app.use(registerRoutes);
 app.use(loginRoutes);
 app.use(workspaceRoutes);
 app.use(userRoutes);
+app.use(videoCreateRoomRoutes);
+app.use(videoShowRoomRoutes);
 //api routes
 
 //Auth stuff
@@ -63,7 +67,7 @@ app.get("/isUserAuth", verifyJWT, (req, res) => {
 });
 
 //Video
-const videoIo = require("./controllers/video")(socketio);
+// const videoIo = require("./controllers/videoSocket")(socketio);
 
 server.listen(4000, () => {
   console.log("Creact server, Listening to port 4000");
