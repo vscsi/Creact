@@ -192,7 +192,7 @@ function DashboardContainer() {
             <DashboardNavbar />
             <Switch>
               {/* for profile route */}
-              <Route exact path="/profile" component={DashboardProfileHome} />
+              <Route path="/profile" component={DashboardProfileHome} />
               {/* <Route path="/profile/find" component={DashboardAddSocial} /> */}
               <Route
                 path="/profile/create"
@@ -203,7 +203,7 @@ function DashboardContainer() {
               </Route>
               {/* for workspace route */}
               <Route
-                path={`/workspace/:${currentWorkspace}/chat`}
+                 exact path={`/workspace/:${currentWorkspace}/chat`}
                 component={ChatroomContainer}
               />
               <Route

@@ -44,6 +44,7 @@ function ChatroomContainer({location}) {
     socket.emit('join', {userid, room})
 
     return () => {
+      console.log('...unmounting')
       socket.emit('disconnect', {socket_id: my_socketid});
       
       socket.off();
