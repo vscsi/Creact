@@ -25,8 +25,9 @@ const VideoConferenceRoom = ({currentWorkspace, handleClick}) => {
                     const response = await getVideoInfo.json();
                     //the ...response.videoRooms allows you to access each element in the array that is returned
                     setCurrentVideoRoom([...response.videoRooms])
-                    // console.log(response.videoRooms); 
+                    console.log(response.videoRooms.video_room_pw); 
                     // console.log(currentVideoRoom);
+                    
                 }catch(e){
                     console.error(e.message);
                 }
@@ -41,18 +42,17 @@ const VideoConferenceRoom = ({currentWorkspace, handleClick}) => {
 
     return(
     <>
-         <h1>Join the video meetings!</h1>
+         <h1>Join the video meetings happening in this workspace!</h1>
                         {currentVideoRoom.map((item) => (
                             <Paper elevation={3}>
                             <p>Room {item.id}</p>
                             <p>Room name: {item.video_room_name}</p>
                             <p>Room password(use this password to join the meeting!) : {item.video_room_pw}</p>
+                            <p>Room url: {item.video_room_url}</p>
                             <button  onClick={()=>handleConferenceClick({item})}>
                                 <Link to ={`/workspace/${currentWorkspace}/video/rooms/join`}>
-                                {/* <Link href="www.google.com" target="_blank">  */}
                                     Join meeting
                                 </Link>
-                                {/* </Link>                                     */}
                             </button>
                             </Paper>
                         ))}

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Jutsu } from 'react-jutsu';
-import { Link } from 'react-router-dom';
-import { v1 as uuid } from "uuid";
-// import VideoConferenceRoom from './VideoConferenceRoom';
+import { Jutsu, useJitsi } from 'react-jutsu';
+import {  Link } from 'react-router-dom';
+
     
 function VideoCreateRoom({userName, currentWorkspace}) {
     //room represents hashed room
@@ -10,8 +9,9 @@ function VideoCreateRoom({userName, currentWorkspace}) {
         const [customRoomName, setCustomRoomName] = useState('')
         const [password, setPassword] = useState('')
         const [call, setCall] = useState(false)
-        const [jitsi, setJitsi] = useState({});
+        const [jitsiInit, setJitsiInit] = useState({});
         // const [hostEndMeeting, setHostEndMeeting] = useState(false);
+        // const grabParticipantIdArr = [];
 
         //Jitsi config
         //create a container for jitsi
@@ -39,42 +39,32 @@ function VideoCreateRoom({userName, currentWorkspace}) {
             if (!window.JitsiMeetExternalAPI) {
             await loadJitsiScript();
             }
-
-            const _jitsi = new window.JitsiMeetExternalAPI("meet.jit.si", {
-            parentNode: document.getElementById(jitsiContainerId),
-            interfaceConfigOverwrite:{
-                disableKick: true
-            },
-            configOverwrite:{
-                disableKick: true
-            },
-            });
-
-            setJitsi(_jitsi)
+        // eslint-disable-next-line
+            const myOverwrite ={
+                 remoteVideoMenu: {
+                        // If set to true the 'Kick out' button will be disabled.
+                        disableKick: true
+                    },
+            }
+            const options = {
+                parentNode: document.getElementById(jitsiContainerId),
+                // configOverwrite: myOverwrite
+            }
+            const _jitsi = new window.JitsiMeetExternalAPI("meet.jit.si", options); 
+            setJitsiInit(_jitsi)
         };
 
         useEffect(() => {
             initialiseJitsi();
-            return () => jitsi?.dispose?.();
+            return () => jitsiInit?.dispose?.();
             // eslint-disable-next-line react-hooks/exhaustive-deps
         }, []);
 
         //events handling
-
-
         const handleClick = async(event) =>{
-            const generatePassword = uuid();
-            const generateRoom = uuid();
             event.preventDefault();
-            setPassword(generatePassword);
-            setRoom(generateRoom);
-            // console.log(generatePassword, 'this is generatePassword')
-            // console.log(generateRoom, 'this is generatewRoom')
-            console.log(password, 'this is password')
-            console.log(room, 'this is room')
-            const videoUrl = `https://meet.jit.si/${room}`
-            if (customRoomName&&room&&password) setCall(true);
-            const body = {room, userName, currentWorkspace, password, customRoomName, videoUrl} // put values into body object
+            console.log(jitsiInit, 'this is jitsiInit');
+            const body = { userName, currentWorkspace, customRoomName} // put values into body object
             try{
                 console.log('sending video room info to server')
                 const sendVideo = await fetch(`http://localhost:4000/workspace/${currentWorkspace}/video`,{
@@ -87,13 +77,15 @@ function VideoCreateRoom({userName, currentWorkspace}) {
                     body: JSON.stringify(body)
                 })
                 const response = await sendVideo.json();
-                console.log(response);
+                setRoom(response.room);
+                setPassword(response.password);
+                if (customRoomName) setCall(true);
+                console.log(response.room, response.password, 'this is password and room');
             }catch(e){
                 console.error(e.message);
             }
         }
 
-            //a useEffect here
             //making meeting end when host leaves:
             /**
              //get id of all participants and put into array
@@ -102,25 +94,48 @@ function VideoCreateRoom({userName, currentWorkspace}) {
             //if is moderator, set State in onMeetingEnd() and trigger kickParticipant and loop through the id
             * 
             */
+        const jitsiConfig = {
+            configOverwrite:
+            {
+                remoteVideoMenu:
+                {
+                    disableKick: true,
+                },
+            },
+            
+        }
+        const { loading,  jitsi } = useJitsi(jitsiConfig);
+        console.log(loading,  jitsi, 'console log for reactJS warning');
 
+        // const grabParticipantsId = () =>{
+        //     const participants = jitsiInit.addEventListener('participantJoined', function(values){
+        //         grabParticipantIdArr.push(values);
+        //         console.log(grabParticipantIdArr, 'this is grabParticipantIdArr ');
+        //     })
+        // }
+        
+        // useEffect(()=>{
+        //     console.log(jitsiInit)
+        //     grabParticipantsId();
+        // }, [jitsiInit])
 
-        return call ? (
+        return call ? ( 
             <>
             <h1>You are the host of this meeting.</h1>
-            <h2>password for participants to join this meeting: {password}</h2>
-            {/* <div id={jitsiContainerId} >
-
-            </div> */}
+            {/* <h2>password for participants to join this meeting: </h2> */}
             <Jutsu
-            id={jitsiContainerId}
             roomName={room}
             displayName={userName}
             password={password}
-            onMeetingEnd={() => console.log('Meeting has end')}
+            onMeetingEnd={
+                () => {
+                    console.log('Meeting has end')
+                }
+            }
             loadingComponent={<p>loading ...</p>}
             errorComponent={<p>Oops, something went wrong</p>} 
             containerStyles={{width: '100%', height: '70%'}}
-            
+            configOverwrite= {jitsiConfig.configOverwrite}
             />
             </>
                     

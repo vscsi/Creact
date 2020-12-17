@@ -35,9 +35,9 @@ function RegisterContainer() {
     if(!values.lastname){
       errors.lastname = "lastname is required"
     }
-
     if (!values.email) {
       errors.email = "Email is required";
+
     // eslint-disable-next-line 
     } else if (!/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(values.email)) {
       errors.email = "Email address is invalid";
@@ -54,7 +54,7 @@ function RegisterContainer() {
 
 
 
-  //handling  changes
+  //handling changes
   const handleChange=(event)=>{
     const{name,value}=event.target;
     console.log(isUsernameRepeated)
@@ -74,6 +74,7 @@ function RegisterContainer() {
     setIsSubmitting(true);
   }
 
+
   //if there is no errors, go ahead to submit
   useEffect(() => {
     if (Object.keys(errors).length === 0 && isSubmitting) {
@@ -81,6 +82,7 @@ function RegisterContainer() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors]);
+
 
     useEffect(()=>{
       const {username, firstname, lastname, email,password} =values;
