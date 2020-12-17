@@ -14,7 +14,7 @@ import DropboxContainer from "./DashboardFeatures/DropboxPage/DropboxContainer";
 import CollabTaskContainer from "./DashboardFeatures/CollaborationTaskPage/CollabTaskContainer";
 import CalenderContainer from "./DashboardFeatures/CalenderPage/CalenderContainer";
 import WhiteboardContainer from "./DashboardFeatures/WhiteboardPage/WhiteboardContainer";
-import DashboardAddSocial from "./DashboardComponent/DashboardAddSocial";
+// import DashboardAddSocial from "./DashboardComponent/DashboardAddSocial";
 import DashboardCreateWorkspace from "./DashboardComponent/DashboardCreateWorkspace";
 import DashboardProfileHome from "./DashboardComponent/DashboardProfileHome.js";
 import DashboardFeatureSidebar from "./DashboardComponent/DashboardFeatureSidebar";
@@ -23,7 +23,7 @@ import DashboardSearchWorkspace from "./DashboardComponent/DashboardSearchWorksp
 import Axios from "axios";
 // import VideoConferenceRoom from "./DashboardFeatures/VideoPage/VideoConferenceRoom";
 // import VideoCreateRoom from "./DashboardFeatures/VideoPage/VideoCreateRoom";
-import VideoContainer from './DashboardFeatures/VideoPage/VideoContainer'
+import VideoContainer from "./DashboardFeatures/VideoPage/VideoContainer";
 
 function DashboardContainer() {
   const [userName, setUserName] = useState("");
@@ -31,7 +31,39 @@ function DashboardContainer() {
   const [currentWorkspace, setCurrentWorkspace] = useState("");
   const [isAdmin, setAdmin] = useState(false);
   const [users, setUsers] = useState([]);
+  const [firstEmptyUsers, setFirstEmptyUsers] = useState([]);
   const [allWorkspaces, setAllWorkspaces] = useState([]);
+  const [chatroomId, setChatroomId] = useState('');
+  const [userId, setUserId] = useState('')
+  
+
+
+  const chatroomInit = (workspace) => {
+    console.log('chatroomInit receive', workspace)
+    try {
+      Axios.post("http://localhost:4000/workspace/chatroominit", 
+      // Axios.post(`${process.env.REACT_APP_API_SERVER}/workspace/chatroominit`, 
+      {
+        workspaceName: workspace,
+      },
+      {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      }).then(res => {
+        console.log('chatroominit', res)
+        console.log('chatroom Id', res.data)
+        setChatroomId(res.data)
+      })
+    } catch (error) {
+
+    }
+  }
+
+  
+
+
+  
 
   const getUserWorkspaces = () => {
     try {
@@ -41,9 +73,9 @@ function DashboardContainer() {
           "x-access-token": localStorage.getItem("token"),
         },
       }).then((res) => {
-        console.log(`all workspaces`);
-        console.log(res);
-        // console.log(res.data.allWorkspaces);
+        // console.log(`all workspaces`);
+        // console.log(res);
+        console.log('this is userworkspaceSS', res.data.allWorkspaces);
         setUserWorkspaces(res.data.userWorkspaces);
       });
     } catch (error) {
@@ -59,6 +91,8 @@ function DashboardContainer() {
           "x-access-token": localStorage.getItem("token"),
         },
       }).then((res) => {
+        
+        setUserId(res.data.id)
         setUserName(res.data.userName);
       });
     } catch (error) {
@@ -76,6 +110,8 @@ function DashboardContainer() {
     // console.log(`currworkspace url is below`);
     // console.log(result);
     const currWorkspace = result[1];
+   console.log('currWorkspace value', currWorkspace)
+    chatroomInit(currWorkspace);
     setCurrentWorkspace(currWorkspace);
     //send post request to server and check if user is admin
     checkIfAdminUsers(currWorkspace);
@@ -89,8 +125,8 @@ function DashboardContainer() {
           "x-access-token": localStorage.getItem("token"),
         },
       }).then((res) => {
-        console.log(`res from workspace/all`);
-        console.log(res);
+        // console.log(`res from workspace/all`);
+        // console.log(res);
         setAllWorkspaces(res.data);
       });
     } catch (error) {
@@ -111,10 +147,11 @@ function DashboardContainer() {
           headers: { "x-access-token": localStorage.getItem("token") },
         }
       ).then((res) => {
-        console.log(`Getting post request in /workspace/check`);
-        console.log(res);
+        // console.log(`Getting post request in /workspace/check`);
+        // console.log(res);
         setAdmin(res.data.isAdmin);
         setUsers(res.data.allUsers);
+        setFirstEmptyUsers(res.data.firstEmptyUsers);
       });
       //2. check if that user is the workspace_admin, return the workspace_admin boolean
       //3. if yes, that user can have the right to assign task, and can see the create task UI
@@ -123,8 +160,6 @@ function DashboardContainer() {
       console.error(error.message);
     }
   };
-
-
 
   useEffect(() => {
     getUserWorkspaces();
@@ -147,7 +182,7 @@ function DashboardContainer() {
             name={userName}
             workspaces={userWorkspaces}
           />
-          <DashboardFeatureSidebar currentWorkspace={currentWorkspace} />
+          <DashboardFeatureSidebar currentWorkspace={currentWorkspace} userId={userId} chatroomId={chatroomId}  />
           <Grid
             Container
             direction="row"
@@ -188,6 +223,7 @@ function DashboardContainer() {
                     isAdmin={isAdmin}
                     users={users}
                     name={userName}
+                    firstEmptyUsers={firstEmptyUsers}
                   />
                 )}
               ></Route>
@@ -199,7 +235,10 @@ function DashboardContainer() {
                 path={`/workspace/:${currentWorkspace}/whiteboard`}
                 component={WhiteboardContainer}
               />
-              <VideoContainer currentWorkspace={currentWorkspace} userName={userName}/>
+              <VideoContainer
+                currentWorkspace={currentWorkspace}
+                userName={userName}
+              />
             </Switch>
           </Grid>
         </Router>

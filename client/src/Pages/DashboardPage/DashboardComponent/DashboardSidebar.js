@@ -6,18 +6,12 @@ import {
   // Switch,
   // Route,
   NavLink,
-<<<<<<< HEAD
-=======
   // useHistory,
->>>>>>> 1440eaab9975b2f440c3599cb3df1af9fb1d055c
 } from "react-router-dom";
 import Link from "@material-ui/core/Link";
 
 
 function DashboardSidebar(props) {
-<<<<<<< HEAD
-
-=======
   //Check if active workspace
   // const [active, setActive] = useState(true);
   // function checkActive() {
@@ -27,7 +21,6 @@ function DashboardSidebar(props) {
   // }
 
   // const history = useHistory();
->>>>>>> 1440eaab9975b2f440c3599cb3df1af9fb1d055c
 
   return (
     <>
@@ -90,7 +83,7 @@ function DashboardSidebar(props) {
         className={`${DashboardSidebarCss.sideBarBorder} ${DashboardSidebarCss.sidebar2Background}`}
       >
         <NavLink
-          to="/workspace/chat"
+          to={`/workspace/chat?userid=3&room=1`}
           className={DashboardSidebarCss.featureIconLink}
         >
           <MaterialUI.Tooltip title="Chatroom" placement="right-end">

@@ -58,6 +58,7 @@ const CollabTaskContainer = (props) => {
   const handleDelete = async (id) => {
     try {
       Axios.delete(`http://localhost:4000/tasks/${id}`, {
+      // Axios.delete(`${process.env.REACT_APP_API_SERVER}/tasks/${id}`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -77,7 +78,12 @@ const CollabTaskContainer = (props) => {
 
   return (
     <div className={styles.wrapper}>
-      {props.isAdmin && <CollabTaskBox users={props.users} />}
+      {props.isAdmin && (
+        <CollabTaskBox
+          users={props.users}
+          firstEmptyUsers={props.firstEmptyUsers}
+        />
+      )}
       <CollabTaskList
         tasks={currentTasks}
         handleDelete={handleDelete}

@@ -1,6 +1,6 @@
 import {React, useState, useEffect} from 'react'
-import { Jutsu } from 'react-jutsu';
 
+// eslint-disable-next-line 
 function VideoJoinRoom({userName, currentWorkspace, url, pw, roomName}) {
         const [jitsi, setJitsi] = useState({});
 
@@ -47,18 +47,22 @@ function VideoJoinRoom({userName, currentWorkspace, url, pw, roomName}) {
             initialiseJitsi();
             return () => jitsi?.dispose?.();
             // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, []);
+          }, []);
+
+          const iframeAllow = "camera; microphone; fullscreen; display-capture";
+
+          
 
         return (
-          <Jutsu
-            roomName={roomName}
-            password={pw}
-            displayName={userName}
-            onMeetingEnd={() => console.log('Meeting has ended')}
-            loadingComponent={<p>loading ...</p>}
-            errorComponent={<p>Oops, something went wrong</p>} 
-            containerStyles={{width: '100%', height: '80%', marginTop:'5%'}}
-          />
+          <>
+          <h1>Video Join room</h1>
+          <h2>You are in room: {roomName}</h2>
+          <h2>You are the participant of the room.</h2>
+          {/* eslint-disable-next-line */}
+          <iframe allow={iframeAllow} 
+          src={url}
+          style={{height: "70%", width: "70%", marginLeft:"10%"}}></iframe>
+          </>
         )
 }
 
