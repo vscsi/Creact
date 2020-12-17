@@ -5,13 +5,14 @@ const {addUser, removeUser, getUser, getUsersInRoom, findUserName, findAdminId, 
 module.exports = function (io) {
     
     io.sockets.on('connect', (socket)=> {
-        console.log('client side have connected with socketid :' + socket.id);
+        console.log('client side have connected to chatroom server with socketid :' + socket.id);
         
         io.to(socket.id).emit('onConnect', {
             socket_id: socket.id
         });
         let USER= [];
         let ROOM= [];
+        let ID=[];
 
         
         socket.on('join', ({userid, room}, callback)=> {
@@ -26,6 +27,7 @@ module.exports = function (io) {
             } 
             USER.push(userName);
             ROOM.push(room);
+            ID.push(socket.id)
             
             let welcomeMsg = [{userName: 'admin', message: `${userName}, welcome to room ${room} !`, timestamp: "now", userImage:'https://storage.cloud.google.com/imagetest_1/Untitled-Artwork.png'}];
 
@@ -102,7 +104,7 @@ module.exports = function (io) {
         socket.on('disconnect', (data)=> {
             console.log(USER[0]);
             console.log('disconnect triggered', data)
-            const user = removeUser(data.socket_id);
+            const user = removeUser(ID[0]);
             findAdminId((adminId)=> {
                 writeToDatabase(ROOM[0], adminId, `${USER[0]}, has left. `)
            })

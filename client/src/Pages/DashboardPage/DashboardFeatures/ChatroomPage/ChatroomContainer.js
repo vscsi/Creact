@@ -52,6 +52,14 @@ function ChatroomContainer({location}) {
 
   }, [ENDPOINT, location.search]);
 
+
+  useEffect(()=>{
+    socket.emit('disconnect', {socket_id: my_socketid});
+      
+    socket.off();
+
+  },[location.search])
+
   useEffect(()=> {
     socket.on('usersInRoom', (data)=> {
     console.log('usersInRoom received' )
