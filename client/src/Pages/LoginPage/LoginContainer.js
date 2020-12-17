@@ -88,6 +88,7 @@ export default function SignIn() {
       } else {
         console.log(response);
         localStorage.setItem("token", response.accessToken);
+        localStorage.setItem('userName', response.userName)
         setLoginStatus(true);
         history.push("/profile");
         window.location.reload();
