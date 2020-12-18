@@ -157,7 +157,7 @@ function DashboardContainer() {
     try {
       Axios.post(
         // "http://localhost:4000/checkloginusers",
-       `${process.enc.REACT_APP_API_SERVER}/checkloginusers`,
+       `${process.env.REACT_APP_API_SERVER}/checkloginusers`,
         {
           userName: "",
         },

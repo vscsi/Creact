@@ -12,21 +12,23 @@ function DashboardNavbar(props) {
       <nav className={DashboardNavbarCss.DashboardNav}>
         <div className={DashboardNavbarCss.remindBox}>Remind Box</div>
 
-        {/* {props.loginUsers.map((item, index) => {
+        {props.loginUsers.map((item, index) => {return (
           <div className={DashboardNavbarCss.userIcon}>
-            <MaterialUI.Avatar key={index} classes={{ root: classes.root }}>
-              {item.name}
-            </MaterialUI.Avatar>
-          </div>;
-        })} */}
+          <MaterialUI.Avatar key={index} classes={{ root: classes.root }}>
+            {item.username}
+          </MaterialUI.Avatar>
+        </div>
+        );
+          
+        })}
         {/* <div className={DashboardNavbarCss.userIcon}>
           <MaterialUI.Avatar classes={{ root: classes.root }}>
             {props.loginUsers[0].name}
           </MaterialUI.Avatar>
-        </div> */}
+        </div> 
         {props.loginUsers.map((item, index) => {
           return <span key={index}>{item.username}</span>;
-        })}
+        })}*/}
       </nav>
     </>
   );

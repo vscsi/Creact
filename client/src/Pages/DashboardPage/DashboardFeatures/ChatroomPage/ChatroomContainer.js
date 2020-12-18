@@ -53,7 +53,7 @@ function ChatroomContainer({location}) {
   }
 
   //eslint-disable-next-line
-  }, [location.search]);
+  }, [ENDPOINT, location.search]);
 
 
   
