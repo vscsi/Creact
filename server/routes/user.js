@@ -6,4 +6,6 @@ const userController = require("../controllers/user");
 
 router.get("/username", verifyJWT, userController.getUserName);
 
+router.post('/checkloginusers', verifyJWT, userController.checkLoginUsers)
+
 module.exports = router;
