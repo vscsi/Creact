@@ -53,7 +53,9 @@ function WhiteboardContainer(props, {location}) {
     socket.emit('join', {workspaceName})
 
     
-
+    return () => {
+      socket.disconnect();
+    }
 
 
 

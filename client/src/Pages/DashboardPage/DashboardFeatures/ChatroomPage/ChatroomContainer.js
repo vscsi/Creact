@@ -50,6 +50,7 @@ function ChatroomContainer({location}) {
       console.log('...unmounting')
       socket.emit('removeUser', {})
       socket.off();
+      socket.disconnect();
   }
 
   //eslint-disable-next-line
