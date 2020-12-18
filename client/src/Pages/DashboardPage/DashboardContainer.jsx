@@ -14,7 +14,7 @@ import DropboxContainer from "./DashboardFeatures/DropboxPage/DropboxContainer";
 import CollabTaskContainer from "./DashboardFeatures/CollaborationTaskPage/CollabTaskContainer";
 import CalenderContainer from "./DashboardFeatures/CalenderPage/CalenderContainer";
 import WhiteboardContainer from "./DashboardFeatures/WhiteboardPage/WhiteboardContainer";
-import DashboardAddSocial from "./DashboardComponent/DashboardAddSocial";
+// import DashboardAddSocial from "./DashboardComponent/DashboardAddSocial";
 import DashboardCreateWorkspace from "./DashboardComponent/DashboardCreateWorkspace";
 import DashboardProfileHome from "./DashboardComponent/DashboardProfileHome.js";
 import DashboardFeatureSidebar from "./DashboardComponent/DashboardFeatureSidebar";
@@ -42,6 +42,7 @@ function DashboardContainer() {
     console.log('chatroomInit receive', workspace)
     try {
       Axios.post("http://localhost:4000/workspace/chatroominit", 
+      // Axios.post(`${process.env.REACT_APP_API_SERVER}/workspace/chatroominit`, 
       {
         workspaceName: workspace,
       },
@@ -67,7 +68,7 @@ function DashboardContainer() {
   const getUserWorkspaces = () => {
     try {
       Axios.get("http://localhost:4000/workspace/list", {
-        // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/list`, {
+      // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/list`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -85,7 +86,7 @@ function DashboardContainer() {
   const getUserInfo = () => {
     try {
       Axios.get("http://localhost:4000/username", {
-        // Axios.get(`${process.env.REACT_APP_API_SERVER}/username`, {
+      // Axios.get(`${process.env.REACT_APP_API_SERVER}/username`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -119,7 +120,7 @@ function DashboardContainer() {
   const getAllWorkspaces = () => {
     try {
       Axios.get("http://localhost:4000/workspace/all", {
-        // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/all`, {
+      // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/all`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },

@@ -11,7 +11,7 @@ import {
 } from "react-router-dom";
 import Link from "@material-ui/core/Link";
 import DashboardSidebarEachWorkspace from "./DashboardSidebarEachWorkspace";
-import { getCurrentWorkspace } from "../../../services/getCurrentWorkspace";
+// import { getCurrentWorkspace } from "../../../services/getCurrentWorkspace";
 
 function DashboardProfileSidebar(props) {
   //Check if active workspace
@@ -28,6 +28,7 @@ function DashboardProfileSidebar(props) {
       //1. remove localstorage of JWT
       console.log("Handling logout");
       localStorage.removeItem("token");
+      localStorage.removeItem('userName')
       // console.log(localStorage.getItem('token'));
       // //2. redirect to landing page
       history.push("/");

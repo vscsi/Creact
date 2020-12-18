@@ -28,7 +28,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="http://localhost:3000">
+      <Link color="inherit" href="https://creact-app.com">
         CREACT
       </Link>{" "}
       {new Date().getFullYear()}
@@ -88,6 +88,7 @@ export default function SignIn() {
       } else {
         console.log(response);
         localStorage.setItem("token", response.accessToken);
+        localStorage.setItem('userName', response.userName)
         setLoginStatus(true);
         history.push("/profile");
         window.location.reload();
