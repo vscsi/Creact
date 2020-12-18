@@ -15,6 +15,7 @@ const VideoConferenceRoom = ({currentWorkspace, handleClick}) => {
             const body = {currentWorkspace};
                 try{
                     const getVideoInfo = await fetch(`http://localhost:4000/workspace/${currentWorkspace}/video/rooms`,{
+                    // const getVideoInfo = await fetch(`${process.env.REACT_APP_API_SERVER}/workspace/${currentWorkspace}/video/rooms`,{
                         method:"POST",
                         headers: {
                             "Content-Type":"application/json",

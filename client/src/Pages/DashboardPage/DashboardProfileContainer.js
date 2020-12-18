@@ -20,11 +20,12 @@ function DashboardProfileContainer() {
   const [userName, setUserName] = useState("");
   const [userWorkspaces, setUserWorkspaces] = useState([]);
   const [allWorkspaces, setAllWorkspaces] = useState([]);
+  const [loginUsers, setLoginUsers] = useState([]);
 
   const getUserWorkspaces = () => {
     try {
       Axios.get("http://localhost:4000/workspace/list", {
-      // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/list`, {
+        // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/list`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -42,7 +43,7 @@ function DashboardProfileContainer() {
   const getUserName = () => {
     try {
       Axios.get("http://localhost:4000/username", {
-      // Axios.get(`${process.env.REACT_APP_API_SERVER}/username`, {
+        // Axios.get(`${process.env.REACT_APP_API_SERVER}/username`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -59,7 +60,7 @@ function DashboardProfileContainer() {
   const getAllWorkspaces = () => {
     try {
       Axios.get("http://localhost:4000/workspace/all", {
-      // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/all`, {
+        // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/all`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -73,10 +74,33 @@ function DashboardProfileContainer() {
     }
   };
 
+  const postLogout = () => {
+    try {
+      Axios.post(
+        "http://localhost:4000/checkloginusers",
+        {
+          userName: "",
+        },
+        {
+          headers: { "x-access-token": localStorage.getItem("token") },
+        }
+      ).then((res) => {
+        console.log("Current login users from '/checkloginusers'");
+        console.log(res.data.loginUsers);
+        const currentLoginUsers = res.data.loginUsers;
+        console.log(currentLoginUsers);
+        setLoginUsers(currentLoginUsers);
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   useEffect(() => {
     getUserWorkspaces();
     getUserName();
     getAllWorkspaces();
+    postLogout();
   }, []);
 
   return (
@@ -92,15 +116,14 @@ function DashboardProfileContainer() {
             name={userName}
             workspaces={userWorkspaces}
           />
-          <DashboardFriendSidebar />
           <Grid
             Container
             direction="row"
-            md={9}
+            md={11}
             spacing={0}
             alignItems={"flex-end"}
           >
-            <DashboardNavbar />
+            <DashboardNavbar loginUsers={loginUsers} userName={userName}/>
             <Switch>
               <Route exact path="/profile" component={DashboardProfileHome} />
               {/* <Route path="/profile/find" component={DashboardAddSocial} /> */}

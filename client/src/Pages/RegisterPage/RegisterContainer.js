@@ -12,6 +12,7 @@ function RegisterContainer() {
   /**
   * @param values setting states for input values 
   * @param errors setting states for errors 
+  * @param serverError setting states for errors with response from server (check if  username repeated)  
    */
   const[values,setValues] = useState({username:"", firstname:"", lastname:"", email:"",password:""})
   const [errors, setErrors] = useState({});
@@ -57,10 +58,9 @@ function RegisterContainer() {
   }
 
 
-
-
   //handling changes
   const handleChange=(event)=>{
+    setIsSubmitted(false)
     const{name,value}=event.target;
     setValues({
       ...values,//make shallow copies of current states in object
@@ -72,6 +72,7 @@ function RegisterContainer() {
   const handleSubmit=async e=>{
     e.preventDefault();
     setIsSubmitting(true);
+    setServerError({})
     const {username, firstname, lastname, email,password} =values;
     const body = {username, firstname, lastname, email, password};
     const url = "http://localhost:4000/register";
@@ -84,18 +85,22 @@ function RegisterContainer() {
             body: JSON.stringify(body)
           });
          const result = await response.json();
-         console.log(result);
-        if(result){
-          console.log(result.userNameRepeated)
+         console.log(result.userNameRepeated);
+        if(result.userNameRepeated === true){
+          // console.log(result.userNameRepeated)
            setServerError({username: 'username is already taken, please choose a new one.'})
+          }else{
+           setServerError({username: ''})
         }
-        setErrors(validateLogin(values));
-        }catch(e){
-          console.error(e.message);
-        }
+        console.log(values)
+      }catch(e){
+        console.error(e.message);
       }
-      postRegister();
-      console.log(serverError);
+    }
+    postRegister();
+    setErrors(validateLogin(values));
+      // console.log(isSubmitted)
+      // console.log(serverError);
       // console.log(Object.keys(errors).length);
       
     }
@@ -104,12 +109,14 @@ function RegisterContainer() {
     //if there are no errors, go ahead to submit
     useEffect(() => {
       if (Object.keys(errors).length === 0&& Object.keys(serverError).length === 0&&isSubmitting) {
-        setIsSubmitted(true);
+        setIsSubmitted(true); 
       }
-      console.log(errors, serverError)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [errors, serverError]);
-
+      // console.log(isSubmitted)
+      // console.log(serverError);
+      // console.log(errors, serverError)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [errors, serverError]);
+    
 
 
     return (
@@ -125,7 +132,8 @@ function RegisterContainer() {
         alignItems="center"
         >
         <h1 className={RegisterCss.registerH1Container}>Register in Creact!</h1>
-        <form onSubmit={handleSubmit} noValidate>
+        <form onSubmit={handleSubmit} 
+        noValidate>
         <Grid 
         container
         direction="column"
@@ -177,6 +185,7 @@ function RegisterContainer() {
             <Button 
             variant="outlined"
             type="submit"
+            onClick={()=>setIsSubmitted(false)}
             >
               Sign up
             </Button>
