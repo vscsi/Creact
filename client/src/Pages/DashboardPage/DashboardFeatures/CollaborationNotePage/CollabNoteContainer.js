@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react'
-import { EditorState }  from 'draft-js'
+import { EditorState, convertToRaw }  from 'draft-js'
 // import draftToHtml from 'draftjs-to-html;
 import { Editor } from 'react-draft-wysiwyg'
 import './CollaborationNote.css'
@@ -17,6 +17,8 @@ class MyEditor extends Component {
 
     onEditorStateChange = editorState =>{
         console.log('operation')
+        const contentState = editorState.getCurrentContent();
+        console.log('content state', convertToRaw(contentState));
         this.setState({
             editorState
         })
