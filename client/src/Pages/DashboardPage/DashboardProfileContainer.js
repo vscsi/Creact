@@ -12,7 +12,7 @@ import DashboardNavbar from "./DashboardComponent/DashboardNavbar";
 // import DashboardAddSocial from "./DashboardComponent/DashboardAddSocial";
 import DashboardCreateWorkspace from "./DashboardComponent/DashboardCreateWorkspace";
 import DashboardProfileHome from "./DashboardComponent/DashboardProfileHome.js";
-import DashboardFriendSidebar from "./DashboardComponent/DashboardFriendSidebar";
+// import DashboardFriendSidebar from "./DashboardComponent/DashboardFriendSidebar";
 import Axios from "axios";
 import DashboardSearchWorkspace from "./DashboardComponent/DashboardSearchWorkspace";
 
@@ -20,6 +20,7 @@ function DashboardProfileContainer() {
   const [userName, setUserName] = useState("");
   const [userWorkspaces, setUserWorkspaces] = useState([]);
   const [allWorkspaces, setAllWorkspaces] = useState([]);
+  const [loginUsers, setLoginUsers] = useState([]);
 
   const getUserWorkspaces = () => {
     try {
@@ -73,10 +74,33 @@ function DashboardProfileContainer() {
     }
   };
 
+  const postLogout = () => {
+    try {
+      Axios.post(
+        "http://localhost:4000/checkloginusers",
+        {
+          userName: "",
+        },
+        {
+          headers: { "x-access-token": localStorage.getItem("token") },
+        }
+      ).then((res) => {
+        console.log("Current login users from '/checkloginusers'");
+        console.log(res.data.loginUsers);
+        const currentLoginUsers = res.data.loginUsers;
+        console.log(currentLoginUsers);
+        setLoginUsers(currentLoginUsers);
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   useEffect(() => {
     getUserWorkspaces();
     getUserName();
     getAllWorkspaces();
+    postLogout();
   }, []);
 
   return (
@@ -92,15 +116,14 @@ function DashboardProfileContainer() {
             name={userName}
             workspaces={userWorkspaces}
           />
-          <DashboardFriendSidebar />
           <Grid
             Container
             direction="row"
-            md={9}
+            md={11}
             spacing={0}
             alignItems={"flex-end"}
           >
-            <DashboardNavbar />
+            <DashboardNavbar loginUsers={loginUsers} userName={userName}/>
             <Switch>
               <Route exact path="/profile" component={DashboardProfileHome} />
               {/* <Route path="/profile/find" component={DashboardAddSocial} /> */}

@@ -12,16 +12,20 @@ const {
 
 module.exports = function (io) {
   io.sockets.on("connect", (socket) => {
-    console.log("client side have connected with socketid :" + socket.id);
+    console.log(
+      "client side have connected to chatroom server with socketid :" +
+        socket.id
+    );
 
     io.to(socket.id).emit("onConnect", {
       socket_id: socket.id,
     });
     let USER = [];
     let ROOM = [];
+    let ID = [];
 
     socket.on("join", ({ userid, room }, callback) => {
-      //  console.log('join triggered')
+      console.log("join triggered");
       findUserName(userid, (result) => {
         let userName = result;
         //  console.log('chatroomjs', room)
@@ -36,6 +40,7 @@ module.exports = function (io) {
         }
         USER.push(userName);
         ROOM.push(room);
+        ID.push(socket.id);
 
         let welcomeMsg = [
           {
@@ -104,15 +109,13 @@ module.exports = function (io) {
 
       callback();
     });
-
-    socket.on("disconnect", (data) => {
-      console.log(USER[0]);
-      // console.log('disconnect triggered', data)
-      // const user = removeUser(data.socket_id);
+    socket.on("removeUser", () => {
+      console.log("disconnect triggered");
+      const user = removeUser(ID[0]);
       findAdminId((adminId) => {
         writeToDatabase(ROOM[0], adminId, `${USER[0]}, has left. `);
       });
-    //   console.log(user);
+      console.log(user);
 
       if (user) {
         io.to(user.room).emit("message", {
@@ -121,5 +124,21 @@ module.exports = function (io) {
         });
       }
     });
+
+    // socket.on('disconnect', (data)=> {
+    //     console.log(USER[0]);
+    //     console.log('disconnect triggered')
+    //     const user = removeUser(ID[0]);
+    //     findAdminId((adminId)=> {
+    //         writeToDatabase(ROOM[0], adminId, `${USER[0]}, has left. `)
+    //    })
+    //     console.log(user)
+
+    //     if (user) {
+    //         io.to(user.room).emit('message', {user: "admin", text: `${user.name} has left`})
+
+    //     }
+
+    // })
   });
 };
