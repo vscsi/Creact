@@ -25,6 +25,10 @@ function VideoContainer({userName,currentWorkspace}) {
   }
 
   return (
+    // <Route path={joinRoomUrl} component={() => { 
+    //     window.location.href = joinRoomUrl; 
+    // }}/>
+    //   ):(
     <>
       <Route
       path={`/workspace/${currentWorkspace}/video/rooms/join`}
@@ -42,7 +46,7 @@ function VideoContainer({userName,currentWorkspace}) {
           exact
           />
   </>
-  )
+      )
  
 }
 

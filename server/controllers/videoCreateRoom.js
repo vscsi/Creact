@@ -23,6 +23,34 @@ exports.getVideoConferenceRoom = async(req,res)=>{
 
 exports.deleteVideoConferenceRoom = async(req,res)=>{
    //delete record from database
+   const {userName, room, password} =req.body;
+   console.log(userName, room, password)
+   try{
+     let userOutput = await knex('users').select().where('username', userName);
+     console.log(userOutput, 'this is userOutput from deleteVideoCreateRoom');
+    
+     //delete record from video_workspace
+     let videoIdOutput = await knex('video_workspace').select().where('user_id',userOutput[0].id); 
+     console.log(videoIdOutput, 'this is videoIdOutput from deleteVideoCreateRoom')
+
+     let videoOutput = await knex('video').select().where({
+       video_room_pw: password,
+       video_hashed_room_name: room,
+     })
+     console.log(videoOutput, 'this is videoOutput')
+
+       let deleteVideoWorkspace = await knex('video_workspace').select().where('video_id',videoOutput[0].id);
+       console.log(deleteVideoWorkspace, 'this is deleteVideoWorkspace')
+       await knex('video_workspace').where('video_id',videoOutput[0].id).del();
+       await knex('video').where('id', videoOutput[0].id).del();
+    
+     res.json({
+       message: 'delete done',
+       redirect: true
+     })
+   }catch(e){
+     console.error(e)
+   }
    
 }
 
@@ -64,7 +92,8 @@ exports.postVideoCreateRoom = async(req,res) =>{
          res.json({
            message: 'server received video creator data',
            password: password,
-           room: room
+           room: room,
+           videoUrl: videoUrl
          })
       
       }else{

@@ -7,5 +7,6 @@ const videoCreateRoomController = require('../controllers/videoCreateRoom');
 
 router.post('/workspace/:currentWorkspace/video',verifyJWT, videoCreateRoomController.postVideoCreateRoom);
 router.get('/workspace/:currentWorkspace/video',verifyJWT, videoCreateRoomController.getVideoConferenceRoom);
+router.delete('/workspace/:currentWorkspace/video',verifyJWT, videoCreateRoomController.deleteVideoConferenceRoom);
 
 module.exports = router;
