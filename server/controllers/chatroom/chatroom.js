@@ -10,15 +10,7 @@ const {
   writeToDatabase,
 } = require("./chatroomdatabase");
 
-module.exports = function (io) {
-  io.sockets.on("connect", (socket) => {
-    console.log("client side have connected with socketid :" + socket.id);
 
-    io.to(socket.id).emit("onConnect", {
-      socket_id: socket.id,
-    });
-    let USER = [];
-    let ROOM = [];
 
 module.exports = function (io) {
     

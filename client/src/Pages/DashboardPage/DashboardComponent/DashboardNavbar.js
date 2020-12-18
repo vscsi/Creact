@@ -24,9 +24,9 @@ function DashboardNavbar() {
         <div className={DashboardNavbarCss.remindBox}>Remind Box</div>
 
         <div className={DashboardNavbarCss.userIcon}>
-          <MaterialUI.Avatar classes={{ root: classes.root }}>
+          {/* <MaterialUI.Avatar classes={{ root: classes.root }}>
             {userName[0]}
-          </MaterialUI.Avatar>
+          </MaterialUI.Avatar> */}
         </div>
       </nav>
     </>
