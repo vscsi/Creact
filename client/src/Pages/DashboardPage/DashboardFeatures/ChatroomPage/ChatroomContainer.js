@@ -5,6 +5,7 @@ import ScrollToBottom from 'react-scroll-to-bottom';
 import ChatInput from "./ChatInput/ChatInput"
 import HelpIcon from '@material-ui/icons/Help';
 import Message from './Message/Message'
+import {getCurrentWorkspace} from '../../../../services/getCurrentWorkspace'
 import "./Chat.css";
 let socket;
 
@@ -44,13 +45,17 @@ function ChatroomContainer({location}) {
     socket.emit('join', {userid, room})
 
     return () => {
-      socket.emit('disconnect', {socket_id: my_socketid});
-      
+      socket.on('disconnect', ()=> {console.log(socket.id)})
+      console.log('...unmounting')
+      socket.emit('removeUser', {})
       socket.off();
   }
 
-// eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ENDPOINT, location.search]);
+
+  }, [location.search]);
+
+
+  
 
   useEffect(()=> {
     socket.on('usersInRoom', (data)=> {
@@ -66,6 +71,8 @@ function ChatroomContainer({location}) {
 
     // console.log('userInRoom', result.join(' '))
   })
+  
+
   }, [roomUsers])
 
   
@@ -101,7 +108,12 @@ function ChatroomContainer({location}) {
       
       setMessages(readydata)
     })
+<<<<<<< HEAD
+
+    
+=======
     // eslint-disable-next-line react-hooks/exhaustive-deps
+>>>>>>> b0198c0c9e1ac8479f988635f585b8159da1d620
   },[])
 
   useEffect(()=> {
@@ -118,6 +130,7 @@ function ChatroomContainer({location}) {
       
       setMessages([...messages, message])
     })
+
     
   }, [messages])
 
@@ -135,7 +148,7 @@ function ChatroomContainer({location}) {
 
   }
 
-  
+  const workspaceName = getCurrentWorkspace();
   
 
   return (
@@ -143,7 +156,7 @@ function ChatroomContainer({location}) {
       <div className="chat__header">
         <div className="chat__headerLeft">
           <h4 className="chat__channelName">
-            <strong># Room Name</strong>
+            <strong># {workspaceName} chatroom</strong>
             <span className="user__in__room" > {roomUsers}</span>
           </h4>
         </div>
