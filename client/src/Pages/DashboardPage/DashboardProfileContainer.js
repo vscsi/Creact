@@ -77,7 +77,8 @@ function DashboardProfileContainer() {
   const postLogout = () => {
     try {
       Axios.post(
-        "http://localhost:4000/checkloginusers",
+        // "http://localhost:4000/checkloginusers",
+        `${process.env.REACT_APP_API_SERVER}/checkloginusers`,
         {
           userName: "",
         },
@@ -100,7 +101,7 @@ function DashboardProfileContainer() {
     getUserWorkspaces();
     getUserName();
     getAllWorkspaces();
-    postLogout();
+    postLogout(); 
   }, []);
 
   return (
