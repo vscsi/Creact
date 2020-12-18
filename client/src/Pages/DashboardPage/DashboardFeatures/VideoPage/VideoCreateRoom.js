@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Jutsu, useJitsi } from 'react-jutsu';
 import {  Link } from 'react-router-dom';
-    
+import VideoCreateRoomCss from './VideoCreateRoom.module.css';
+
 function VideoCreateRoom({userName, currentWorkspace}) {
     //room represents hashed room
         const [room, setRoom] = useState('')
@@ -9,6 +10,8 @@ function VideoCreateRoom({userName, currentWorkspace}) {
         const [password, setPassword] = useState('')
         const [call, setCall] = useState(false)
         const [jitsiInit, setJitsiInit] = useState({});
+        const [deleteRoom, setDeleteRoom] = useState(false);
+        const [videoUrl, setVideoUrl] = useState('');
         // const [hostEndMeeting, setHostEndMeeting] = useState(false);
         // const grabParticipantIdArr = [];
 
@@ -51,9 +54,10 @@ function VideoCreateRoom({userName, currentWorkspace}) {
             const _jitsi = new window.JitsiMeetExternalAPI("meet.jit.si", options); 
             setJitsiInit(_jitsi)
         };
-
+        
         useEffect(() => {
             initialiseJitsi();
+            // setDeleteRoom(prevStatus => !prevStatus);
             return () => jitsiInit?.dispose?.();
             // eslint-disable-next-line react-hooks/exhaustive-deps
         }, []);
@@ -61,7 +65,7 @@ function VideoCreateRoom({userName, currentWorkspace}) {
         //events handling
         const handleClick = async(event) =>{
             event.preventDefault();
-            console.log(jitsiInit, 'this is jitsiInit');
+            // console.log(jitsiInit, 'this is jitsiInit');
             const body = { userName, currentWorkspace, customRoomName} // put values into body object
             try{
                 console.log('sending video room info to server')
@@ -74,66 +78,97 @@ function VideoCreateRoom({userName, currentWorkspace}) {
                     body: JSON.stringify(body)
                 })
                 const response = await sendVideo.json();
-                setRoom(response.room);
+                setDeleteRoom(false)
                 setPassword(response.password);
+                setRoom(response.room);
+                setVideoUrl(response.videoUrl)
+                // console.log(response.room, response.password, 'this is room and password from respsonse');
+                // console.log(room, password, 'this is current state of  room and password from respsonse');
                 if (customRoomName) setCall(true);
-                console.log(response.room, response.password, 'this is password and room');
+                
             }catch(e){
                 console.error(e.message);
             }
         }
 
-            //making meeting end when host leaves:
-            /**
+        //making meeting end when host leaves:
+        /**
              //get id of all participants and put into array
-            //storing .json object from participantJoined
-            //check if participant is moderator
+             //storing .json object from participantJoined
+             //check if participant is moderator
             //if is moderator, set State in onMeetingEnd() and trigger kickParticipant and loop through the id
             * 
             */
-        const jitsiConfig = {
-            configOverwrite:
-            {
+           
+           //deleting data from db
+           const handleDelete = async(event)=>{
+               event.preventDefault();
+               const body = { userName, room, password} // put values into body object
+               try{
+                   console.log('sending video delete request to server')
+                   const deleteVideo = await fetch(`http://localhost:4000/workspace/${currentWorkspace}/video`,{
+                       method:"DELETE",
+                       headers: {
+                           "Content-Type":"application/json",
+                           "x-access-token": localStorage.getItem("token")
+                        },
+                        body: JSON.stringify(body)
+                    })
+                    const response = await deleteVideo.json();
+                    console.log(response.message);
+                    setDeleteRoom(response.redirect);
+                }catch(e){
+                    console.error(e)
+                }
+            }
+            const jitsiConfig = {
+                configOverwrite:
+                {
                 remoteVideoMenu:
                 {
-                    disableKick: true,
+                    disableKick: false,
                 },
             },
             
         }
-        const { loading,  jitsi } = useJitsi(jitsiConfig);
-        console.log(loading,  jitsi, 'console log for reactJS warning');
+        const { jitsi } = useJitsi(jitsiConfig);
+        console.log( jitsi, 'console log for reactJS warning');
 
         // const grabParticipantsId = () =>{
-        //     const participants = jitsiInit.addEventListener('participantJoined', function(values){
+        //     jitsiInit.addEventListener('participantJoined', function(values){
         //         grabParticipantIdArr.push(values);
         //         console.log(grabParticipantIdArr, 'this is grabParticipantIdArr ');
         //     })
         // }
         
-        // useEffect(()=>{
-        //     console.log(jitsiInit)
-        //     grabParticipantsId();
-        // }, [jitsiInit])
 
-        return call ? ( 
+        return call && deleteRoom === false? ( 
             <>
-            <h1>You are the host of this meeting.</h1>
-            {/* <h2>password for participants to join this meeting: </h2> */}
-            <Jutsu
-            roomName={room}
-            displayName={userName}
-            password={password}
-            onMeetingEnd={
-                () => {
-                    console.log('Meeting has end')
+            <div className={VideoCreateRoomCss.flexDivs}>
+            <h6>You are the host of this meeting.</h6>
+            <h6>Room name: {customRoomName}</h6>
+            <h6>Password for participants: {password}</h6>
+                <p>Please delete room before you go!</p> 
+                 <button onClick={handleDelete}>Delete room</button>
+            </div>
+                <Jutsu
+                roomName={room}
+                displayName={userName}
+                password={password}
+                onMeetingEnd={
+                    () => {
+                        // jitsiInit.dispose();
+                        console.log('find me');
+                        // grabParticipantsId();
+                    }
                 }
-            }
-            loadingComponent={<p>loading ...</p>}
-            errorComponent={<p>Oops, something went wrong</p>} 
-            containerStyles={{width: '100%', height: '70%'}}
-            configOverwrite= {jitsiConfig.configOverwrite}
-            />
+                loadingComponent={<p>loading ...</p>}
+                errorComponent={<p>Oops, something went wrong</p>} 
+                containerStyles={{width: '100%', height: '80vh'}}
+                configOverwrite= {jitsiConfig.configOverwrite}
+                />
+
+        
             </>
                     
         ) : (
