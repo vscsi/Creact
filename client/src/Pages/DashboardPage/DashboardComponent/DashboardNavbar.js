@@ -1,32 +1,33 @@
 import React, { useState, useEffect } from "react";
-import * as MaterialUI from '@material-ui/core';
+// import * as MaterialUI from '@material-ui/core';
 // import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import DashboardNavbarCss from "./DashboardNavbar.module.css";
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
+// import Paper from '@material-ui/core/Paper';
 
 function DashboardNavbar() {
+  //eslint-disable-next-line
   const [userName, setUserName] = useState("");
   //overriding Avatar root class
-  const styles = makeStyles({
-    root: {
-      margin: "0.5rem",
-    },
-  });
-  const classes = styles();
+  // const styles = makeStyles({
+  //   root: {
+  //     margin: "0.5rem",
+  //   },
+  // });
+  // const classes = styles();
   /////
-  useEffect(() => {
-    setUserName(localStorage.getItem("userName"));
-  }, []);
+  // useEffect(() => {
+  //   setUserName(localStorage.getItem("userName"));
+  // }, []);
   return (
     <>
       <nav className={DashboardNavbarCss.DashboardNav}>
         <div className={DashboardNavbarCss.remindBox}>Remind Box</div>
 
         <div className={DashboardNavbarCss.userIcon}>
-          <MaterialUI.Avatar classes={{ root: classes.root }}>
+          {/* <MaterialUI.Avatar classes={{ root: classes.root }}>
             {userName[0]}
-          </MaterialUI.Avatar>
+  </MaterialUI.Avatar> */}
         </div>
       </nav>
     </>
