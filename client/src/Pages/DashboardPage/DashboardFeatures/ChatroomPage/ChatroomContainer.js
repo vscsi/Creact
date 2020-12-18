@@ -108,12 +108,7 @@ function ChatroomContainer({location}) {
       
       setMessages(readydata)
     })
-<<<<<<< HEAD
-
-    
-=======
     // eslint-disable-next-line react-hooks/exhaustive-deps
->>>>>>> b0198c0c9e1ac8479f988635f585b8159da1d620
   },[])
 
   useEffect(()=> {
