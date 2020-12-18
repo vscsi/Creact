@@ -45,7 +45,7 @@ function DashboardProfileSidebar(props) {
   const postLogout = () => {
     try {
       Axios.post(
-        "/checkloginusers",
+        "http://localhost:4000/checkloginusers",
         {
           userName: localStorage.getItem("userName"),
         },
