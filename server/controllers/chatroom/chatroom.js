@@ -16,7 +16,7 @@ module.exports = function (io) {
 
         
         socket.on('join', ({userid, room}, callback)=> {
-            //  console.log('join triggered')
+             console.log('join triggered')
              findUserName(userid, (result)=> {
                  let userName = result;
                 //  console.log('chatroomjs', room)
@@ -97,13 +97,9 @@ module.exports = function (io) {
             callback();
     
         })
-
-
-        
-    
-        socket.on('disconnect', (data)=> {
-            console.log(USER[0]);
-            console.log('disconnect triggered', data)
+        socket.on('removeUser', ()=> {
+           
+            console.log('disconnect triggered')
             const user = removeUser(ID[0]);
             findAdminId((adminId)=> {
                 writeToDatabase(ROOM[0], adminId, `${USER[0]}, has left. `)
@@ -114,7 +110,24 @@ module.exports = function (io) {
                 io.to(user.room).emit('message', {user: "admin", text: `${user.name} has left`})
                 
             }
-    
         })
+
+        
+    
+        // socket.on('disconnect', (data)=> {
+        //     console.log(USER[0]);
+        //     console.log('disconnect triggered')
+        //     const user = removeUser(ID[0]);
+        //     findAdminId((adminId)=> {
+        //         writeToDatabase(ROOM[0], adminId, `${USER[0]}, has left. `)
+        //    })
+        //     console.log(user)
+           
+        //     if (user) {
+        //         io.to(user.room).emit('message', {user: "admin", text: `${user.name} has left`})
+                
+        //     }
+    
+        // })
     })
 }

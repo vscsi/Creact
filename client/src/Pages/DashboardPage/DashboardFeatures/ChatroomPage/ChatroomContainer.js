@@ -44,22 +44,17 @@ function ChatroomContainer({location}) {
     socket.emit('join', {userid, room})
 
     return () => {
+      socket.on('disconnect', ()=> {console.log(socket.id)})
       console.log('...unmounting')
-      socket.emit('disconnect', {socket_id: my_socketid});
-      
+      socket.emit('removeUser', {})
       socket.off();
   }
 
 
-  }, [ENDPOINT, location.search]);
+  }, [location.search]);
 
 
-  useEffect(()=>{
-    socket.emit('disconnect', {socket_id: my_socketid});
-      
-    socket.off();
-
-  },[location.search])
+  
 
   useEffect(()=> {
     socket.on('usersInRoom', (data)=> {
@@ -75,6 +70,8 @@ function ChatroomContainer({location}) {
 
     // console.log('userInRoom', result.join(' '))
   })
+  
+
   }, [roomUsers])
 
   
@@ -110,6 +107,7 @@ function ChatroomContainer({location}) {
       
       setMessages(readydata)
     })
+
     
   },[])
 
@@ -127,6 +125,7 @@ function ChatroomContainer({location}) {
       
       setMessages([...messages, message])
     })
+
     
   }, [messages])
 

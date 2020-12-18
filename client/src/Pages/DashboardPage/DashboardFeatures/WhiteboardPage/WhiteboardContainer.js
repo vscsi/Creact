@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useCallback} from 'react';
 import queryString from 'query-string';
 import io from 'socket.io-client';
 import CanvasDraw from 'react-canvas-draw'
@@ -9,7 +9,7 @@ import './Whiteboard.css'
 // https://github.com/dabit3/appsync-graphql-real-time-canvas/blob/master/src/Canvas.js
 
 let socket
-
+let drawData
 
 function WhiteboardContainer(props, {location}) {
   const ENDPOINT = 'localhost:4000';
@@ -21,18 +21,22 @@ function WhiteboardContainer(props, {location}) {
   const [drawingData, setDrawingData] = useState(null);
   const [trigger, setTrigger] = useState(true)
 
-
   
+  
+  const handler = useCallback ( e => {
+    console.log('mousup get' )
+    let drawData = saveableCanvas.current.getSaveData()
+    console.log('what is save data', drawData)
+    // let parsed = JSON.parse(drawData)
+    socket.emit('sendDrawing', {data:drawData})
+  })
+  useEventListener('mouseup', handler)
 
   useEffect(()=> {
     // let data = {name: 'Charles', room: '1'};
     // const data = queryString.parse(location.search);
     // const {userid, room} = data;
-    window.addEventListener('mouseup', (e)=> {
-      console.log('mousup get' )
-      let drawData = saveableCanvas.current.getSaveData();
-      console.log(drawData)
-    })
+    
      socket = io(ENDPOINT, {
       path: '/canvas'
     });
@@ -45,7 +49,16 @@ function WhiteboardContainer(props, {location}) {
 
     socket.emit('join', {workspaceName})
 
+    
+
+
+
+
+
   },[ENDPOINT]);
+
+
+  
 
   const onColorChange = (updatedColor) => {
     setBrushColor(updatedColor);
@@ -58,22 +71,56 @@ function WhiteboardContainer(props, {location}) {
     //   "savedDrawing",
     //   saveableCanvas.current.getSaveData()
     // );
-    let drawData = saveableCanvas.current.getSaveData()
-    socket.emit('sendDrawing', {data: drawData})
+    let saveddrawData = saveableCanvas.current.getSaveData();
     
+    // let parsed = JSON.parse(drawData)
+    socket.emit('sendDrawing', {data:saveddrawData})
+    
+  }
+  
+  function useEventListener(eventName, handler, element = window){
+    const savedHandler = useRef();
+    useEffect(()=> {
+      savedHandler.current = handler;
+    }, [handler])
+
+    useEffect( ()=> {
+      const isSupported = element && element.addEventListener;
+      if (!isSupported) return;
+      
+      const eventListener = event => savedHandler.current(event);
+  
+      element.addEventListener(eventName, eventListener);
+  
+      return() => {
+        element.removeEventListener(eventName, eventListener);
+      }
+    }, [eventName, element]  )
+
+
   }
   
   useEffect(()=> {
     socket.on('severtoClientDrawing', (data)=> {
-      setDrawingData(data.data)
-       
+      console.log('drawdata received', data.data)
       console.log('here now', saveableCanvas.current)
-      saveableCanvas.current.loadSaveData(
-        data.data, true
-      );
+      let receivedDrawing = JSON.stringify(data.data)
+
+      setDrawingData(data.data)
+      console.log('drawing data set')
+      
     })
 
-  },[])
+  })
+
+  useEffect(()=> {
+    if (drawingData) {
+      saveableCanvas.current.loadSaveData(drawingData, true)
+    }
+    
+
+
+  },[drawingData])
 
   
 
@@ -85,10 +132,10 @@ function WhiteboardContainer(props, {location}) {
       <ReactColorPicker color={brushColor} onChange={onColorChange} />
       <div>
       <button onClick={()=>{
-        saveableCanvas.clear();
+        saveableCanvas.current.clear();
       }} >Clear</button>
       <button onClick={()=>{
-        saveableCanvas.undo();
+        saveableCanvas.current.undo();
       }} >Undo</button>
       
           <button

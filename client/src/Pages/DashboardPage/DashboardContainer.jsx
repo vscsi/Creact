@@ -190,7 +190,7 @@ function DashboardContainer() {
             alignItems={"flex-end"}
           >
             <DashboardNavbar />
-            <Switch>
+            {/* <Switch> */}
               {/* for profile route */}
               <Route path="/profile" component={DashboardProfileHome} />
               {/* <Route path="/profile/find" component={DashboardAddSocial} /> */}
@@ -238,7 +238,7 @@ function DashboardContainer() {
                 currentWorkspace={currentWorkspace}
                 userName={userName}
               />
-            </Switch>
+            {/* </Switch> */}
           </Grid>
         </Router>
       </Grid>
