@@ -15,6 +15,7 @@ function ChatroomContainer({location}) {
   const [my_userid, setUserid] = useState('');
   // const [my_name, setName] = useState('');
   const [my_room, setRoom] = useState('');
+  //eslint-disable-next-line
   const [my_socketid, setSocketId] =useState('');
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
@@ -49,10 +50,11 @@ function ChatroomContainer({location}) {
       console.log('...unmounting')
       socket.emit('removeUser', {})
       socket.off();
+      socket.disconnect();
   }
 
-
-  }, [location.search]);
+  //eslint-disable-next-line
+  }, [ENDPOINT, location.search]);
 
 
   
