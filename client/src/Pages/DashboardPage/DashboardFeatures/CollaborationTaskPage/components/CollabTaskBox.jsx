@@ -4,7 +4,7 @@ import Axios from "axios";
 import { getCurrentWorkspace } from "../../../../../services/getCurrentWorkspace";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import Icon from "@material-ui/core/Icon";
+// import Icon from "@material-ui/core/Icon";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
@@ -52,13 +52,8 @@ const CollabTaskBox = (props) => {
       };
       console.log("Form is submtted");
       console.log(body);
-<<<<<<< HEAD
       // const response = await Axios.post("http://localhost:4000/task", body, {
       const response = await Axios.post(`${process.env.REACT_APP_API_SERVER}/task`, body, {
-=======
-      const response = await Axios.post("http://localhost:4000/task", body, {
-        // const response = await Axios.post(`${process.env.REACT_APP_API_SERVER}/task`, body, {
->>>>>>> 6b1afa87f00328842a358448cfaea4fbc114aa59
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
