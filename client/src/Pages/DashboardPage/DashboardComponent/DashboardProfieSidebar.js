@@ -29,7 +29,7 @@ function DashboardProfileSidebar(props) {
       //1. remove localstorage of JWT
       console.log("Handling logout");
       //should communicate with checkLoginUsers route
-      postLogout();
+      removeUser(localStorage.getItem("userName"));
       localStorage.removeItem("token");
       localStorage.removeItem("userName");
       // console.log(localStorage.getItem('token'));
@@ -42,19 +42,13 @@ function DashboardProfileSidebar(props) {
     }
   };
 
-  const postLogout = () => {
+  const removeUser = (userName) => {
     try {
-      Axios.post(
-        // "http://localhost:4000/checkloginusers",
-        `${process.env.REACT_APP_API_SERVER}/checkloginusers`,
-        {
-          userName: localStorage.getItem("userName"),
-        },
-        {
-          headers: { "x-access-token": localStorage.getItem("token") },
-        }
-      ).then((res) => {
-        console.log("has removed the userName in server");
+      // Axios.delete(`http://localhost:4000/checklogoutusers/${userName}`, {
+      Axios.delete(`${process.env.REACT_APP_API_SERVER}/checklogoutusers/${userName}`, {
+        headers: { "x-access-token": localStorage.getItem("token") },
+      }).then((res) => {
+        console.log("has removed the userName in login_users");
       });
     } catch (error) {
       console.error(error.message);

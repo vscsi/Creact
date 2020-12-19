@@ -23,6 +23,14 @@ import Axios from "axios";
 // import VideoConferenceRoom from "./DashboardFeatures/VideoPage/VideoConferenceRoom";
 // import VideoCreateRoom from "./DashboardFeatures/VideoPage/VideoCreateRoom";
 import VideoContainer from "./DashboardFeatures/VideoPage/VideoContainer";
+// import { withStyles } from "@material-ui/core/styles";
+
+// const styles = () => ({
+//   root: {
+//     padding: 16,
+//     width: "100%",
+//   },
+// });
 
 function DashboardContainer() {
   const [userName, setUserName] = useState("");
@@ -35,7 +43,6 @@ function DashboardContainer() {
   const [chatroomId, setChatroomId] = useState("");
   const [userId, setUserId] = useState("");
   const [loginUsers, setLoginUsers] = useState([]);
-
 
   const chatroomInit = (workspace) => {
     console.log("chatroomInit receive", workspace);
@@ -191,6 +198,7 @@ function DashboardContainer() {
         container
         direction="row"
         alignItems="stretch"
+        // wrap="nowrap"
         className={`${DashboardContainerCss.containerHeight} ${DashboardContainerCss.containerBackground}`}
       >
         <Router>
@@ -209,6 +217,7 @@ function DashboardContainer() {
             md={9}
             spacing={0}
             alignItems={"flex-end"}
+            className={DashboardContainerCss.gridFeatureMain}
           >
             <DashboardNavbar loginUsers={loginUsers} userName={userName} />
             {/* <Switch> */}

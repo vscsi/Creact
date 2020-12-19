@@ -4,3 +4,8 @@
 .containerBackground{
   background: #d0dbd3;
 }
+
+.gridFeatureMain{
+  overflow: auto;
+  max-height: 100%;
+}

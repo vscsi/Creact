@@ -1,0 +1,9 @@
+.footerContainer{
+    background-color: #212429;
+    padding: 10px;
+}
+
+.footerParagraph{
+    color: white;
+    text-align: center;
+}
