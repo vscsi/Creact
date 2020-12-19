@@ -23,6 +23,10 @@ const chatio = socket(server, {
 const canvasio = socket(server, {
   path:'/canvas'
 })
+const colldocio = socket(server, {
+  path:'/colldoc'
+})
+
 
 //middleware
 app.use(cors());
@@ -81,6 +85,7 @@ app.get("/isUserAuth", verifyJWT, (req, res) => {
 //Chat
 const chatroom = require("./controllers/chatroom/chatroom")(chatio);
 const canvas = require("./controllers/canvas/canvas")(canvasio);
+const colldoc = require("./controllers/colldoc/colldoc")(colldocio);
 
 server.listen(4000, () => {
   console.log("Creact server, Listening to port 4000");

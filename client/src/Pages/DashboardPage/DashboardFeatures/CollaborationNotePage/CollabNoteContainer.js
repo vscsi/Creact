@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import classes from "./CollaborationNote.module.css"
 import {
     Editor, 
@@ -7,12 +7,60 @@ import {
     convertFromRaw,
     convertToRaw
 } from 'draft-js';
+import io from 'socket.io-client';
+import {getCurrentWorkspace} from '../../../../services/getCurrentWorkspace'
 import 'draft-js/dist/Draft.css';
 
+let socket
+
 function MyEditor() {
+    const ENDPOINT = 'localhost:4000';
     const [editorState, setEditorState] = React.useState(
         () => EditorState.createEmpty(),
     );
+    const [my_socketid, setSocketId] =useState('');    
+
+
+    const handler = useCallback ( e => {
+        console.log('Keyup get, Charles the great' );
+        const contentState = editorState.getCurrentContent();
+        console.log('content state',  convertToRaw(contentState))
+        const docSaveCard = JSON.stringify(convertToRaw(contentState));
+        console.log('whats in saveCard', docSaveCard)
+        socket.emit('saveCardFromClient', {data: docSaveCard})
+        
+        
+       
+       
+      })
+      useEventListener('keyup', handler)
+
+    function useEventListener(eventName, handler, element = window){
+        const savedHandler = useRef();
+        useEffect(()=> {
+          savedHandler.current = handler;
+        }, [handler])
+    
+        useEffect( ()=> {
+          const isSupported = element && element.addEventListener;
+          if (!isSupported) return;
+          
+          const eventListener = event => savedHandler.current(event);
+      
+          element.addEventListener(eventName, eventListener);
+      
+          return() => {
+            element.removeEventListener(eventName, eventListener);
+          }
+        }, [eventName, element]  )
+    
+    
+      }   
+
+
+
+
+
     const handleKeyCommand = useCallback((command, editorState) => {
         const newState = RichUtils.handleKeyCommand(editorState, command)
         if(newState) {
@@ -22,6 +70,9 @@ function MyEditor() {
         }
         return "not-handled"
     })
+
+    
+    
 
     //=== save content ===//
 
@@ -78,6 +129,45 @@ function MyEditor() {
     const OL = useCallback(() => {
         setEditorState(RichUtils.toggleBlockType(editorState, "ordered-list-item"))
     })
+
+    useEffect(()=> {
+        socket = io(ENDPOINT, {
+            path: '/colldoc'
+          });
+          const workspaceName = getCurrentWorkspace();
+          socket.on('onConnect', data=> {
+            setSocketId(data.socket_id)
+           
+           
+          })
+      
+          socket.emit('join', {workspaceName})
+
+
+
+
+
+          return () => {
+            socket.disconnect();
+          }
+      
+
+    },[ENDPOINT])
+    
+
+
+    useEffect(()=> {
+        socket.on('servertoClientSaveCard', (data)=> {
+
+            console.log('recevie from server, one take Charles')
+            const content = data.data;
+            setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(content))))
+        })
+
+        console.log('editor state', editorState.getCurrentContent())
+        
+    },[])
+
 
     return (
         <div className={classes.Doc}>
