@@ -24,7 +24,7 @@ function MyEditor() {
     })
 
     //=== save content ===//
-    
+
 
 
     //=== Style controls ===//
