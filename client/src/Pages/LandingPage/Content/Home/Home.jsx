@@ -5,6 +5,7 @@ import { homeObjOne, homeObjTwo, homeObjThree } from "./Data";
 import Wave from "./Wave";
 import Wave2 from "./Wave2";
 import Wave3 from "./Wave3";
+import FooterContainer from '../../Footer/FooterContainer'
 
 const Home = () => {
   return (
@@ -16,6 +17,7 @@ const Home = () => {
       <Wave2 />
       <HeroSection {...homeObjThree} />
       <Wave3 />
+      <FooterContainer />
     </>
   );
 };

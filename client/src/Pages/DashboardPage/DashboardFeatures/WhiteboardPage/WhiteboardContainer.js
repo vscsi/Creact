@@ -163,8 +163,8 @@ function WhiteboardContainer(props, {location}) {
       <CanvasDraw 
         ref={saveableCanvas}
          brushColor={brushColor} brushRadius={brushRadius}
-        canvasWidth={877}
-        canvasHeight={777} />
+        canvasWidth={1000}
+        canvasHeight={500} />
     </div>
   )
 }

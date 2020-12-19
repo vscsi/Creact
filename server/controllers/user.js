@@ -39,21 +39,40 @@ exports.checkLoginUsers = async (req, res) => {
           username: req.userName,
         });
       }
-
       // loginUsers.push({name: req.userName});
-    } else {
-      //if user want to logout, delete his username
-      const logoutUserName = req.body.userName;
-      await knex("login_users")
-        .where({
-          username: logoutUserName,
-        })
-        .del();
     }
+    // else {
+    //   //if user want to logout, delete his username
+    //   console.log(`req.body.userName is below`);
+    //   console.log(req.body.userName);
+    //   const logoutUserName = req.body.userName;
+    //   await knex("login_users")
+    //     .where({
+    //       username: logoutUserName,
+    //     })
+    //     .del();
+    // }
     const returnLoginUsers = await knex("login_users").select("*");
     console.log(`returnLoginUsers is below`);
     console.log(returnLoginUsers);
     res.json({ loginUsers: returnLoginUsers });
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
+exports.removeLoginUsers = async (req, res) => {
+  try {
+    console.log(`in checkLogoutUsers route`);
+    console.log(req.params);
+    const removeUser = req.params.userName;
+    await knex("login_users")
+      .where({
+        username: removeUser,
+      })
+      .del();
+    console.log("has removed users from login_users table");
+    res.json({ message: "has removed users from login_users table" });
   } catch (error) {
     console.error(error.message);
   }

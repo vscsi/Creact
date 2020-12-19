@@ -35,11 +35,11 @@ function App() {
       <Switch>
         <Route path="/" exact component={LandingPageContainer} />
         <Route
-          path="/login"
+          exact path="/login"
           component={isLogin ? DashboardProfileContainer : LoginContainer}
         />
-        <Route path="/register" component={RegisterContainer} />
-        <Route
+        <Route exact path="/register" component={RegisterContainer} />
+        <Route exact
           path="/profile"
           component={isLogin && DashboardProfileContainer}
         />

@@ -47,15 +47,6 @@ const DashboardFeatureSidebar = (props) => {
       </NavLink>
 
       <NavLink
-        to={`/workspace/${props.currentWorkspace}/dropbox`}
-        className={DashboardSidebarCss.featureIconLink}
-      >
-        <MaterialUI.Tooltip title="Dropbox" placement="right-end">
-          <div className={DashboardSidebarCss.featureIcon}>Dropbox</div>
-        </MaterialUI.Tooltip>
-      </NavLink>
-
-      <NavLink
         to={`/workspace/${props.currentWorkspace}/tasks`}
         className={DashboardSidebarCss.featureIconLink}
       >

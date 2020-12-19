@@ -19,7 +19,7 @@ function DashboardNavbar(props) {
   return (
     <>
       <nav className={DashboardNavbarCss.DashboardNav}>
-        <div className={DashboardNavbarCss.remindBox}>Remind Box</div>
+        {/* <div className={DashboardNavbarCss.remindBox}>Remind Box</div> */}
 
         <div className={DashboardNavbarCss.userIcon}>
           {props.loginUsers.map((item, index) => {
