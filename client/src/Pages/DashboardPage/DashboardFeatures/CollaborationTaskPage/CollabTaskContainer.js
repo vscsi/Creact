@@ -21,8 +21,8 @@ const CollabTaskContainer = (props) => {
       const currentWorkspace = getCurrentWorkspace();
       setLoading(true);
       Axios.post(
-        // "http://localhost:4000/tasks",
-        `${process.env.REACT_APP_API_SERVER}/tasks`,
+        "http://localhost:4000/tasks",
+        // `${process.env.REACT_APP_API_SERVER}/tasks`,
         {
           workspaceName: currentWorkspace,
         },
@@ -57,8 +57,8 @@ const CollabTaskContainer = (props) => {
   //delete task function
   const handleDelete = async (id) => {
     try {
-      // Axios.delete(`http://localhost:4000/tasks/${id}`, {
-      Axios.delete(`${process.env.REACT_APP_API_SERVER}/tasks/${id}`, {
+      Axios.delete(`http://localhost:4000/tasks/${id}`, {
+      // Axios.delete(`${process.env.REACT_APP_API_SERVER}/tasks/${id}`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
