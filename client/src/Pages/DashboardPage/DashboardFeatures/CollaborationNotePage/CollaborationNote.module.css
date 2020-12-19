@@ -1,9 +1,9 @@
 .Doc{
-    background-color: beige;
+    background-color: white;
     overflow: auto;
-    height: 93vh;
+    height: 94vh;
     width: 100%;
-    border: 1px solid black;
+    /* border: 1px solid black; */
 }
 
 

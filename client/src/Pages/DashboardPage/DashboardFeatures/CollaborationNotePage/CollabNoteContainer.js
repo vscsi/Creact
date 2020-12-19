@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect} from 'react';
-// import classes from "./CollaborationNote.module.css"
+import classes from "./CollaborationNote.module.css"
 import {
     Editor, 
     EditorState,
@@ -8,9 +8,6 @@ import {
     convertToRaw
 } from 'draft-js';
 import 'draft-js/dist/Draft.css';
-
-import BlockStyleControls from './components/BlockStyles';
-import InlineStyleControls from './components/InlineStyles';
 
 function MyEditor() {
     const [editorState, setEditorState] = React.useState(
@@ -25,26 +22,67 @@ function MyEditor() {
         }
         return "not-handled"
     })
-    // const _onBoldClick = useCallback(() => {
-    //     setEditorState(RichUtils.toggleInlineStyle(editorState, "BOLD"))
-    // })
 
-    // const _onItalicClick = useCallback(() => {
-    //     setEditorState(RichUtils.toggleInlineStyle(editorState, "ITALIC"))
-    // })
+    //=== save content ===//
+    
 
-    // const _onUnderlineClick = useCallback(() => {
-    //     setEditorState(RichUtils.toggleInlineStyle(editorState, "UNDERLINE"))
-    // })
 
-    // const _onCodeClick = useCallback(() => {
-    //     setEditorState(RichUtils.toggleInlineStyle(editorState, "CODE"))
-    // })
+    //=== Style controls ===//
+    
+    //Inline Styles
+    const _onBoldClick = useCallback(() => {
+        setEditorState(RichUtils.toggleInlineStyle(editorState, "BOLD"))
+    })
+    
+    const _onItalicClick = useCallback(() => {
+        setEditorState(RichUtils.toggleInlineStyle(editorState, "ITALIC"))
+    })
+    
+    const _onUnderlineClick = useCallback(() => {
+        setEditorState(RichUtils.toggleInlineStyle(editorState, "UNDERLINE"))
+    })
+    
+    const _onCodeClick = useCallback(() => {
+        setEditorState(RichUtils.toggleInlineStyle(editorState, "CODE"))
+    })
+    
+    //Block Styles
+    const _onH1Click = useCallback(() =>{
+        setEditorState(RichUtils.toggleBlockType(editorState, "header-one"))
+    })
 
+    const _onH2Click = useCallback(() =>{
+        setEditorState(RichUtils.toggleBlockType(editorState, "header-two"))
+    })
+
+    const _onH3Click = useCallback(() =>{
+        setEditorState(RichUtils.toggleBlockType(editorState, "header-three"))
+    })
+
+    const _onH4Click = useCallback(() =>{
+        setEditorState(RichUtils.toggleBlockType(editorState, "header-four"))
+    })
+
+    const _onH5Click = useCallback(() =>{
+        setEditorState(RichUtils.toggleBlockType(editorState, "header-five"))
+    })
+
+    const _onH6Click = useCallback(() =>{
+        setEditorState(RichUtils.toggleBlockType(editorState, "header-six"))
+    })
+
+    const UL = useCallback(() => {
+        setEditorState(RichUtils.toggleBlockType(editorState, "unordered-list-item"))
+    })
+
+    const OL = useCallback(() => {
+        setEditorState(RichUtils.toggleBlockType(editorState, "ordered-list-item"))
+    })
 
     return (
-        <>
-            {/* <button 
+        <div className={classes.Doc}>
+            {/* inline styles */}
+            <button 
                 onClick={_onBoldClick}
                 className={classes.Bold}>
                     Bold
@@ -62,17 +100,45 @@ function MyEditor() {
             <button 
                 onClick={_onCodeClick}
                 className={classes.Code}>
-                    Code
-            </button> */}
-            <BlockStyleControls
-                editorState={editorState}/>
-            <InlineStyleControls 
-                editorState={editorState}/>
+                    Monospace
+            </button>
+            {/* block styles */}
+            <button 
+                onClick={_onH1Click}>
+                    H1
+            </button>
+            <button 
+                onClick={_onH2Click}>
+                    H2
+            </button>
+            <button 
+                onClick={_onH3Click}>
+                    H3
+            </button>
+            <button 
+                onClick={_onH4Click}>
+                    H4
+            </button>
+            <button 
+                onClick={_onH5Click}>
+                    H5
+            </button>            <button 
+                onClick={_onH6Click}>
+                    H6
+            </button>
+            <button 
+                onClick={UL}>
+                    UL
+            </button>
+            <button 
+                onClick={OL}>
+                    OL
+            </button>
             <Editor 
                 editorState={editorState}
                 handleKeyCommand={handleKeyCommand} 
                 onChange={setEditorState} />
-        </>
+        </div>
     )
 }
 
