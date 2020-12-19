@@ -29,7 +29,7 @@ function DashboardProfileSidebar(props) {
       //1. remove localstorage of JWT
       console.log("Handling logout");
       //should communicate with checkLoginUsers route
-      removeUser(localStorage.getItem("userName"));
+      removeUser(props.name);
       localStorage.removeItem("token");
       localStorage.removeItem("userName");
       // console.log(localStorage.getItem('token'));
