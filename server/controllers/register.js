@@ -13,7 +13,7 @@ exports.postRegister= async(req,res)=>{
       if(query.length>0){
         // console.log('from server/register.js__username is already registered, please pick a new one')
         res.json({userNameRepeated: true})
-      }else{
+      }else if(username!==''&&firstname!==''&&lastname!==''&&email!==''&&password!==''){
         await knex('users')
           .insert({
             username: username,

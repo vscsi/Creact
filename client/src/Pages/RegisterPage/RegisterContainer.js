@@ -9,19 +9,25 @@ import {
 } from "react-router-dom";
 
 function RegisterContainer() {
-  //setting states for values
+  /**
+  * @param values setting states for input values 
+  * @param errors setting states for errors 
+  * @param serverError setting states for errors with response from server (check if  username repeated)  
+   */
   const[values,setValues] = useState({username:"", firstname:"", lastname:"", email:"",password:""})
-  //setting states for errors
   const [errors, setErrors] = useState({});
+  const [serverError, setServerError] = useState({});
 
-  //used for toggle routes (back to login page)
-  //isSubmitting tracks whether sign up button is clicked
-  //isSubmitted checks whether no error and signup btn is clicked before updating database
+  /**
+   *used for toggle routes (back to login page)
+  * @param isSubmitting tracks whether sign up button is clicked
+  * @param isSubmitted checks whether no error and signup btn is clicked before updating database 
+   */
+  
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isUsernameRepeated, setIsUsernameRepeated] = useState(false);
 
-  //validating login
+  /**validating login*/
   const validateLogin=(values)=>{
     let errors = {};
     if(!values.username){
@@ -52,13 +58,10 @@ function RegisterContainer() {
   }
 
 
-
-
   //handling changes
   const handleChange=(event)=>{
+    setIsSubmitted(false)
     const{name,value}=event.target;
-    console.log(isUsernameRepeated)
-    // console.log(name,value,values,values.email)
     setValues({
       ...values,//make shallow copies of current states in object
       [name]:value //replacing current values with newly changed values 
@@ -68,26 +71,11 @@ function RegisterContainer() {
   //handling submit
   const handleSubmit=async e=>{
     e.preventDefault();
-    setErrors(validateLogin(values));
-    // console.log(errors)
-    // console.log(Object.keys(errors).length);
     setIsSubmitting(true);
-  }
-
-
-  //if there is no errors, go ahead to submit
-  useEffect(() => {
-    if (Object.keys(errors).length === 0 && isSubmitting) {
-      setIsSubmitted(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [errors]);
-
-
-    useEffect(()=>{
-      const {username, firstname, lastname, email,password} =values;
-      const body = {username, firstname, lastname, email, password};
-      const url = "http://localhost:4000/register";
+    setServerError({})
+    const {username, firstname, lastname, email,password} =values;
+    const body = {username, firstname, lastname, email, password};
+    const url = "http://localhost:4000/register";
       // const url = `${process.env.REACT_APP_API_SERVER}/register`;
       async function postRegister(){
         try{
@@ -97,22 +85,44 @@ function RegisterContainer() {
             body: JSON.stringify(body)
           });
          const result = await response.json();
-         console.log(result);
-        if(result.isUsernameRepeated){
-           setIsUsernameRepeated(true);
+         console.log(result.userNameRepeated);
+        if(result.userNameRepeated === true){
+          // console.log(result.userNameRepeated)
+           setServerError({username: 'username is already taken, please choose a new one.'})
+          }else{
+           setServerError({username: ''})
         }
-        }catch(e){
-          console.error(e.message);
-        }
+        console.log(values)
+      }catch(e){
+        console.error(e.message);
       }
-      postRegister();
+    }
+    postRegister();
+    setErrors(validateLogin(values));
+      // console.log(isSubmitted)
+      // console.log(serverError);
+      // console.log(Object.keys(errors).length);
+      
+    }
+    
+    
+    //if there are no errors, go ahead to submit
+    useEffect(() => {
+      if (Object.keys(errors).length === 0&& Object.keys(serverError).length === 0&&isSubmitting) {
+        setIsSubmitted(true); 
+      }
+      // console.log(isSubmitted)
+      // console.log(serverError);
+      // console.log(errors, serverError)
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[isSubmitted])
+    }, [errors, serverError]);
+    
+
 
     return (
     <>
     {
-      (isSubmitted&&!isUsernameRepeated)?
+      (isSubmitted)?
       <Redirect to="/login"/>
       :
         <Grid 
@@ -122,13 +132,8 @@ function RegisterContainer() {
         alignItems="center"
         >
         <h1 className={RegisterCss.registerH1Container}>Register in Creact!</h1>
-        {
-          (isUsernameRepeated)?
-          <p>Username is registered, please choose another username.</p>
-          :
-          ""
-        }
-        <form onSubmit={handleSubmit} noValidate>
+        <form onSubmit={handleSubmit} 
+        noValidate>
         <Grid 
         container
         direction="column"
@@ -142,7 +147,7 @@ function RegisterContainer() {
             value={values.username}
             onChange={handleChange}/>
             {errors.username? <FormHelperText>{errors.username}</FormHelperText>:""}
-            
+            {serverError.username? <FormHelperText>{serverError.username}</FormHelperText>:""}
 
             <TextField 
             placeholder="firstname" 
@@ -180,6 +185,7 @@ function RegisterContainer() {
             <Button 
             variant="outlined"
             type="submit"
+            onClick={()=>setIsSubmitted(false)}
             >
               Sign up
             </Button>
