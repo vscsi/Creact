@@ -32,8 +32,8 @@ function DashboardNavbar(props) {
           <MaterialUI.Avatar classes={{ root: classes.root }}>
             {props.loginUsers[0].name}
           </MaterialUI.Avatar>
-        </div> /}
-        {/ {props.loginUsers.map((item, index) => {
+        </div> */}
+        {/* {props.loginUsers.map((item, index) => {
           return <span key={index}>{item.username}</span>;
         })} */}
       </nav>
