@@ -224,6 +224,7 @@ function MyEditor() {
                 onClick={OL}>
                     OL
             </button>
+            
             <Editor 
                 editorState={editorState}
                 handleKeyCommand={handleKeyCommand} 
