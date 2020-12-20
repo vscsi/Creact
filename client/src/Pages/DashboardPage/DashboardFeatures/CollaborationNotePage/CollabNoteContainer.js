@@ -19,7 +19,6 @@ function MyEditor() {
     const ENDPOINT = 'http://localhost:4000';
     // const ENDPOINT = ${process.env.REACT_APP_API_SERVER};
     const [editorState, setEditorState] = useState(
-
         () => EditorState.createEmpty(),
     );
 
@@ -35,11 +34,16 @@ function MyEditor() {
                 headers: { "x-access-token": localStorage.getItem("token") },
             }
         ).then((res)=>{
-            const documentContent = res.data[0]["document_content"]
-            console.log(documentContent, "woooooo")
-            // const doc = convertFromRaw(JSON.parse(documentContent))
-            // console.log(doc, "weeee")
-            setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(documentContent))))
+            // console.log(res.data.length)
+            if(res.data.length >0){
+                const documentContent = res.data[0]["document_content"]
+                console.log(documentContent, "woooooo")
+                // const doc = convertFromRaw(JSON.parse(documentContent))
+                // console.log(doc, "weeee")
+                setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(documentContent))))
+            } else {
+                setEditorState(EditorState.createEmpty());
+            }
         })
     }, []);
 

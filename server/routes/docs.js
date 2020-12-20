@@ -11,8 +11,8 @@ const docsController = require('../controllers/docs');
 router.post('/getdoc', verifyJWT, docsController.getDoc)
 
 // save docs
-router.post('/savedoc', verifyJWT, docsController.postCheckUpdateDoc);
-router.post('/savedoc', verifyJWT, docsController.postSaveNewDoc);
+router.post('/savedoc', verifyJWT, docsController.postCheckUpdateSaveDoc);
+// router.post('/savedoc', verifyJWT, docsController.postSaveNewDoc);
 
 
 module.exports = router;
