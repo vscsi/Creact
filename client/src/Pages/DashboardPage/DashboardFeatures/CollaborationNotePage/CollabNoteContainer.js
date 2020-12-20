@@ -22,38 +22,25 @@ function MyEditor() {
         () => EditorState.createEmpty(),
     );
 
-    const [content, setContent] = useState({})
-
-    const getDoc = () =>{
-        try{
-            const currentWorkspace = getCurrentWorkspace();
-            Axios.post(
-                "http://localhost:4000/getdoc",
-                // `${process.env.REACT_APP_API_SERVER}/getdoc`,
-                {
-                    docName: currentWorkspace
-                },
-                {
-                    headers: { "x-access-token": localStorage.getItem("token") },
-                }
-            ).then((res)=>{
-                const documentContent = res.data[0]["document_content"]
-                console.log(documentContent, "woooooo")
-                const doc = convertFromRaw(JSON.parse(documentContent))
-                console.log(doc, "weeee")
-                setContent(doc)
-            })
-        } catch (error){
-            console.error(error.mesage)
-        }
-
-    }
-
     useEffect(() =>{
-        getDoc();
+        const currentWorkspace = getCurrentWorkspace();
+        Axios.post(
+            "http://localhost:4000/getdoc",
+            // `${process.env.REACT_APP_API_SERVER}/getdoc`,
+            {
+                docName: currentWorkspace
+            },
+            {
+                headers: { "x-access-token": localStorage.getItem("token") },
+            }
+        ).then((res)=>{
+            const documentContent = res.data[0]["document_content"]
+            console.log(documentContent, "woooooo")
+            // const doc = convertFromRaw(JSON.parse(documentContent))
+            // console.log(doc, "weeee")
+            setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(documentContent))))
+        })
     }, []);
-
-    
 
     //eslint-disable-next-line
     const [my_socketid, setSocketId] =useState('');    
@@ -86,9 +73,9 @@ function MyEditor() {
 
     //eslint-disable-next-line
     const handler = useCallback ( e => {
-        console.log('Keyup get, Charles the great' );
+        // console.log('Keyup get, Charles the great' );
         const contentState = editorState.getCurrentContent();
-        console.log('content state',  convertToRaw(contentState))
+        // console.log('content state',  convertToRaw(contentState))
         const docSaveCard = JSON.stringify(convertToRaw(contentState));
         console.log('whats in saveCard', docSaveCard)
         socket.emit('saveCardFromClient', {data: docSaveCard})
@@ -215,12 +202,12 @@ function MyEditor() {
     useEffect(()=> {
         socket.on('servertoClientSaveCard', (data)=> {
 
-            console.log('recevie from server, one take Charles')
+            // console.log('recevie from server, one take Charles')
             const content = data.data;
             setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(content))))
         })
 
-        console.log('editor state', editorState.getCurrentContent())
+        // console.log('editor state', editorState.getCurrentContent())
         //eslint-disable-next-line
     },[])
 
