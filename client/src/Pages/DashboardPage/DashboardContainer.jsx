@@ -3,7 +3,7 @@ import DashboardContainerCss from "./DashboardContainer.module.css";
 import { Grid } from "@material-ui/core";
 import {
   BrowserRouter as Router,
-  Switch,
+  // Switch,
   Route,
   // useParams,
 } from "react-router-dom";
@@ -24,14 +24,14 @@ import Axios from "axios";
 // import VideoConferenceRoom from "./DashboardFeatures/VideoPage/VideoConferenceRoom";
 // import VideoCreateRoom from "./DashboardFeatures/VideoPage/VideoCreateRoom";
 import VideoContainer from "./DashboardFeatures/VideoPage/VideoContainer";
-import { withStyles } from "@material-ui/core/styles";
+// import { withStyles } from "@material-ui/core/styles";
 
-const styles = () => ({
-  root: {
-    padding: 16,
-    width: "100%",
-  },
-});
+// const styles = () => ({
+//   root: {
+//     padding: 16,
+//     width: "100%",
+//   },
+// });
 
 function DashboardContainer() {
   const [userName, setUserName] = useState("");
@@ -44,6 +44,7 @@ function DashboardContainer() {
   const [chatroomId, setChatroomId] = useState("");
   const [userId, setUserId] = useState("");
   const [loginUsers, setLoginUsers] = useState([]);
+  // const [currClickWorkspace, setCurrClickWorkspace] = useState("");
 
   const chatroomInit = (workspace) => {
     console.log("chatroomInit receive", workspace);
@@ -206,6 +207,7 @@ function DashboardContainer() {
           <DashboardProfileSidebar
             name={userName}
             workspaces={userWorkspaces}
+            currClickWorkspace={currentWorkspace}
           />
           <DashboardFeatureSidebar
             currentWorkspace={currentWorkspace}
@@ -226,8 +228,13 @@ function DashboardContainer() {
             <Route path="/profile" component={DashboardProfileHome} />
             {/* <Route path="/profile/find" component={DashboardAddSocial} /> */}
             <Route
+              exact
               path="/profile/create"
-              component={DashboardCreateWorkspace}
+              render={() => {
+                setCurrentWorkspace("");
+                return <DashboardCreateWorkspace />;
+              }}
+              // component={DashboardCreateWorkspace}
             />
             <Route path="/profile/search">
               <DashboardSearchWorkspace allWorkspaces={allWorkspaces} />

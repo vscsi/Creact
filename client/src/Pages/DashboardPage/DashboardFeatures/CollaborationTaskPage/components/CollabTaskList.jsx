@@ -1,19 +1,23 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CollabTaskListItem from "./CollabTaskListItem";
-import styles from "./CollabTaskList.module.css";
+// import styles from "./CollabTaskList.module.css";
 import Pagination from "./Pagination";
-import Paper from "@material-ui/core/Paper";
+// import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
+import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    // ...theme.typography.button,
+    // backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(1),
   },
   paper: {
     padding: theme.spacing(2),
     textAlign: "center",
-    color: theme.palette.text.secondary,
+    // color: theme.palette.text.secondary,
   },
 }));
 
@@ -22,7 +26,9 @@ const CollabTaskList = (props) => {
 
   return (
     <div className={classes.root}>
-      <h1>Task Lists</h1>
+      {/* <Typography align="center" variant="h4" gutterBottom>
+        Task Lists
+      </Typography> */}
       <Grid container spacing={2}>
         {props.tasks.map((task) => {
           return (

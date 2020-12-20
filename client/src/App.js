@@ -8,13 +8,14 @@ import RegisterContainer from "./Pages/RegisterPage/RegisterContainer";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Axios from "axios";
 
+
 function App() {
   const [isLogin, setLogin] = useState(false);
 
   //1. if already have token stored in localstorage, send get request to server, check if the token is correct, if yes, setLogin to true
   const isAuthenticate = () => {
     Axios.get("http://localhost:4000/isUserAuth", {
-    // Axios.get(`${process.env.REACT_APP_API_SERVER}/isUserAuth`, {
+      // Axios.get(`${process.env.REACT_APP_API_SERVER}/isUserAuth`, {
       headers: {
         "x-access-token": localStorage.getItem("token"),
       },
@@ -35,14 +36,16 @@ function App() {
       <Switch>
         <Route path="/" exact component={LandingPageContainer} />
         <Route
-          exact path="/login"
+          exact
+          path="/login"
           component={isLogin ? DashboardProfileContainer : LoginContainer}
         />
         <Route exact path="/register" component={RegisterContainer} />
-        <Route exact
+        <Route
+          exact
           path="/profile"
           component={isLogin && DashboardProfileContainer}
-        />
+        />{" "}
         {/* <Route
           path="/workspace"
           exact
