@@ -16,11 +16,44 @@ import Axios from 'axios';
 let socket
 
 function MyEditor() {
-    const ENDPOINT = 'localhost:4000';
+    const ENDPOINT = 'http://localhost:4000';
     // const ENDPOINT = ${process.env.REACT_APP_API_SERVER};
     const [editorState, setEditorState] = useState(
         () => EditorState.createEmpty(),
     );
+
+    const [content, setContent] = useState({})
+
+    const getDoc = () =>{
+        try{
+            const currentWorkspace = getCurrentWorkspace();
+            Axios.post(
+                "http://localhost:4000/getdoc",
+                // `${process.env.REACT_APP_API_SERVER}/getdoc`,
+                {
+                    docName: currentWorkspace
+                },
+                {
+                    headers: { "x-access-token": localStorage.getItem("token") },
+                }
+            ).then((res)=>{
+                const documentContent = res.data[0]["document_content"]
+                console.log(documentContent, "woooooo")
+                const doc = convertFromRaw(JSON.parse(documentContent))
+                console.log(doc, "weeee")
+                setContent(doc)
+            })
+        } catch (error){
+            console.error(error.mesage)
+        }
+
+    }
+
+    useEffect(() =>{
+        getDoc();
+    }, []);
+
+    
 
     //eslint-disable-next-line
     const [my_socketid, setSocketId] =useState('');    
@@ -33,7 +66,7 @@ function MyEditor() {
         const docContent = JSON.stringify(convertToRaw(contentState))
         try{
             Axios.post(
-                "https://localhost:4000/savedoc",
+                "http://localhost:4000/savedoc",
                 // `${process.env.REACT_APP_API_SERVER}/savedoc`,
                 {
                     docContent: docContent,
@@ -44,7 +77,6 @@ function MyEditor() {
                 }
             )
             .then((res) => {
-                console.log("get res from '/savedocs");
                 console.log(res);
             })
         }catch (err){
