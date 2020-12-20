@@ -10,19 +10,73 @@ import {
 import io from 'socket.io-client';
 import {getCurrentWorkspace} from '../../../../services/getCurrentWorkspace'
 import 'draft-js/dist/Draft.css';
+import Axios from 'axios';
+
 
 let socket
 
 function MyEditor() {
     // const ENDPOINT = 'http://localhost:4000';
     const ENDPOINT = process.env.REACT_APP_API_SERVER;
-    const [editorState, setEditorState] = React.useState(
+    const [editorState, setEditorState] = useState(
         () => EditorState.createEmpty(),
     );
- //eslint-disable-next-line
+
+    useEffect(() =>{
+        const currentWorkspace = getCurrentWorkspace();
+        Axios.post(
+            // "http://localhost:4000/getdoc",
+            `${process.env.REACT_APP_API_SERVER}/getdoc`,
+            {
+                docName: currentWorkspace
+            },
+            {
+                headers: { "x-access-token": localStorage.getItem("token") },
+            }
+        ).then((res)=>{
+            // console.log(res.data.length)
+            if(res.data.length >0){
+                const documentContent = res.data[0]["document_content"]
+                console.log(documentContent, "woooooo")
+                // const doc = convertFromRaw(JSON.parse(documentContent))
+                // console.log(doc, "weeee")
+                setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(documentContent))))
+            } else {
+                setEditorState(EditorState.createEmpty());
+            }
+        })
+    }, []);
+
+    //eslint-disable-next-line
     const [my_socketid, setSocketId] =useState('');    
 
- //eslint-disable-next-line
+        //=== save content ===//
+    //eslint-disable-next-line
+    const SaveDoc = useCallback(() => {
+        const currentWorkspace = getCurrentWorkspace();
+        const contentState = editorState.getCurrentContent();
+        const docContent = JSON.stringify(convertToRaw(contentState))
+        try{
+            Axios.post(
+                // "http://localhost:4000/savedoc",
+                `${process.env.REACT_APP_API_SERVER}/savedoc`,
+                {
+                    docContent: docContent,
+                    docName: currentWorkspace
+                },
+                {
+                    headers: { "x-access-token": localStorage.getItem("token") },
+                }
+            )
+            .then((res) => {
+                console.log(res);
+            })
+        }catch (err){
+            console.err();
+        }
+    })
+
+    //eslint-disable-next-line
     const handler = useCallback ( e => {
         // console.log('Keyup get, Charles the great' );
         const contentState = editorState.getCurrentContent();
@@ -40,8 +94,7 @@ function MyEditor() {
         socket.emit('newClient', {socket_id: socket.id})
 
     } )
-
-
+    
       useEventListener('keyup', handler)
       useEventListener('mousedown', handler2)
 
@@ -64,9 +117,9 @@ function MyEditor() {
           }
         }, [eventName, element]  )
     
-    
       }   
- //eslint-disable-next-line
+
+      //eslint-disable-next-line
     const handleKeyCommand = useCallback((command, editorState) => {
         const newState = RichUtils.handleKeyCommand(editorState, command)
         if(newState) {
@@ -77,13 +130,6 @@ function MyEditor() {
         return "not-handled"
     })
 
-    
-    
-
-    //=== save content ===//
-
-
-
     //=== Style controls ===//
     
     //Inline Styles
@@ -91,21 +137,23 @@ function MyEditor() {
     const _onBoldClick = useCallback(() => {
         setEditorState(RichUtils.toggleInlineStyle(editorState, "BOLD"))
     })
+    
     //eslint-disable-next-line
     const _onItalicClick = useCallback(() => {
         setEditorState(RichUtils.toggleInlineStyle(editorState, "ITALIC"))
     })
+    
     //eslint-disable-next-line
     const _onUnderlineClick = useCallback(() => {
         setEditorState(RichUtils.toggleInlineStyle(editorState, "UNDERLINE"))
     })
+    
     //eslint-disable-next-line
     const _onCodeClick = useCallback(() => {
         setEditorState(RichUtils.toggleInlineStyle(editorState, "CODE"))
     })
     
     //Block Styles
-
     //eslint-disable-next-line
     const _onH1Click = useCallback(() =>{
         setEditorState(RichUtils.toggleBlockType(editorState, "header-one"))
@@ -147,14 +195,11 @@ function MyEditor() {
           socket.on('onConnect', data=> {
             setSocketId(data.socket_id)
            
-           
           })
       
           socket.emit('join', {workspaceName})
 
-
           socket.emit('newClient', {socket_id: socket.id})
-
 
           return () => {
             socket.disconnect();
@@ -168,14 +213,14 @@ function MyEditor() {
     useEffect(()=> {
         socket.on('servertoClientSaveCard', (data)=> {
 
-            console.log('recevie from server, one take Charles')
+            // console.log('recevie from server, one take Charles')
             const content = data.data;
             setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(content))))
         })
 
         // console.log('editor state', editorState.getCurrentContent())
-        
-    }, [])
+        //eslint-disable-next-line
+    },[])
 
 
     return (
@@ -233,6 +278,11 @@ function MyEditor() {
                 onClick={OL}>
                     OL
             </button>
+            <button
+                onClick={SaveDoc}>
+                Save
+            </button>
+            
             <Editor 
                 editorState={editorState}
                 handleKeyCommand={handleKeyCommand} 

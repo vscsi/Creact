@@ -41,6 +41,7 @@ const workspaceRoutes = require("./routes/workspace");
 const userRoutes = require("./routes/user");
 const videoCreateRoomRoutes = require("./routes/videoCreateRoom");
 const videoShowRoomRoutes = require('./routes/videoShowRoom')
+const docRoutes = require('./routes/docs')
 
 //jwt
 // app.use(
@@ -62,6 +63,7 @@ app.use(workspaceRoutes);
 app.use(userRoutes);
 app.use(videoCreateRoomRoutes);
 app.use(videoShowRoomRoutes);
+app.use(docRoutes);
 //api routes
 
 //Auth stuff

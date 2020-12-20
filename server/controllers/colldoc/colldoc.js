@@ -10,9 +10,6 @@ module.exports = function (io) {
             workspace = data.workspaceName   
             
             
-            // if (data) {
-            //     socket.emit("servertoClientSaveCard", data)
-            // }
 
         })
 
@@ -24,17 +21,6 @@ module.exports = function (io) {
             socket.broadcast.to(workspace).emit('servertoClientSaveCard', data)
 
             
-        })
-
-        socket.on('newClient', (data)=> {
-            console.log('got newClient, data sent to new client', data.socket_id)
-            socket_id = data.socket_id;
-            if (typedata) {
-                io.to(socket_id).emit('servertoClientSaveCard', typedata)
-            }
-            console.log('typedata correct?', typedata)
-          
-
         })
 
         socket.on('disconnect', ()=> {

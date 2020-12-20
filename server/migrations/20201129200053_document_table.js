@@ -4,7 +4,6 @@ exports.up = function(knex) {
       table.increments('id').primary();
       table.text('document_name');
       table.text('document_content');
-      table.timestamps(true, true)
   })
 };
 
