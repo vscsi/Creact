@@ -40,9 +40,15 @@ function DashboardProfileSidebar(props) {
         headers: { "x-access-token": localStorage.getItem("token") },
       }).then((res) => {
         console.log("has removed the userName in login_users");
+        console.log(`currUsers is below`);
+        console.log(res.data.currUsers);
         localStorage.setItem(
           `${res.data.user}`,
           `${res.data.user} is deleted in server`
+        );
+        localStorage.setItem(
+          `currentUsers`,
+          JSON.stringify(res.data.currUsers)
         );
       });
     } catch (error) {

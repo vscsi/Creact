@@ -71,8 +71,11 @@ exports.removeLoginUsers = async (req, res) => {
         username: removeUser,
       })
       .del();
+    const currUsers = await knex('login_users').select('*');
+    console.log(`currUsers are below`);
+    console.log(currUsers);
     console.log("has removed users from login_users table");
-    res.json({ user: removeUser });
+    res.json({ user: removeUser, currUsers: currUsers});
   } catch (error) {
     console.error(error.message);
   }
