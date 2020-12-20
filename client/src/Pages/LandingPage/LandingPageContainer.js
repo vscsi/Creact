@@ -1,26 +1,61 @@
 import React from "react";
 import NavBar from "./Nav/NavBar";
-// import Download from "./Content/Download/Download";
-// import Price from "./Content/Price/Price";
-// import Reason from "./Content/Reason/Reason";
-// import Safety from "./Content/Safety/Safety";
-// import Support from "./Content/Support/Support";
-// import Home from "./Content/Home/Home";
-// import Login from "./Content/Login/Login";
+
+import logo from './img/logo.png'
+
+import './landingpage.css';
+
 
 function LandingPageContainer(props) {
 
-  // const [isLogin, setLogin] = useState(false);
-  // function handleLogin() {
-  //   console.log("Render from App.js");
-  //   setLogin((prev)=>{
-  //     return !prev;
-  //   })
-  // }
+ 
+  const Header = () => {
+    return (
+      <div className='header'>
+        <div className= "logo-box">
+          <img src={logo} alt="logo" className="logo"/>
+        </div>
+      
+      <div className="text-box">
+        <h1 className='heading-primary'>
+          <span className="heading-primary-main">Creact</span>
+          <span className="heading-primary-sub">is where creativity happens</span>
+        </h1>
+      </div>
+
+        
+      </div>
+    )
+  }
+
+  const Card = (props) => {
+    return (
+      <div className={props.className} >
+
+      </div>
+    )
+  }
+
+  const Footer = (props) => {
+    return (
+      <div className="footer" >
+
+
+      </div>
+    )
+  }
+
+
 
   return (
     <>  
-      <NavBar/>
+      {/* <NavBar/> */}
+      <div id = "body">
+        <Header />
+        <Card/>
+        <Footer />
+
+      </div>
     </>
   )
 }
