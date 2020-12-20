@@ -56,11 +56,6 @@ function WhiteboardContainer(props, {location}) {
     return () => {
       socket.disconnect();
     }
-
-    return () => {
-      socket.disconnect();
-    }
-
 //eslint-disable-next-line
   },[ENDPOINT]);
 

@@ -5,7 +5,7 @@ import CollabTaskListItem from "./CollabTaskListItem";
 import Pagination from "./Pagination";
 // import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import { Typography } from "@material-ui/core";
+// import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
