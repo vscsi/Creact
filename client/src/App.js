@@ -8,6 +8,7 @@ import RegisterContainer from "./Pages/RegisterPage/RegisterContainer";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Axios from "axios";
 
+
 function App() {
   const [isLogin, setLogin] = useState(false);
 
@@ -35,14 +36,16 @@ function App() {
       <Switch>
         <Route path="/" exact component={LandingPageContainer} />
         <Route
-          exact path="/login"
+          exact
+          path="/login"
           component={isLogin ? DashboardProfileContainer : LoginContainer}
         />
         <Route exact path="/register" component={RegisterContainer} />
-        <Route exact
+        <Route
+          exact
           path="/profile"
           component={isLogin && DashboardProfileContainer}
-        />
+        />{" "}
         {/* <Route
           path="/workspace"
           exact

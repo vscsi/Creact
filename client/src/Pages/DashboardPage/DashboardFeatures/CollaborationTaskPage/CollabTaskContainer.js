@@ -95,7 +95,7 @@ const CollabTaskContainer = (props) => {
   return (
     // <div className={styles.wrapper}>
     <div className={classes.root}>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} m={2}>
         {props.isAdmin && (
           <Grid item xs={6}>
             <CollabTaskBox

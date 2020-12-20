@@ -3,6 +3,7 @@ import DashboardContainerCss from "./DashboardContainer.module.css";
 import { Grid } from "@material-ui/core";
 import {
   BrowserRouter as Router,
+  // Switch,
   Route,
   // useParams,
 } from "react-router-dom";
@@ -43,6 +44,7 @@ function DashboardContainer() {
   const [chatroomId, setChatroomId] = useState("");
   const [userId, setUserId] = useState("");
   const [loginUsers, setLoginUsers] = useState([]);
+  // const [currClickWorkspace, setCurrClickWorkspace] = useState("");
 
   const chatroomInit = (workspace) => {
     console.log("chatroomInit receive", workspace);
@@ -205,6 +207,7 @@ function DashboardContainer() {
           <DashboardProfileSidebar
             name={userName}
             workspaces={userWorkspaces}
+            currClickWorkspace={currentWorkspace}
           />
           <DashboardFeatureSidebar
             currentWorkspace={currentWorkspace}
@@ -225,8 +228,13 @@ function DashboardContainer() {
             <Route path="/profile" component={DashboardProfileHome} />
             {/* <Route path="/profile/find" component={DashboardAddSocial} /> */}
             <Route
+              exact
               path="/profile/create"
-              component={DashboardCreateWorkspace}
+              render={() => {
+                setCurrentWorkspace("");
+                return <DashboardCreateWorkspace />;
+              }}
+              // component={DashboardCreateWorkspace}
             />
             <Route path="/profile/search">
               <DashboardSearchWorkspace allWorkspaces={allWorkspaces} />

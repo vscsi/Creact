@@ -15,12 +15,14 @@ import DashboardProfileHome from "./DashboardComponent/DashboardProfileHome.js";
 // import DashboardFriendSidebar from "./DashboardComponent/DashboardFriendSidebar";
 import Axios from "axios";
 import DashboardSearchWorkspace from "./DashboardComponent/DashboardSearchWorkspace";
+// import { getCurrentWorkspace } from "../../services/getCurrentWorkspace";
 
 function DashboardProfileContainer() {
   const [userName, setUserName] = useState("");
   const [userWorkspaces, setUserWorkspaces] = useState([]);
   const [allWorkspaces, setAllWorkspaces] = useState([]);
   const [loginUsers, setLoginUsers] = useState([]);
+  const [currClickWorkspace, setCurrClickWorkspace] = useState("");
 
   const getUserWorkspaces = () => {
     try {
@@ -76,16 +78,10 @@ function DashboardProfileContainer() {
 
   const postLogout = () => {
     try {
-      Axios.post(
-        // "http://localhost:4000/checkloginusers",
-        `${process.env.REACT_APP_API_SERVER}/checkloginusers`,
-        {
-          userName: "",
-        },
-        {
-          headers: { "x-access-token": localStorage.getItem("token") },
-        }
-      ).then((res) => {
+      // Axios.get("http://localhost:4000/checkloginusers", {
+      Axios.get(`${process.env.REACT_APP_API_SERVER}/checkloginusers`, {
+        headers: { "x-access-token": localStorage.getItem("token") },
+      }).then((res) => {
         console.log("Current login users from '/checkloginusers'");
         console.log(res.data.loginUsers);
         const currentLoginUsers = res.data.loginUsers;
@@ -116,6 +112,7 @@ function DashboardProfileContainer() {
           <DashboardProfileSidebar
             name={userName}
             workspaces={userWorkspaces}
+            currClickWorkspace={currClickWorkspace}
           />
           <Grid
             Container
@@ -124,15 +121,20 @@ function DashboardProfileContainer() {
             spacing={0}
             alignItems={"flex-end"}
           >
-            <DashboardNavbar loginUsers={loginUsers} userName={userName}/>
+            <DashboardNavbar loginUsers={loginUsers} userName={userName} />
             <Switch>
               <Route exact path="/profile" component={DashboardProfileHome} />
               {/* <Route path="/profile/find" component={DashboardAddSocial} /> */}
               <Route
+                exact
                 path="/profile/create"
-                component={DashboardCreateWorkspace}
+                render={() => {
+                  setCurrClickWorkspace("");
+                  return <DashboardCreateWorkspace />;
+                }}
+                // component={DashboardCreateWorkspace}
               />
-              <Route path="/profile/search">
+              <Route exact path="/profile/search">
                 <DashboardSearchWorkspace allWorkspaces={allWorkspaces} />
               </Route>
             </Switch>

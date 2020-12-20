@@ -12,7 +12,7 @@ import {
 
 const DashboardFeatureSidebar = (props) => {
   
-  console.log('dashboardfeaturessidebar props.chatroomId', props)
+  // console.log('dashboardfeaturessidebar props.chatroomId', props)
   return (
     <MaterialUI.Grid
       container

@@ -1,17 +1,72 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import classes from "./CollaborationNote.module.css"
 import {
     Editor, 
     EditorState,
-    RichUtils
+    RichUtils,
+    convertToRaw,
+    convertFromRaw
 } from 'draft-js';
+import io from 'socket.io-client';
+import {getCurrentWorkspace} from '../../../../services/getCurrentWorkspace'
 import 'draft-js/dist/Draft.css';
 
+let socket
+
 function MyEditor() {
+    // const ENDPOINT = 'http://localhost:4000';
+    const ENDPOINT = process.env.REACT_APP_API_SERVER;
     const [editorState, setEditorState] = React.useState(
         () => EditorState.createEmpty(),
     );
-    //eslint-disable-next-line
+ //eslint-disable-next-line
+    const [my_socketid, setSocketId] =useState('');    
+
+ //eslint-disable-next-line
+    const handler = useCallback ( e => {
+        // console.log('Keyup get, Charles the great' );
+        const contentState = editorState.getCurrentContent();
+        // console.log('content state',  convertToRaw(contentState))
+        const docSaveCard = JSON.stringify(convertToRaw(contentState));
+        // console.log('whats in saveCard', docSaveCard)
+        socket.emit('saveCardFromClient', {data: docSaveCard})
+      })
+
+
+ //eslint-disable-next-line
+    const handler2 = useCallback(e => {
+        console.log('mousedown get thank you ');
+        console.log('is it becuase you are empty?', socket.id)
+        socket.emit('newClient', {socket_id: socket.id})
+
+    } )
+
+
+      useEventListener('keyup', handler)
+      useEventListener('mousedown', handler2)
+
+    function useEventListener(eventName, handler, element = window){
+        const savedHandler = useRef();
+        useEffect(()=> {
+          savedHandler.current = handler;
+        }, [handler])
+    
+        useEffect( ()=> {
+          const isSupported = element && element.addEventListener;
+          if (!isSupported) return;
+          
+          const eventListener = event => savedHandler.current(event);
+      
+          element.addEventListener(eventName, eventListener);
+      
+          return() => {
+            element.removeEventListener(eventName, eventListener);
+          }
+        }, [eventName, element]  )
+    
+    
+      }   
+ //eslint-disable-next-line
     const handleKeyCommand = useCallback((command, editorState) => {
         const newState = RichUtils.handleKeyCommand(editorState, command)
         if(newState) {
@@ -21,6 +76,9 @@ function MyEditor() {
         }
         return "not-handled"
     })
+
+    
+    
 
     //=== save content ===//
 
@@ -80,6 +138,45 @@ function MyEditor() {
     const OL = useCallback(() => {
         setEditorState(RichUtils.toggleBlockType(editorState, "ordered-list-item"))
     })
+
+    useEffect(()=> {
+        socket = io(ENDPOINT, {
+            path: '/colldoc'
+          });
+          const workspaceName = getCurrentWorkspace();
+          socket.on('onConnect', data=> {
+            setSocketId(data.socket_id)
+           
+           
+          })
+      
+          socket.emit('join', {workspaceName})
+
+
+          socket.emit('newClient', {socket_id: socket.id})
+
+
+          return () => {
+            socket.disconnect();
+          }
+      
+
+    },[ENDPOINT])
+    
+
+
+    useEffect(()=> {
+        socket.on('servertoClientSaveCard', (data)=> {
+
+            console.log('recevie from server, one take Charles')
+            const content = data.data;
+            setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(content))))
+        })
+
+        // console.log('editor state', editorState.getCurrentContent())
+        
+    }, [])
+
 
     return (
         <div className={classes.Doc}>

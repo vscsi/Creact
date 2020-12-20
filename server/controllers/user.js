@@ -1,6 +1,6 @@
 const knex = require("../models/knex");
-const jwt = require("jsonwebtoken");
-const config = require("../config.json");
+// const jwt = require("jsonwebtoken");
+// const config = require("../config.json");
 
 exports.getUserName = async (req, res) => {
   try {
@@ -24,23 +24,23 @@ exports.checkLoginUsers = async (req, res) => {
     //if user log in, will save the userName into loginusers
     //if user log out, will remove the userName from loginusers
     console.log(`in checkLoginUsers route`);
-    // let loginUsers = [];
     // console.log(loginUsers);
     //when user first login, in dashboardprofilecontinaer
-    if (req.body.userName === "") {
-      //if db dont have this username yet
-      const returnUserName = await knex("login_users")
-        .where({
-          username: req.userName,
-        })
-        .select("*");
-      if (returnUserName.length === 0) {
-        await knex("login_users").insert({
-          username: req.userName,
-        });
-      }
-      // loginUsers.push({name: req.userName});
+
+    //if db dont have this username yet
+    const returnUserName = await knex("login_users")
+      .where({
+        username: req.userName,
+      })
+      .select("*");
+    console.log(`returnUserName is below`);
+    console.log(returnUserName);
+    if (returnUserName.length === 0) {
+      await knex("login_users").insert({
+        username: req.userName,
+      });
     }
+
     // else {
     //   //if user want to logout, delete his username
     //   console.log(`req.body.userName is below`);
@@ -71,8 +71,11 @@ exports.removeLoginUsers = async (req, res) => {
         username: removeUser,
       })
       .del();
+    const currUsers = await knex('login_users').select('*');
+    console.log(`currUsers are below`);
+    console.log(currUsers);
     console.log("has removed users from login_users table");
-    res.json({ message: "has removed users from login_users table" });
+    res.json({ user: removeUser, currUsers: currUsers});
   } catch (error) {
     console.error(error.message);
   }

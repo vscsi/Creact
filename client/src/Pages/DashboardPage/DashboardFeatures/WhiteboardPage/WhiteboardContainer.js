@@ -6,7 +6,7 @@ import ReactColorPicker from '@super-effective/react-color-picker';
 import {getCurrentWorkspace} from '../../../../services/getCurrentWorkspace'
 import './Whiteboard.css'
 
-// https://github.com/dabit3/appsync-graphql-real-time-canvas/blob/master/src/Canvas.js
+
 
 let socket
 //eslint-disable-next-line
@@ -57,7 +57,9 @@ function WhiteboardContainer(props, {location}) {
       socket.disconnect();
     }
 
-
+    return () => {
+      socket.disconnect();
+    }
 
 //eslint-disable-next-line
   },[ENDPOINT]);
