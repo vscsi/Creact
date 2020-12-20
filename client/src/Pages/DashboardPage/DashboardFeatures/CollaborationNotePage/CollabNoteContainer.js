@@ -14,7 +14,7 @@ import 'draft-js/dist/Draft.css';
 let socket
 
 function MyEditor() {
-    const ENDPOINT = 'localhost:4000';
+    const ENDPOINT = 'http://localhost:4000';
     const [editorState, setEditorState] = React.useState(
         () => EditorState.createEmpty(),
     );
@@ -22,18 +22,26 @@ function MyEditor() {
 
 
     const handler = useCallback ( e => {
-        console.log('Keyup get, Charles the great' );
+        // console.log('Keyup get, Charles the great' );
         const contentState = editorState.getCurrentContent();
-        console.log('content state',  convertToRaw(contentState))
+        // console.log('content state',  convertToRaw(contentState))
         const docSaveCard = JSON.stringify(convertToRaw(contentState));
-        console.log('whats in saveCard', docSaveCard)
+        // console.log('whats in saveCard', docSaveCard)
         socket.emit('saveCardFromClient', {data: docSaveCard})
-        
-        
-       
-       
       })
+
+
+
+    const handler2 = useCallback(e => {
+        console.log('mousedown get thank you ');
+        console.log('is it becuase you are empty?', socket.id)
+        socket.emit('newClient', {socket_id: socket.id})
+
+    } )
+
+
       useEventListener('keyup', handler)
+      useEventListener('mousedown', handler2)
 
     function useEventListener(eventName, handler, element = window){
         const savedHandler = useRef();
@@ -144,7 +152,7 @@ function MyEditor() {
           socket.emit('join', {workspaceName})
 
 
-
+          socket.emit('newClient', {socket_id: socket.id})
 
 
           return () => {
@@ -164,9 +172,9 @@ function MyEditor() {
             setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(content))))
         })
 
-        console.log('editor state', editorState.getCurrentContent())
+        // console.log('editor state', editorState.getCurrentContent())
         
-    },[])
+    }, [])
 
 
     return (
