@@ -15,23 +15,15 @@ import DashboardSidebarEachWorkspace from "./DashboardSidebarEachWorkspace";
 import Axios from "axios";
 
 function DashboardProfileSidebar(props) {
-  //Check if active workspace
-
-  // const [active, setActive] = useState(true);
-  // function checkActive() {
-  //   if (active === true) {
-  //     return DashboardSidebarCss.workspaceIconActive;
-  //   }
-  // }
-
   const handleLogout = () => {
     try {
       //1. remove localstorage of JWT
       console.log("Handling logout");
       //should communicate with checkLoginUsers route
-      removeUser(localStorage.getItem("userName"));
+      removeUser(props.name);
       localStorage.removeItem("token");
       localStorage.removeItem("userName");
+
       // console.log(localStorage.getItem('token'));
       // //2. redirect to landing page
       history.push("/");
@@ -48,6 +40,16 @@ function DashboardProfileSidebar(props) {
         headers: { "x-access-token": localStorage.getItem("token") },
       }).then((res) => {
         console.log("has removed the userName in login_users");
+        console.log(`currUsers is below`);
+        console.log(res.data.currUsers);
+        localStorage.setItem(
+          `${res.data.user}`,
+          `${res.data.user} is deleted in server`
+        );
+        localStorage.setItem(
+          `currentUsers`,
+          JSON.stringify(res.data.currUsers)
+        );
       });
     } catch (error) {
       console.error(error.message);
@@ -82,6 +84,7 @@ function DashboardProfileSidebar(props) {
               id={index}
               key={index}
               workspaceName={item.eachWorkspaceName}
+              currClickWorkspace={props.currClickWorkspace}
             />
           );
         })}

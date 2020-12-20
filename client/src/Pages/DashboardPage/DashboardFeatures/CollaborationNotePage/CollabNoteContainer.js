@@ -19,6 +19,7 @@ function MyEditor() {
     const ENDPOINT = 'http://localhost:4000';
     // const ENDPOINT = ${process.env.REACT_APP_API_SERVER};
     const [editorState, setEditorState] = useState(
+
         () => EditorState.createEmpty(),
     );
 
@@ -77,11 +78,20 @@ function MyEditor() {
         const contentState = editorState.getCurrentContent();
         // console.log('content state',  convertToRaw(contentState))
         const docSaveCard = JSON.stringify(convertToRaw(contentState));
-        console.log('whats in saveCard', docSaveCard)
+        // console.log('whats in saveCard', docSaveCard)
         socket.emit('saveCardFromClient', {data: docSaveCard})
       })
+
+
+    const handler2 = useCallback(e => {
+        console.log('mousedown get thank you ');
+        console.log('is it becuase you are empty?', socket.id)
+        socket.emit('newClient', {socket_id: socket.id})
+
+    } )
     
       useEventListener('keyup', handler)
+      useEventListener('mousedown', handler2)
 
     function useEventListener(eventName, handler, element = window){
         const savedHandler = useRef();
@@ -189,6 +199,8 @@ function MyEditor() {
           })
       
           socket.emit('join', {workspaceName})
+
+          socket.emit('newClient', {socket_id: socket.id})
 
           return () => {
             socket.disconnect();

@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./CollabTaskList.module.css";
+// import styles from "./CollabTaskList.module.css";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -10,6 +10,7 @@ import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Divider from "@material-ui/core/Divider";
+// import Moment from 'react-moment';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,6 +46,22 @@ export default function CollabTaskListItem(props) {
     return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
   }
 
+  // function parseISOString(s) {
+  //   const date = new Date(s);
+
+  //   return (
+  //     date.getFullYear() +
+  //     "-" +
+  //     (date.getMonth() + 1) +
+  //     "-" +
+  //     date.getDate() +
+  //     "," +
+  //     date.getHours() +
+  //     ":" +
+  //     date.getMinutes()
+  //   );
+  // }
+
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -75,6 +92,8 @@ export default function CollabTaskListItem(props) {
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             {parseISOString(props.task.deadline).toString()}
+            {/* {parseISOString(props.task.deadline).toString()} */}
+            {/* <Moment locale="zh">{props.task.deadline}</Moment> */}
             <br />
           </Typography>
         </div>
