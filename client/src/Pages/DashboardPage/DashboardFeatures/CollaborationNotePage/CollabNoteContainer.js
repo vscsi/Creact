@@ -10,17 +10,49 @@ import {
 import io from 'socket.io-client';
 import {getCurrentWorkspace} from '../../../../services/getCurrentWorkspace'
 import 'draft-js/dist/Draft.css';
+import Axios from 'axios';
+
 
 let socket
 
 function MyEditor() {
     const ENDPOINT = 'localhost:4000';
-    const [editorState, setEditorState] = React.useState(
+    // const ENDPOINT = ${process.env.REACT_APP_API_SERVER};
+    const [editorState, setEditorState] = useState(
         () => EditorState.createEmpty(),
     );
+
+    //eslint-disable-next-line
     const [my_socketid, setSocketId] =useState('');    
 
+        //=== save content ===//
+    //eslint-disable-next-line
+    const SaveDoc = useCallback(() => {
+        const currentWorkspace = getCurrentWorkspace();
+        const contentState = editorState.getCurrentContent();
+        const docContent = JSON.stringify(convertToRaw(contentState))
+        try{
+            Axios.post(
+                "https://localhost:4000/savedoc",
+                // `${process.env.REACT_APP_API_SERVER}/savedoc`,
+                {
+                    docContent: docContent,
+                    docName: currentWorkspace
+                },
+                {
+                    headers: { "x-access-token": localStorage.getItem("token") },
+                }
+            )
+            .then((res) => {
+                console.log("get res from '/savedocs");
+                console.log(res);
+            })
+        }catch (err){
+            console.err();
+        }
+    })
 
+    //eslint-disable-next-line
     const handler = useCallback ( e => {
         console.log('Keyup get, Charles the great' );
         const contentState = editorState.getCurrentContent();
@@ -28,11 +60,8 @@ function MyEditor() {
         const docSaveCard = JSON.stringify(convertToRaw(contentState));
         console.log('whats in saveCard', docSaveCard)
         socket.emit('saveCardFromClient', {data: docSaveCard})
-        
-        
-       
-       
       })
+    
       useEventListener('keyup', handler)
 
     function useEventListener(eventName, handler, element = window){
@@ -54,13 +83,9 @@ function MyEditor() {
           }
         }, [eventName, element]  )
     
-    
       }   
 
-
-
-
-
+      //eslint-disable-next-line
     const handleKeyCommand = useCallback((command, editorState) => {
         const newState = RichUtils.handleKeyCommand(editorState, command)
         if(newState) {
@@ -71,61 +96,65 @@ function MyEditor() {
         return "not-handled"
     })
 
-    
-    
-
-    //=== save content ===//
-
-
-
     //=== Style controls ===//
     
     //Inline Styles
+    //eslint-disable-next-line
     const _onBoldClick = useCallback(() => {
         setEditorState(RichUtils.toggleInlineStyle(editorState, "BOLD"))
     })
     
+    //eslint-disable-next-line
     const _onItalicClick = useCallback(() => {
         setEditorState(RichUtils.toggleInlineStyle(editorState, "ITALIC"))
     })
     
+    //eslint-disable-next-line
     const _onUnderlineClick = useCallback(() => {
         setEditorState(RichUtils.toggleInlineStyle(editorState, "UNDERLINE"))
     })
     
+    //eslint-disable-next-line
     const _onCodeClick = useCallback(() => {
         setEditorState(RichUtils.toggleInlineStyle(editorState, "CODE"))
     })
     
     //Block Styles
+    //eslint-disable-next-line
     const _onH1Click = useCallback(() =>{
         setEditorState(RichUtils.toggleBlockType(editorState, "header-one"))
     })
-
+    //eslint-disable-next-line
     const _onH2Click = useCallback(() =>{
         setEditorState(RichUtils.toggleBlockType(editorState, "header-two"))
     })
 
+    //eslint-disable-next-line
     const _onH3Click = useCallback(() =>{
         setEditorState(RichUtils.toggleBlockType(editorState, "header-three"))
     })
 
+    //eslint-disable-next-line
     const _onH4Click = useCallback(() =>{
         setEditorState(RichUtils.toggleBlockType(editorState, "header-four"))
     })
 
+    //eslint-disable-next-line
     const _onH5Click = useCallback(() =>{
         setEditorState(RichUtils.toggleBlockType(editorState, "header-five"))
     })
 
+    //eslint-disable-next-line
     const _onH6Click = useCallback(() =>{
         setEditorState(RichUtils.toggleBlockType(editorState, "header-six"))
     })
 
+    //eslint-disable-next-line
     const UL = useCallback(() => {
         setEditorState(RichUtils.toggleBlockType(editorState, "unordered-list-item"))
     })
 
+    //eslint-disable-next-line
     const OL = useCallback(() => {
         setEditorState(RichUtils.toggleBlockType(editorState, "ordered-list-item"))
     })
@@ -138,14 +167,9 @@ function MyEditor() {
           socket.on('onConnect', data=> {
             setSocketId(data.socket_id)
            
-           
           })
       
           socket.emit('join', {workspaceName})
-
-
-
-
 
           return () => {
             socket.disconnect();
@@ -165,7 +189,7 @@ function MyEditor() {
         })
 
         console.log('editor state', editorState.getCurrentContent())
-        
+        //eslint-disable-next-line
     },[])
 
 
@@ -223,6 +247,10 @@ function MyEditor() {
             <button 
                 onClick={OL}>
                     OL
+            </button>
+            <button
+                onClick={SaveDoc}>
+                Save
             </button>
             
             <Editor 
