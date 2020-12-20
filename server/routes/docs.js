@@ -1,14 +1,18 @@
-// //==== Routers set up ====//
+//==== Routers set up ====//
 
-// //require modules
-// const express = require('express');
-// const router = express.Router();
+//require modules
+const express = require('express');
+const router = express.Router();
+const { verifyJWT } = require("../_helpers/jwt-handler");
 
-// const docsController = require('../controllers/docs');
+const docsController = require('../controllers/docs');
 
-// router.get('/workspace/docs', docsController.getTasks);
+// router.get('/workspace/docs', verifyJWT, docsController.getTasks);
+router.post('/getdoc', verifyJWT, docsController.getDoc)
 
-// router.post('/docs', docsController.postTask);
+// save docs
+router.post('/savedoc', verifyJWT, docsController.postCheckUpdateDoc);
+router.post('/savedoc', verifyJWT, docsController.postSaveNewDoc);
 
 
-// module.exports = router;
+module.exports = router;
