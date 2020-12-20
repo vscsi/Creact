@@ -225,7 +225,7 @@ function DashboardContainer() {
             <DashboardNavbar loginUsers={loginUsers} userName={userName} />
             {/* <Switch> */}
             {/* for profile route */}
-            <Route path="/profile" component={DashboardProfileHome} />
+            <Route exact path="/profile" component={DashboardProfileHome} />
             {/* <Route path="/profile/find" component={DashboardAddSocial} /> */}
             <Route
               exact
@@ -236,7 +236,7 @@ function DashboardContainer() {
               }}
               // component={DashboardCreateWorkspace}
             />
-            <Route path="/profile/search">
+            <Route exact path="/profile/search">
               <DashboardSearchWorkspace allWorkspaces={allWorkspaces} />
             </Route>
             {/* for workspace route */}
