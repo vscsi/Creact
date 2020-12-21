@@ -41,7 +41,7 @@ const NavBar = (props) => {
           <h1>CREACT</h1>
         </Link>
       </div>
-      <div className="nav-middle">
+      {/* <div className="nav-middle">
         <Link to="/download">
           <li>Download</li>
         </Link>
@@ -57,7 +57,7 @@ const NavBar = (props) => {
         <Link to="/support">
           <li>Support</li>
         </Link>
-      </div>
+      </div> */}
       <div className="nav-right">
         <Link to="/login">
           <button onClick={
@@ -72,11 +72,11 @@ const NavBar = (props) => {
     </nav> 
     <Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/download" component={Download} />
+          {/* <Route path="/download" component={Download} />
           <Route path="/reason" component={Reason} />
           <Route path="/price" component={Price} />
           <Route path="/safety" component={Safety} />
-          <Route path="/support" component={Support} />
+          <Route path="/support" component={Support} /> */}
     </Switch>
     </Router>
     </>

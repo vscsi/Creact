@@ -1,0 +1,28 @@
+.Doc{
+    background-color: white;
+    overflow: auto;
+    height: 94vh;
+    width: 100%;
+    /* border: 1px solid black; */
+}
+
+
+.Bold{
+    font-weight: bold;
+}
+
+.Italic{
+    font-style: italic;
+}
+
+.Code{
+    font-style: oblique;
+}
+
+.Strikethrough{
+    text-decoration: line-through;
+}
+
+.Underline{
+    text-decoration: underline;
+}

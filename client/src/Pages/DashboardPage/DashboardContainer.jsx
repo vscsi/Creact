@@ -3,7 +3,7 @@ import DashboardContainerCss from "./DashboardContainer.module.css";
 import { Grid } from "@material-ui/core";
 import {
   BrowserRouter as Router,
-  Switch,
+  // Switch,
   Route,
   // useParams,
 } from "react-router-dom";
@@ -24,6 +24,14 @@ import Axios from "axios";
 // import VideoConferenceRoom from "./DashboardFeatures/VideoPage/VideoConferenceRoom";
 // import VideoCreateRoom from "./DashboardFeatures/VideoPage/VideoCreateRoom";
 import VideoContainer from "./DashboardFeatures/VideoPage/VideoContainer";
+// import { withStyles } from "@material-ui/core/styles";
+
+// const styles = () => ({
+//   root: {
+//     padding: 16,
+//     width: "100%",
+//   },
+// });
 
 function DashboardContainer() {
   const [userName, setUserName] = useState("");
@@ -36,7 +44,7 @@ function DashboardContainer() {
   const [chatroomId, setChatroomId] = useState("");
   const [userId, setUserId] = useState("");
   const [loginUsers, setLoginUsers] = useState([]);
-
+  // const [currClickWorkspace, setCurrClickWorkspace] = useState("");
 
   const chatroomInit = (workspace) => {
     console.log("chatroomInit receive", workspace);
@@ -192,6 +200,7 @@ function DashboardContainer() {
         container
         direction="row"
         alignItems="stretch"
+        // wrap="nowrap"
         className={`${DashboardContainerCss.containerHeight} ${DashboardContainerCss.containerBackground}`}
         
       >
@@ -199,6 +208,7 @@ function DashboardContainer() {
           <DashboardProfileSidebar
             name={userName}
             workspaces={userWorkspaces}
+            currClickWorkspace={currentWorkspace}
           />
           <DashboardFeatureSidebar
             currentWorkspace={currentWorkspace}
@@ -211,20 +221,20 @@ function DashboardContainer() {
             md={9}
             spacing={0}
             alignItems={"flex-end"}
-            className = {DashboardContainerCss.overrideGrid}
+            className={DashboardContainerCss.gridFeatureMain}
           >
             <DashboardNavbar loginUsers={loginUsers} userName={userName} />
             {/* <Switch> */}
             {/* for profile route */}
-            <Route 
-            exact
-            path="/profile" component={DashboardProfileHome} />
+            <Route exact path="/profile" component={DashboardProfileHome} />
             {/* <Route path="/profile/find" component={DashboardAddSocial} /> */}
             <Route
               path="/profile/create"
-              render = {()=>
-              <DashboardCreateWorkspace />
-            }
+              render={() => {
+                setCurrentWorkspace("");
+                return <DashboardCreateWorkspace />;
+              }}
+              // component={DashboardCreateWorkspace}
             />
             <Route 
               path="/profile/search"
@@ -236,7 +246,6 @@ function DashboardContainer() {
             {/* </Route> */}
             {/* for workspace route */}
             <Route
-              exact
               path={`/workspace/:${currentWorkspace}/chat`}
               component={ChatroomContainer}
             />

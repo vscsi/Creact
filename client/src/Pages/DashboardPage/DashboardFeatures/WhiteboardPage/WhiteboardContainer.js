@@ -6,7 +6,7 @@ import ReactColorPicker from '@super-effective/react-color-picker';
 import {getCurrentWorkspace} from '../../../../services/getCurrentWorkspace'
 import './Whiteboard.css'
 
-// https://github.com/dabit3/appsync-graphql-real-time-canvas/blob/master/src/Canvas.js
+
 
 let socket
 let drawData
@@ -51,7 +51,9 @@ function WhiteboardContainer(props, {location}) {
 
     
 
-
+    return () => {
+      socket.disconnect();
+    }
 
 
 
@@ -163,8 +165,8 @@ function WhiteboardContainer(props, {location}) {
       <CanvasDraw 
         ref={saveableCanvas}
          brushColor={brushColor} brushRadius={brushRadius}
-        canvasWidth={877}
-        canvasHeight={777} />
+        canvasWidth={1000}
+        canvasHeight={500} />
     </div>
   )
 }

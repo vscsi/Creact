@@ -3,7 +3,7 @@ let workspace = '';
 
 module.exports = function(io) {
     io.sockets.on('connect', (socket)=> {
-        console.log('client side have connect to canvas server with socketid : ', socket.id);
+        console.log('A client has connect to canvas server with socketid : ', socket.id);
 
         socket.on('join', (data)=> {
             

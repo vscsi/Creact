@@ -24,6 +24,10 @@ const chatio = socket(server, {
 const canvasio = socket(server, {
   path:'/canvas'
 })
+const colldocio = socket(server, {
+  path:'/colldoc'
+})
+
 
 //middleware
 app.use(cors());
@@ -39,6 +43,7 @@ const workspaceRoutes = require("./routes/workspace");
 const userRoutes = require("./routes/user");
 const videoCreateRoomRoutes = require("./routes/videoCreateRoom");
 const videoShowRoomRoutes = require('./routes/videoShowRoom')
+const docRoutes = require('./routes/docs')
 
 //jwt
 // app.use(
@@ -60,6 +65,7 @@ app.use(workspaceRoutes);
 app.use(userRoutes);
 app.use(videoCreateRoomRoutes);
 app.use(videoShowRoomRoutes);
+app.use(docRoutes);
 //api routes
 
 //Auth stuff
@@ -83,6 +89,7 @@ app.get("/isUserAuth", verifyJWT, (req, res) => {
 //Chat
 const chatroom = require("./controllers/chatroom/chatroom")(chatio);
 const canvas = require("./controllers/canvas/canvas")(canvasio);
+const colldoc = require("./controllers/colldoc/colldoc")(colldocio);
 
 server.listen(4000, () => {
   console.log("Creact server, Listening to port 4000");

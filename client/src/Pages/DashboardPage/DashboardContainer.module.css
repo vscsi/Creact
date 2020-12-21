@@ -2,9 +2,11 @@
   height: 100vh;
 }
 .containerBackground{
-  background: #F5F6F8;
+  background: #d0dbd3;
 }
-.overrideGrid{
+
+.gridFeatureMain{
   overflow: auto;
   max-height: 100%;
+  overflow-x: hidden;
 }

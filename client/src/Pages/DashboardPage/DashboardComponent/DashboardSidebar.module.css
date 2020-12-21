@@ -122,3 +122,14 @@
   transition: all 0.2s ease-in-out;
   box-shadow: 0 3px 5px 2px rgba(175, 27, 63, 0.4);
 }
+
+.displayIconsWrap {
+  display: flex;
+  flex-direction: column;
+  /* height: 600px; */
+}
+
+.displayIcons {
+  justify-content: space-between;
+  /* border: 1px solid black; */
+}

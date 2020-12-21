@@ -1,13 +1,58 @@
 import React, { useState } from "react";
-import styles from "./CollabTaskBox.module.css";
+// import styles from "./CollabTaskBox.module.css";
 import Axios from "axios";
 import { getCurrentWorkspace } from "../../../../../services/getCurrentWorkspace";
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+// import Icon from "@material-ui/core/Icon";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import TextField from "@material-ui/core/TextField";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+// import Typography from "@material-ui/core/Typography";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& .MuiTextField-root": {
+      margin: theme.spacing(1),
+      width: "25ch",
+    },
+  },
+  button: {
+    margin: theme.spacing(1),
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  textField: {
+    width: "25ch",
+  },
+  bullet: {
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)",
+  },
+  title: {
+    fontSize: 14,
+  },
+  pos: {
+    marginBottom: 12,
+  },
+}));
 
 const CollabTaskBox = (props) => {
   const [taskName, setTaskName] = useState("");
   const [taskContent, setTaskContent] = useState("");
   const [taskDeadline, setTaskDeadline] = useState("");
   const [taskUser, setTaskUser] = useState(0);
+  const [open, setOpen] = useState(false);
+
+  const classes = useStyles();
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
@@ -23,7 +68,7 @@ const CollabTaskBox = (props) => {
       console.log("Form is submtted");
       console.log(body);
       const response = await Axios.post("http://localhost:4000/task", body, {
-      // const response = await Axios.post(`${process.env.REACT_APP_API_SERVER}/task`, body, {
+        // const response = await Axios.post(`${process.env.REACT_APP_API_SERVER}/task`, body, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -34,47 +79,70 @@ const CollabTaskBox = (props) => {
       console.error(err.message);
     }
   };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
   return (
-    <div className={styles.box_wrapper}>
-      <div className={styles.box}>
-        <form method="post" onSubmit={onSubmitForm}>
-          <div className={styles.box_input}>
-            <label htmlFor="task_name">Task:</label>
-            <input
-              type="text"
-              name="task_name"
-              id=""
+    <Card className={classes.root} variant="outlined">
+      <form
+        className={classes.root}
+        noValidate
+        autoComplete="off"
+        onSubmit={onSubmitForm}
+      >
+        <CardContent>
+          <FormControl className={classes.formControl}>
+            <TextField
               required
+              id="standard-required"
+              label="Task Name"
+              defaultValue="Task"
               onChange={(e) => setTaskName(e.target.value)}
             />
-          </div>
-          <div className={styles.box_input}>
-            <label htmlFor="task_deadline">Deadline:</label>
-            <input
+          </FormControl>
+          <FormControl className={classes.formControl}>
+            <TextField
+              id="datetime-local"
+              label="Task Deadline"
               type="datetime-local"
-              name="task_deadline"
-              id=""
               required
+              className={classes.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
               onChange={(e) => setTaskDeadline(e.target.value)}
             />
-          </div>
-          <div className={styles.box_input}>
-            <label htmlFor="task_description">Description: </label>
-            <textarea
-              name="task_description"
-              id=""
-              cols="30"
-              rows="10"
-              maxLength="999"
-              required
+          </FormControl>
+
+          <FormControl className={classes.formControl}>
+            {/* <InputLabel htmlFor="input-with-icon-adornment">
+              Description
+            </InputLabel> */}
+            <TextField
+              id="standard-multiline-flexible"
+              label="Description"
+              // className={classes.textField}
+              multiline
+              rowsMax={4}
+              value={taskContent}
               onChange={(e) => setTaskContent(e.target.value)}
-            ></textarea>
-          </div>
-          <div className={styles.box_input}>
-            <label htmlFor="task_user">Assign to:</label>
-            <select
-              name="task_user"
-              id=""
+            />
+          </FormControl>
+          <FormControl className={classes.formControl}>
+            <InputLabel id="demo-controlled-open-select-label">
+              Assign to:
+            </InputLabel>
+            <Select
+              labelId="demo-controlled-open-select-label"
+              id="demo-controlled-open-select"
+              open={open}
+              onClose={handleClose}
+              onOpen={handleOpen}
               onChange={(e) => {
                 console.log(e.target.value);
                 setTaskUser(parseInt(e.target.value));
@@ -83,19 +151,29 @@ const CollabTaskBox = (props) => {
               {props.firstEmptyUsers.map((item, index) => {
                 return (
                   //value should be user.id
-                  <option key={item.user_id} value={item.user_id}>
+                  <MenuItem key={item.user_id} value={item.user_id}>
                     {item.user_name}
-                  </option>
+                  </MenuItem>
                 );
               })}
-            </select>
-          </div>
-          <div className={styles.box_input}>
-            <input type="submit" value="Finish" />
-          </div>
-        </form>
-      </div>
-    </div>
+            </Select>
+          </FormControl>
+        </CardContent>
+
+        <CardActions>
+          <FormControl className={classes.formControl}>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.button}
+              type="submit"
+            >
+              Send
+            </Button>
+          </FormControl>
+        </CardActions>
+      </form>
+    </Card>
   );
 };
 

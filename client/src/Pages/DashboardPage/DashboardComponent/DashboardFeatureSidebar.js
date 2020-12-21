@@ -12,7 +12,7 @@ import {
 
 const DashboardFeatureSidebar = (props) => {
   
-  console.log('dashboardfeaturessidebar props.chatroomId', props)
+  // console.log('dashboardfeaturessidebar props.chatroomId', props)
   return (
     <MaterialUI.Grid
       container
@@ -43,15 +43,6 @@ const DashboardFeatureSidebar = (props) => {
           <div className={DashboardSidebarCss.featureIcon}>
             Collaboration Document
           </div>
-        </MaterialUI.Tooltip>
-      </NavLink>
-
-      <NavLink
-        to={`/workspace/${props.currentWorkspace}/dropbox`}
-        className={DashboardSidebarCss.featureIconLink}
-      >
-        <MaterialUI.Tooltip title="Dropbox" placement="right-end">
-          <div className={DashboardSidebarCss.featureIcon}>Dropbox</div>
         </MaterialUI.Tooltip>
       </NavLink>
 
