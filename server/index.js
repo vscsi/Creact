@@ -12,6 +12,7 @@ const bcrypt = require("bcrypt");
 // const expressJwt = require("express-jwt");
 const { verifyJWT } = require("./_helpers/jwt-handler");
 
+
 //socket set up
 const http = require("http");
 const server = http.createServer(app);
@@ -32,6 +33,7 @@ const colldocio = socket(server, {
 app.use(cors());
 app.use(express.json()); //req.body
 app.use(bodyParser.urlencoded({ extended: true }));
+
 
 //routers
 const taskRoutes = require("./routes/task");

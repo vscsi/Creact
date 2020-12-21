@@ -1,10 +1,8 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Card, CardMedia, Divider, Typography } from "@material-ui/core";
-//eslint-disable-next-line
-import CardActionArea from "@material-ui/core/CardActionArea";
-//eslint-disable-next-line
-import CardActions from "@material-ui/core/CardActions";
+// import CardActionArea from "@material-ui/core/CardActionArea";
+// import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import userPhoto from "../../../images/tomcruise.jpg";
 import blurBackground from "../../../images/blurbackground.jpg";
@@ -42,7 +40,7 @@ const DashboardProfileUserInfo = () => {
   return (
     <>
       <Card className={classes.root}>
-        {/* <div style={{ backgroundImage: `${blurBackground}` }}> */}
+        <div style={{ backgroundImage: `${blurBackground}` }}>
         <CardMedia className={classes.media} image={userPhoto} />
         {/* <img src={userPhoto}></img> */}
         <CardContent>
@@ -51,7 +49,7 @@ const DashboardProfileUserInfo = () => {
           </Typography>
         </CardContent>
         <Divider />
-        {/* </div> */}
+        </div>
         <CardContent>
           <Typography className={classes.inputStyle}>
             Username: handsome
