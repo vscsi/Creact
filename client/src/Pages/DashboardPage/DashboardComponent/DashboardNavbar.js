@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import * as MaterialUI from "@material-ui/core";
 // import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import DashboardNavbarCss from "./DashboardNavbar.module.css";
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
 
 function DashboardNavbar(props) {
   // const [userName, setUserName] = useState("");

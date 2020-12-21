@@ -3,6 +3,7 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 import Grid from '@material-ui/core/Grid';
 import { Motion, spring } from "react-motion";
 
+
 // eslint-disable-next-line 
 function VideoJoinRoom({userName, currentWorkspace, url, pw, roomName}) {
         const [jitsi, setJitsi] = useState({});

@@ -51,13 +51,14 @@ function DashboardProfileSidebar(props) {
   const removeUser = (userName) => {
     try {
       Axios.delete(`http://localhost:4000/checklogoutusers/${userName}`, {
+      // Axios.delete(`${process.env.REACT_APP_API_SERVER}/checklogoutusers/${userName}`, {
         headers: { "x-access-token": localStorage.getItem("token") },
       }).then((res) => {
         console.log("has removed the userName in login_users");
         console.log(`currUsers is below`);
         console.log(res.data.currUsers);
         localStorage.setItem(
-          `${res.data.user}`,
+          `${res.data.user}`, //eslint-disable-next-line
           `${res.data.user} is deleted in server`
         );
         localStorage.setItem(

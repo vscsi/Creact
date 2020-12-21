@@ -11,14 +11,15 @@ import {FaWpforms} from 'react-icons/fa';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import sunset from '../../../../images/sunset.jpg';
 import {
-    withStyles,
+    // withStyles,
     makeStyles,
-    createMuiTheme,
-    theme
+    // createMuiTheme,
+    // theme
   } from '@material-ui/core/styles';
   import { Motion, spring } from "react-motion";
 // import {CopyToClipboard} from 'react-copy-to-clipboard';
 
+    
 function VideoCreateRoom({userName, currentWorkspace}) {
     //room represents hashed room
         const [room, setRoom] = useState('')
@@ -27,7 +28,7 @@ function VideoCreateRoom({userName, currentWorkspace}) {
         const [call, setCall] = useState(false)
         const [jitsiInit, setJitsiInit] = useState({});
         const [deleteRoom, setDeleteRoom] = useState(false);
-        const [videoUrl, setVideoUrl] = useState('');
+        console.log(deleteRoom, 'for react warning')
         // const [value, setValue] = useState('');
         // const [copied, setCopied] = useState(false);
         // const [hostEndMeeting, setHostEndMeeting] = useState(false);
@@ -59,6 +60,7 @@ function VideoCreateRoom({userName, currentWorkspace}) {
             if (!window.JitsiMeetExternalAPI) {
             await loadJitsiScript();
             }
+            // eslint-disable-next-line 
             const myOverwrite ={
                  remoteVideoMenu: {
                         // If set to true the 'Kick out' button will be disabled.
@@ -72,10 +74,9 @@ function VideoCreateRoom({userName, currentWorkspace}) {
             const _jitsi = new window.JitsiMeetExternalAPI("meet.jit.si", options); 
             setJitsiInit(_jitsi)
         };
-        
+
         useEffect(() => {
             initialiseJitsi();
-            // setDeleteRoom(prevStatus => !prevStatus);
             return () => jitsiInit?.dispose?.();
             // eslint-disable-next-line react-hooks/exhaustive-deps
         }, []);
@@ -88,6 +89,7 @@ function VideoCreateRoom({userName, currentWorkspace}) {
             try{
                 console.log('sending video room info to server')
                 const sendVideo = await fetch(`http://localhost:4000/workspace/${currentWorkspace}/video`,{
+                // const sendVideo = await fetch(`${process.env.REACT_APP_API_SERVER}/workspace/${currentWorkspace}/video`,{
                     method:"POST",
                     headers: {
                         "Content-Type":"application/json",
@@ -96,64 +98,59 @@ function VideoCreateRoom({userName, currentWorkspace}) {
                     body: JSON.stringify(body)
                 })
                 const response = await sendVideo.json();
-                setDeleteRoom(false)
-                setPassword(response.password);
                 setRoom(response.room);
-                setVideoUrl(response.videoUrl)
-                // console.log(response.room, response.password, 'this is room and password from respsonse');
-                // console.log(room, password, 'this is current state of  room and password from respsonse');
+                setPassword(response.password);
                 if (customRoomName) setCall(true);
-                
+                console.log(response.room, response.password, 'this is password and room');
             }catch(e){
                 console.error(e.message);
             }
         }
 
-        //making meeting end when host leaves:
-        /**
+        const handleDelete = async(event)=>{
+            event.preventDefault();
+            const body = { userName, room, password} // put values into body object
+            try{
+                console.log('sending video delete request to server')
+                const deleteVideo = await fetch(`http://localhost:4000/workspace/${currentWorkspace}/video`,{
+                    method:"DELETE",
+                    headers: {
+                        "Content-Type":"application/json",
+                        "x-access-token": localStorage.getItem("token")
+                     },
+                     body: JSON.stringify(body)
+                 })
+                 const response = await deleteVideo.json();
+                 console.log(response.message);
+                 setDeleteRoom(response.redirect);
+             }catch(e){
+                 console.error(e)
+             }
+         }
+
+            //making meeting end when host leaves:
+            /**
              //get id of all participants and put into array
-             //storing .json object from participantJoined
-             //check if participant is moderator
+            //storing .json object from participantJoined
+            //check if participant is moderator
             //if is moderator, set State in onMeetingEnd() and trigger kickParticipant and loop through the id
             * 
             */
-           
-           //deleting data from db
-           const handleDelete = async(event)=>{
-               event.preventDefault();
-               const body = { userName, room, password} // put values into body object
-               try{
-                   console.log('sending video delete request to server')
-                   const deleteVideo = await fetch(`http://localhost:4000/workspace/${currentWorkspace}/video`,{
-                       method:"DELETE",
-                       headers: {
-                           "Content-Type":"application/json",
-                           "x-access-token": localStorage.getItem("token")
-                        },
-                        body: JSON.stringify(body)
-                    })
-                    const response = await deleteVideo.json();
-                    console.log(response.message);
-                    setDeleteRoom(response.redirect);
-                }catch(e){
-                    console.error(e)
-                }
-            }
-            const jitsiConfig = {
-                configOverwrite:
-                {
+        const jitsiConfig = {
+            configOverwrite:
+            {
                 remoteVideoMenu:
                 {
-                    disableKick: false,
+                    disableKick: true,
                 },
             },
             
         }
-        const { jitsi } = useJitsi(jitsiConfig);
-        console.log( jitsi, 'console log for reactJS warning');
+        const { loading,  jitsi } = useJitsi(jitsiConfig);
+        console.log(loading,  jitsi, 'console log for reactJS warning');
 
         // const grabParticipantsId = () =>{
-        //     jitsiInit.addEventListener('participantJoined', function(values){
+        //     const participants = jitsiInit.addEventListener('participantJoined', function(values){
         //         grabParticipantIdArr.push(values);
         //         console.log(grabParticipantIdArr, 'this is grabParticipantIdArr ');
         //     })
@@ -227,7 +224,7 @@ function VideoCreateRoom({userName, currentWorkspace}) {
         
       
 
-        return call && deleteRoom === false? ( 
+        return call  && deleteRoom === false ? ( 
             <>
                 <Grid
                 container

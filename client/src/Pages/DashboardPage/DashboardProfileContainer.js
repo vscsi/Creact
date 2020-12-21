@@ -27,7 +27,7 @@ function DashboardProfileContainer() {
   const getUserWorkspaces = () => {
     try {
       Axios.get("http://localhost:4000/workspace/list", {
-        // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/list`, {
+      // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/list`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -45,7 +45,7 @@ function DashboardProfileContainer() {
   const getUserName = () => {
     try {
       Axios.get("http://localhost:4000/username", {
-        // Axios.get(`${process.env.REACT_APP_API_SERVER}/username`, {
+      // Axios.get(`${process.env.REACT_APP_API_SERVER}/username`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -62,7 +62,7 @@ function DashboardProfileContainer() {
   const getAllWorkspaces = () => {
     try {
       Axios.get("http://localhost:4000/workspace/all", {
-        // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/all`, {
+      // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/all`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -79,6 +79,7 @@ function DashboardProfileContainer() {
   const postLogout = () => {
     try {
       Axios.get("http://localhost:4000/checkloginusers", {
+      // Axios.get(`${process.env.REACT_APP_API_SERVER}/checkloginusers`, {
         headers: { "x-access-token": localStorage.getItem("token") },
       }).then((res) => {
         console.log("Current login users from '/checkloginusers'");
@@ -96,7 +97,7 @@ function DashboardProfileContainer() {
     getUserWorkspaces();
     getUserName();
     getAllWorkspaces();
-    postLogout();
+    postLogout(); 
   }, []);
 
   return (
