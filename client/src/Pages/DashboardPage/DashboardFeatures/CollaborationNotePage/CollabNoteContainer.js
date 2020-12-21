@@ -226,63 +226,75 @@ function MyEditor() {
     return (
         <div className={classes.Doc}>
             {/* inline styles */}
-            <button 
-                onClick={_onBoldClick}
-                className={classes.Bold}>
-                    Bold
-            </button>
-            <button 
-                onClick={_onItalicClick}
-                className={classes.Italic}>
-                    Italic
-            </button>
-            <button 
-                onClick={_onUnderlineClick}
-                className={classes.Underline}>
-                    Underline
-            </button>
-            <button 
-                onClick={_onCodeClick}
-                className={classes.Code}>
-                    Monospace
-            </button>
-            {/* block styles */}
-            <button 
-                onClick={_onH1Click}>
-                    H1
-            </button>
-            <button 
-                onClick={_onH2Click}>
-                    H2
-            </button>
-            <button 
-                onClick={_onH3Click}>
-                    H3
-            </button>
-            <button 
-                onClick={_onH4Click}>
-                    H4
-            </button>
-            <button 
-                onClick={_onH5Click}>
-                    H5
-            </button>            <button 
-                onClick={_onH6Click}>
-                    H6
-            </button>
-            <button 
-                onClick={UL}>
-                    UL
-            </button>
-            <button 
-                onClick={OL}>
-                    OL
-            </button>
-            <button
-                onClick={SaveDoc}>
-                Save
-            </button>
-            
+            <div className={classes.Buttons}>
+                <button 
+                    onClick={_onBoldClick}
+                    className={`${classes.Bold} ${classes.Raise} ${classes.notebutton}`}>
+                        B
+                </button>
+                <button 
+                    onClick={_onItalicClick}
+                    className={`${classes.Italic} ${classes.Raise} ${classes.notebutton}`}>
+                        I
+                </button>
+                <button 
+                    onClick={_onUnderlineClick}
+                    className={`${classes.Underline} ${classes.Raise} ${classes.notebutton}`}>
+                        U
+                </button>
+                <button 
+                    onClick={_onCodeClick}
+                    className={`${classes.Code} ${classes.Raise} ${classes.notebutton}`}>
+                        Mono
+                </button>
+                {/* block styles */}
+                <button 
+                    onClick={_onH1Click}
+                    className={`${classes.Raise} ${classes.notebutton}`}>
+                        H1
+                </button>
+                <button 
+                    onClick={_onH2Click}
+                    className={`${classes.Raise} ${classes.notebutton}`}>
+                        H2
+                </button>
+                <button 
+                    onClick={_onH3Click}
+                    className={`${classes.Raise} ${classes.notebutton}`}>
+                        H3
+                </button>
+                <button 
+                    onClick={_onH4Click}
+                    className={`${classes.Raise} ${classes.notebutton}`}>
+                        H4
+                </button>
+                <button 
+                    onClick={_onH5Click}
+                    className={`${classes.Raise} ${classes.notebutton}`}>
+                        H5
+                </button>            
+                <button 
+                    onClick={_onH6Click}
+                    className={`${classes.Raise} ${classes.notebutton}`}>
+                        H6
+                </button>
+                <button 
+                    onClick={UL}
+                    className={`${classes.Raise} ${classes.notebutton}`}>
+                        UL
+                </button>
+                <button 
+                    onClick={OL}
+                    className={`${classes.Raise} ${classes.notebutton}`}>
+                        OL
+                </button>
+                <button
+                    onClick={SaveDoc}
+                    className={`${classes.Raise} ${classes.notebutton}`}>
+                    Save
+                </button>
+            </div>
+            <hr className={classes.notehr}></hr>
             <Editor 
                 editorState={editorState}
                 handleKeyCommand={handleKeyCommand} 
