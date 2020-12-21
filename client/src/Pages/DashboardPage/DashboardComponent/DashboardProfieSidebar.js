@@ -13,8 +13,22 @@ import Link from "@material-ui/core/Link";
 import DashboardSidebarEachWorkspace from "./DashboardSidebarEachWorkspace";
 // import { getCurrentWorkspace } from "../../../services/getCurrentWorkspace";
 import Axios from "axios";
+import { makeStyles } from "@material-ui/core/styles";
+import SearchIcon from "@material-ui/icons/Search";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import CreateIcon from '@material-ui/icons/Create';
+
+// const useStyles = makeStyles((theme) => ({
+//   iconButton: {
+//     display: "flex",
+//     flexDirection: "column",
+//     justifyContent: "space-between",
+//   },
+// }));
 
 function DashboardProfileSidebar(props) {
+  // const classes = useStyles();
+
   const handleLogout = () => {
     try {
       //1. remove localstorage of JWT
@@ -79,51 +93,59 @@ function DashboardProfileSidebar(props) {
 
         <div className={DashboardSidebarCss.workSpaceSeparator}></div>
 
-        {props.workspaces.map((item, index) => {
-          return (
-            <DashboardSidebarEachWorkspace
-              id={index}
-              key={index}
-              workspaceName={item.eachWorkspaceName}
-              currClickWorkspace={props.currClickWorkspace}
-            />
-          );
-        })}
-
-        <NavLink
-          to="/profile/create"
-          activeClassName={DashboardSidebarCss.isActive}
-        >
-          <MaterialUI.Tooltip title="Create Workspace" placement="right-end">
-            <div className={DashboardSidebarCss.workspaceIcon}>
-              Create workspace
-            </div>
-          </MaterialUI.Tooltip>
-        </NavLink>
-
-        <NavLink
-          to="/profile/search"
-          activeClassName={DashboardSidebarCss.isActive}
-        >
-          <MaterialUI.Tooltip title="Find Workspace" placement="right-end">
-            <div className={DashboardSidebarCss.workspaceIcon}>
-              Find workspaces
-            </div>
-          </MaterialUI.Tooltip>
-        </NavLink>
-
-        <MaterialUI.Tooltip
-          title="Logout"
-          placement="right-end"
-          activeClassName={DashboardSidebarCss.isActive}
-        >
-          <div
-            className={DashboardSidebarCss.workspaceIcon}
-            onClick={handleLogout}
-          >
-            Logout
+        <div className={DashboardSidebarCss.displayIconsWrap}>
+          <div className={DashboardSidebarCss.displayIcons}>
+            {props.workspaces.map((item, index) => {
+              return (
+                <DashboardSidebarEachWorkspace
+                  id={index}
+                  key={index}
+                  workspaceName={item.eachWorkspaceName}
+                  currClickWorkspace={props.currClickWorkspace}
+                />
+              );
+            })}
           </div>
-        </MaterialUI.Tooltip>
+          <div className={DashboardSidebarCss.displayIcons}>
+            <NavLink
+              to="/profile/create"
+              activeClassName={DashboardSidebarCss.isActive}
+            >
+              <MaterialUI.Tooltip
+                title="Create Workspace"
+                placement="right-end"
+              >
+                <div className={DashboardSidebarCss.workspaceIcon}>
+                  <CreateIcon />
+                </div>
+              </MaterialUI.Tooltip>
+            </NavLink>
+
+            <NavLink
+              to="/profile/search"
+              activeClassName={DashboardSidebarCss.isActive}
+            >
+              <MaterialUI.Tooltip title="Find Workspace" placement="right-end">
+                <div className={DashboardSidebarCss.workspaceIcon}>
+                  <SearchIcon />
+                </div>
+              </MaterialUI.Tooltip>
+            </NavLink>
+
+            <MaterialUI.Tooltip
+              title="Logout"
+              placement="right-end"
+              activeClassName={DashboardSidebarCss.isActive}
+            >
+              <div
+                className={DashboardSidebarCss.workspaceIcon}
+                onClick={handleLogout}
+              >
+                Logout
+              </div>
+            </MaterialUI.Tooltip>
+          </div>
+        </div>
       </MaterialUI.Grid>
     </>
   );

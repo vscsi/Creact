@@ -22,7 +22,7 @@ function CalenderContainer() {
   }, []);
   return (
     <>
-      <EventCalendar tasks={tasks} />
+      <EventCalendar tasks={tasks} onlyUser={false} onlyWorkspace={true}/>
     </>
   );
 }

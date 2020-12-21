@@ -120,24 +120,24 @@ function DashboardProfileContainer() {
             md={11}
             spacing={0}
             alignItems={"flex-end"}
+            className={DashboardContainerCss.gridFeatureMain}
           >
-            <DashboardNavbar loginUsers={loginUsers} userName={userName} />
-            <Switch>
-              <Route exact path="/profile" component={DashboardProfileHome} />
-              {/* <Route path="/profile/find" component={DashboardAddSocial} /> */}
-              <Route
-                exact
-                path="/profile/create"
-                render={() => {
-                  setCurrClickWorkspace("");
-                  return <DashboardCreateWorkspace />;
-                }}
-                // component={DashboardCreateWorkspace}
-              />
-              <Route exact path="/profile/search">
-                <DashboardSearchWorkspace allWorkspaces={allWorkspaces} />
-              </Route>
-            </Switch>
+            <DashboardNavbar loginUsers={loginUsers} name={userName} />
+            <Route exact path="/profile">
+              <DashboardProfileHome name={userName} />
+            </Route>
+            <Route
+              exact
+              path="/profile/create"
+              render={() => {
+                setCurrClickWorkspace("");
+                return <DashboardCreateWorkspace />;
+              }}
+              // component={DashboardCreateWorkspace}
+            />
+            <Route exact path="/profile/search">
+              <DashboardSearchWorkspace allWorkspaces={allWorkspaces} />
+            </Route>
           </Grid>
         </Router>
       </Grid>
