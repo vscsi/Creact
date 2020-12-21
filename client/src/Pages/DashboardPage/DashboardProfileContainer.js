@@ -33,8 +33,8 @@ function DashboardProfileContainer() {
           "x-access-token": localStorage.getItem("token"),
         },
       }).then((res) => {
-        console.log(`all user workspaces`);
-        console.log(res);
+        // console.log(`all user workspaces`);
+        // console.log(res);
         // console.log(res.data.allWorkspaces);
         setUserWorkspaces(res.data.userWorkspaces);
       });
@@ -51,8 +51,8 @@ function DashboardProfileContainer() {
           "x-access-token": localStorage.getItem("token"),
         },
       }).then((res) => {
-        console.log(`res from /username`);
-        console.log(res.data.userName);
+        // console.log(`res from /username`);
+        // console.log(res.data.userName);
         setUserName(res.data.userName);
       });
     } catch (error) {
@@ -68,8 +68,8 @@ function DashboardProfileContainer() {
           "x-access-token": localStorage.getItem("token"),
         },
       }).then((res) => {
-        console.log(`res from workspace/all`);
-        console.log(res);
+        // console.log(`res from workspace/all`);
+        // console.log(res);
         setAllWorkspaces(res.data);
       });
     } catch (error) {
@@ -83,10 +83,10 @@ function DashboardProfileContainer() {
       // Axios.get(`${process.env.REACT_APP_API_SERVER}/checkloginusers`, {
         headers: { "x-access-token": localStorage.getItem("token") },
       }).then((res) => {
-        console.log("Current login users from '/checkloginusers'");
-        console.log(res.data.loginUsers);
+        // console.log("Current login users from '/checkloginusers'");
+        // console.log(res.data.loginUsers);
         const currentLoginUsers = res.data.loginUsers;
-        console.log(currentLoginUsers);
+        // console.log(currentLoginUsers);
         setLoginUsers(currentLoginUsers);
       });
     } catch (error) {

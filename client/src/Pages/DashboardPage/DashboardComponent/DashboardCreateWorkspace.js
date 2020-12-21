@@ -5,6 +5,7 @@ import Axios from "axios";
 const DashboardCreateWorkspace = () => {
   const [workspaceName, setWorkSpaceName] = useState("");
   const [maxppl, setMaxppl] = useState(0);
+  //eslint-disable-next-line
   const [enterPage, setEnterPage] = useState(false);
   const onSubmitForm = (e) => {
     e.preventDefault();
@@ -21,7 +22,7 @@ const DashboardCreateWorkspace = () => {
         },
         config
       ).then((res) => {
-        console.log(res);
+        // console.log(res);
       });
       window.location = "/profile";
       

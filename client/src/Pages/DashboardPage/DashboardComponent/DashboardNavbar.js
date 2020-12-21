@@ -5,8 +5,6 @@ import DashboardNavbarCss from "./DashboardNavbar.module.css";
 import { makeStyles } from "@material-ui/core/styles";
 
 function DashboardNavbar(props) {
-  // const [userName, setUserName] = useState("");
-  //overriding Avatar root class
   const styles = makeStyles({
     root: {
       margin: "0.5rem",

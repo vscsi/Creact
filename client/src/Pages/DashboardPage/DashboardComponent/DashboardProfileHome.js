@@ -2,15 +2,12 @@ import React from "react";
 import DashboardProfileUserInfo from "./DashboardProfileUserInfo";
 import DashboardProfileUserCalender from "./DashboardProfileUserCalender";
 import { makeStyles } from "@material-ui/core/styles";
-// import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    // backgroundColor: '#F0EFE9',
-    // fontFamily: `Josefin Sans`
   },
   paper: {
     padding: theme.spacing(2),

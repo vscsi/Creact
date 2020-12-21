@@ -84,10 +84,10 @@ function VideoCreateRoom({userName, currentWorkspace}) {
         //events handling
         const handleClick = async(event) =>{
             event.preventDefault();
-            console.log(jitsiInit, 'this is jitsiInit');
+            // console.log(jitsiInit, 'this is jitsiInit');
             const body = { userName, currentWorkspace, customRoomName} // put values into body object
             try{
-                console.log('sending video room info to server')
+                // console.log('sending video room info to server')
                 const sendVideo = await fetch(`http://localhost:4000/workspace/${currentWorkspace}/video`,{
                 // const sendVideo = await fetch(`${process.env.REACT_APP_API_SERVER}/workspace/${currentWorkspace}/video`,{
                     method:"POST",
@@ -101,7 +101,7 @@ function VideoCreateRoom({userName, currentWorkspace}) {
                 setRoom(response.room);
                 setPassword(response.password);
                 if (customRoomName) setCall(true);
-                console.log(response.room, response.password, 'this is password and room');
+                // console.log(response.room, response.password, 'this is password and room');
             }catch(e){
                 console.error(e.message);
             }
@@ -146,8 +146,9 @@ function VideoCreateRoom({userName, currentWorkspace}) {
             },
             
         }
+        //eslint-disable-next-line
         const { loading,  jitsi } = useJitsi(jitsiConfig);
-        console.log(loading,  jitsi, 'console log for reactJS warning');
+        // console.log(loading,  jitsi, 'console log for reactJS warning');
 
         // const grabParticipantsId = () =>{
         //     const participants = jitsiInit.addEventListener('participantJoined', function(values){

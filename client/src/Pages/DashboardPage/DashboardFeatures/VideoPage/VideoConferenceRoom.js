@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+//eslint-disable-next-line
 import { Card } from '@material-ui/core';
 import {
     Link,
@@ -39,7 +40,7 @@ const VideoConferenceRoom = ({currentWorkspace, handleClick}) => {
                     const response = await getVideoInfo.json();
                     //the ...response.videoRooms allows you to access each element in the array that is returned
                     setCurrentVideoRoom([...response.videoRooms])
-                    console.log(response.videoRooms.video_room_pw); 
+                    // console.log(response.videoRooms.video_room_pw); 
                     // console.log(currentVideoRoom);
                     
                 }catch(e){
@@ -170,6 +171,7 @@ const VideoConferenceRoom = ({currentWorkspace, handleClick}) => {
                 <h1>No video meetings now.</h1>
 )
 /**comments */
+//eslint-disable-next-line
              {/*
                 // <Grid 
                 // item

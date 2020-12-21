@@ -58,8 +58,8 @@ const DashboardSearchWorkspace = (props) => {
           },
         }
       ).then((res) => {
-        console.log(`Res from /workspace/join`);
-        console.log(res);
+        // console.log(`Res from /workspace/join`);
+        // console.log(res);
         //need to redirect back to the new workspace page
         window.location = `/workspace/${workspaceName}`;
       });

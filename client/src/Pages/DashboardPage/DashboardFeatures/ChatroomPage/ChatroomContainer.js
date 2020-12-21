@@ -13,7 +13,6 @@ function ChatroomContainer({location}) {
   const ENDPOINT = 'http://localhost:4000';
   // const ENDPOINT = process.env.REACT_APP_API_SERVER;
   const [my_userid, setUserid] = useState('');
-  // const [my_name, setName] = useState('');
   const [my_room, setRoom] = useState('');
   //eslint-disable-next-line
   const [my_socketid, setSocketId] =useState('');
@@ -24,7 +23,6 @@ function ChatroomContainer({location}) {
 
 
   useEffect(()=> {
-    // let data = {name: 'Charles', room: '1'};
     const data = queryString.parse(location.search);
     const {userid, room} = data;
      socket = io(ENDPOINT, {
@@ -46,8 +44,9 @@ function ChatroomContainer({location}) {
     socket.emit('join', {userid, room})
 
     return () => {
-      socket.on('disconnect', ()=> {console.log(socket.id)})
-      console.log('...unmounting')
+      socket.on('disconnect', ()=> {})
+      // socket.on('disconnect', ()=> {console.log(socket.id)})
+      // console.log('...unmounting')
       socket.emit('removeUser', {})
       socket.off();
       socket.disconnect();
@@ -61,7 +60,7 @@ function ChatroomContainer({location}) {
 
   useEffect(()=> {
     socket.on('usersInRoom', (data)=> {
-    console.log('usersInRoom received' )
+    // console.log('usersInRoom received' )
     let result = [];
      data.usersInRoom.map((user)=> {
       let name=user.name;
