@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+const upload = multer();
+router.use(upload.array());
 
 const registerController = require('../controllers/register');
 
-router.get('/register',registerController.getRegister)
-router.post('/register',registerController.postRegister)
+router.post('/register', upload.single('image'), registerController.postRegister)
 
 module.exports=router;

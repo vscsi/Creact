@@ -1,11 +1,11 @@
 const knex = require("../models/knex");
 const bcrypt = require("bcrypt");
 
-exports.getRegister= async(req,res)=>{
-  
-}
 exports.postRegister= async(req,res)=>{
-  const {username, firstname, lastname, email,password} = req.body;
+  const {username, firstname, lastname, email,password, user_icon} = req.body;
+  // console.log(req.body)
+  // const file = req.file;
+  // console.log(file, file.image, ' this is formData from server/register')
     let query;
     let hashedPassword = await bcrypt.hash(password, 10);
     try{
@@ -20,7 +20,8 @@ exports.postRegister= async(req,res)=>{
             user_pw: hashedPassword,  
             first_name: firstname,
             last_name: lastname,
-            email: email
+            email: email,
+            user_icon: user_icon
           })
           res.json({userNameRepeated:false})
       }

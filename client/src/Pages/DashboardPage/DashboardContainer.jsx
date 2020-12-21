@@ -193,6 +193,7 @@ function DashboardContainer() {
         direction="row"
         alignItems="stretch"
         className={`${DashboardContainerCss.containerHeight} ${DashboardContainerCss.containerBackground}`}
+        
       >
         <Router>
           <DashboardProfileSidebar
@@ -210,19 +211,29 @@ function DashboardContainer() {
             md={9}
             spacing={0}
             alignItems={"flex-end"}
+            className = {DashboardContainerCss.overrideGrid}
           >
             <DashboardNavbar loginUsers={loginUsers} userName={userName} />
             {/* <Switch> */}
             {/* for profile route */}
-            <Route path="/profile" component={DashboardProfileHome} />
+            <Route 
+            exact
+            path="/profile" component={DashboardProfileHome} />
             {/* <Route path="/profile/find" component={DashboardAddSocial} /> */}
             <Route
               path="/profile/create"
-              component={DashboardCreateWorkspace}
+              render = {()=>
+              <DashboardCreateWorkspace />
+            }
             />
-            <Route path="/profile/search">
-              <DashboardSearchWorkspace allWorkspaces={allWorkspaces} />
-            </Route>
+            <Route 
+              path="/profile/search"
+              render = {()=>
+                <DashboardSearchWorkspace allWorkspaces={allWorkspaces} />
+            }
+            
+            />
+            {/* </Route> */}
             {/* for workspace route */}
             <Route
               exact
