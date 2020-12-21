@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef, useCallback} from 'react';
-import queryString from 'query-string';
+// import queryString from 'query-string';
 import io from 'socket.io-client';
 import CanvasDraw from 'react-canvas-draw'
 import ReactColorPicker from '@super-effective/react-color-picker';
@@ -9,20 +9,23 @@ import './Whiteboard.css'
 
 
 let socket
+//eslint-disable-next-line
 let drawData
 
 function WhiteboardContainer(props, {location}) {
-  const ENDPOINT = 'localhost:4000';
+  // const ENDPOINT = 'localhost:4000';
+  const ENDPOINT = process.env.REACT_APP_API_SERVER;
   const saveableCanvas = useRef(null)
 
   const [my_socketid, setSocketId] =useState('');
   const [brushColor, setBrushColor] = useState('#3cd6bf');
   const [brushRadius, setBrushRadius] = useState(10);
   const [drawingData, setDrawingData] = useState(null);
+  //eslint-disable-next-line
   const [trigger, setTrigger] = useState(true)
 
   
-  
+  //eslint-disable-next-line
   const handler = useCallback ( e => {
     console.log('mousup get' )
     let drawData = saveableCanvas.current.getSaveData()
@@ -50,13 +53,10 @@ function WhiteboardContainer(props, {location}) {
     socket.emit('join', {workspaceName})
 
     
-
     return () => {
       socket.disconnect();
     }
-
-
-
+//eslint-disable-next-line
   },[ENDPOINT]);
 
 
@@ -67,7 +67,7 @@ function WhiteboardContainer(props, {location}) {
   };
   
   
-
+//eslint-disable-next-line
   const sendtoSocket= (e) => {
     // localStorage.setItem(
     //   "savedDrawing",
@@ -106,6 +106,7 @@ function WhiteboardContainer(props, {location}) {
     socket.on('severtoClientDrawing', (data)=> {
       console.log('drawdata received', data.data)
       console.log('here now', saveableCanvas.current)
+      //eslint-disable-next-line
       let receivedDrawing = JSON.stringify(data.data)
 
       setDrawingData(data.data)

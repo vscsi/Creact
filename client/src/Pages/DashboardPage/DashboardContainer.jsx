@@ -49,9 +49,8 @@ function DashboardContainer() {
   const chatroomInit = (workspace) => {
     console.log("chatroomInit receive", workspace);
     try {
-      Axios.post(
-        "http://localhost:4000/workspace/chatroominit",
-        // Axios.post(`${process.env.REACT_APP_API_SERVER}/workspace/chatroominit`,
+      Axios.post( "http://localhost:4000/workspace/chatroominit",
+      // Axios.post(`${process.env.REACT_APP_API_SERVER}/workspace/chatroominit`,
         {
           workspaceName: workspace,
         },
@@ -64,7 +63,7 @@ function DashboardContainer() {
         console.log("chatroominit", res);
         console.log("chatroom Id", res.data);
         setChatroomId(res.data);
-      });
+      })
     } catch (error) {}
   };
 
@@ -89,7 +88,7 @@ function DashboardContainer() {
   const getUserInfo = () => {
     try {
       Axios.get("http://localhost:4000/username", {
-        // Axios.get(`${process.env.REACT_APP_API_SERVER}/username`, {
+      // Axios.get(`${process.env.REACT_APP_API_SERVER}/username`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -122,7 +121,7 @@ function DashboardContainer() {
   const getAllWorkspaces = () => {
     try {
       Axios.get("http://localhost:4000/workspace/all", {
-        // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/all`, {
+      // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/all`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -167,6 +166,7 @@ function DashboardContainer() {
     try {
       Axios.post(
         "http://localhost:4000/checkloginusers",
+      //  `${process.env.REACT_APP_API_SERVER}/checkloginusers`,
         {
           userName: "",
         },

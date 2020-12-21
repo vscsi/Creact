@@ -1,11 +1,10 @@
 .Doc{
-    background-color: white;
+    background-color: #F0EFE9;
     overflow: auto;
     height: 94vh;
     width: 100%;
-    /* border: 1px solid black; */
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
-
 
 .Bold{
     font-weight: bold;
@@ -16,7 +15,7 @@
 }
 
 .Code{
-    font-style: oblique;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .Strikethrough{
@@ -26,3 +25,29 @@
 .Underline{
     text-decoration: underline;
 }
+
+.Buttons{
+    margin: 2vh 18vw;
+    color: #212429;
+    display: flex;
+}
+
+.Raise:hover,
+.Raise:focus {
+  box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+  transform: translateY(-0.25em);
+}
+
+.notehr{
+    width: 50vw;
+}
+
+.notebutton {
+    background: none;
+    border: none;
+    font: inherit;
+    line-height: 1%;
+    margin: 0.1em;
+    padding: 1em 1em;
+  }
+  

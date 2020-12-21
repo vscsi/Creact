@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Paper } from '@material-ui/core';
 import {
     Link,
-    Route
   } from "react-router-dom";
 // import Link from "@material-ui/core/Link";
 
@@ -51,8 +50,8 @@ const VideoConferenceRoom = ({currentWorkspace, handleClick}) => {
                             <p>Room password(use this password to join the meeting!) : {item.video_room_pw}</p>
                             <p>Room url: {item.video_room_url}</p>
                             <button  onClick={()=>handleConferenceClick({item})}>
-                                {/* <Link to ={`/workspace/${currentWorkspace}/video/rooms/join`}> */}
-                                <Link to ={item.video_room_url} href={item.video_room_url} target="_blank">
+                                <Link to ={`/workspace/${currentWorkspace}/video/rooms/join`}>
+                                {/* <Link to ={item.video_room_url} href={item.video_room_url} target="_blank"> */}
                                     Join meeting
                                 </Link>
                                 {/* <Route path={item.video_room_url} component={() => { 

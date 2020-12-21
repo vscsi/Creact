@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import CollabTaskBox from "./components/CollabTaskBox";
 import CollabTaskList from "./components/CollabTaskList";
 // import Pagination from "./components/Pagination";
-import styles from "./CollabTaskContainer.module.css";
+// import styles from "./CollabTaskContainer.module.css";
 import Axios from "axios";
 import { getCurrentWorkspace } from "../../../../services/getCurrentWorkspace";
 import { makeStyles } from "@material-ui/core/styles";
@@ -74,7 +74,7 @@ const CollabTaskContainer = (props) => {
   const handleDelete = async (id) => {
     try {
       Axios.delete(`http://localhost:4000/tasks/${id}`, {
-        // Axios.delete(`${process.env.REACT_APP_API_SERVER}/tasks/${id}`, {
+      // Axios.delete(`${process.env.REACT_APP_API_SERVER}/tasks/${id}`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
