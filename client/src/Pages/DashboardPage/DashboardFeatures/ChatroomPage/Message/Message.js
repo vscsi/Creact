@@ -6,8 +6,8 @@ function Message({message, timestamp, userName, userImage}) {
         <div className="message">
             <img src={userImage} alt={userName} />
             <div className="message__info">
-            <h5>{userName} <span className="message__timestamp" >{timestamp}</span></h5>
-        <p>{message}</p>
+            <p><span className ="message__username">{userName}</span><span className="message__timestamp" >{timestamp}</span></p>
+            <p>{message}</p>
             </div>
         </div>
     )

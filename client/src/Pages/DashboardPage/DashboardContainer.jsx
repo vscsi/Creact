@@ -202,6 +202,7 @@ function DashboardContainer() {
         alignItems="stretch"
         // wrap="nowrap"
         className={`${DashboardContainerCss.containerHeight} ${DashboardContainerCss.containerBackground}`}
+        
       >
         <Router>
           <DashboardProfileSidebar
@@ -235,9 +236,14 @@ function DashboardContainer() {
               }}
               // component={DashboardCreateWorkspace}
             />
-            <Route path="/profile/search">
-              <DashboardSearchWorkspace allWorkspaces={allWorkspaces} />
-            </Route>
+            <Route 
+              path="/profile/search"
+              render = {()=>
+                <DashboardSearchWorkspace allWorkspaces={allWorkspaces} />
+            }
+            
+            />
+            {/* </Route> */}
             {/* for workspace route */}
             <Route
               path={`/workspace/:${currentWorkspace}/chat`}
