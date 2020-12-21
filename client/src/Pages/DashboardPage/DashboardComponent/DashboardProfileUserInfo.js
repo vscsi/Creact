@@ -1,7 +1,9 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Card, CardMedia, Divider, Typography } from "@material-ui/core";
+//eslint-disable-next-line
 import CardActionArea from "@material-ui/core/CardActionArea";
+//eslint-disable-next-line
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import userPhoto from "../../../images/tomcruise.jpg";

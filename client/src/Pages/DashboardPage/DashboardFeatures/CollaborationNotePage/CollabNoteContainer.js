@@ -294,7 +294,7 @@ function MyEditor() {
                     Save
                 </button>
             </div>
-            <hr className={classes.notehr}></hr>
+            <hr></hr>
             <Editor 
                 editorState={editorState}
                 handleKeyCommand={handleKeyCommand} 
