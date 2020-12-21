@@ -7,6 +7,7 @@ import VideoCreateRoom from './VideoCreateRoom';
 import VideoJoinRoom from './VideoJoinRoom';
 
 function VideoContainer({userName,currentWorkspace}) {
+  //eslint-disable-next-line 
   const [joinVideo, setJoinVideo] = useState(false)
   const [joinRoomUrl, setJoinRoomUrl] = useState('');
   const [joinRoomPw, setRoomPw] = useState('');
@@ -14,14 +15,14 @@ function VideoContainer({userName,currentWorkspace}) {
 
   function handleVideoJoinClick(item){
     // console.log(item['video_room_url'], item['video_room_pw'], item[video_room_name], 'this is from handleVideoJoinClick')
-    console.log(item.item.video_room_url, 'this is from handleVideoJoinClick')
+    // console.log(item.item.video_room_url, 'this is from handleVideoJoinClick')
     setJoinVideo(true)
     // setTimeout(()=> console.log(joinVideo, 'this is value from VideoContainer after'), 
     //   2000)
     setJoinRoomUrl(item.item.video_room_url)
     setRoomPw(item.item.video_room_pw)
     setJoinRoomName(item.item.video_room_name)
-    console.log(joinVideo, joinRoomUrl,'this is joinVideo from VideoContainer');
+    // console.log(joinVideo, joinRoomUrl,'this is joinVideo from VideoContainer');
   }
 
   return (

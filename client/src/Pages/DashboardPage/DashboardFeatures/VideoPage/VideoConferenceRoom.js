@@ -25,7 +25,7 @@ const VideoConferenceRoom = ({currentWorkspace, handleClick}) => {
                     const response = await getVideoInfo.json();
                     //the ...response.videoRooms allows you to access each element in the array that is returned
                     setCurrentVideoRoom([...response.videoRooms])
-                    console.log(response.videoRooms.video_room_pw); 
+                    // console.log(response.videoRooms.video_room_pw); 
                     // console.log(currentVideoRoom);
                     
                 }catch(e){

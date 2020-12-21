@@ -20,7 +20,7 @@ function App() {
         "x-access-token": localStorage.getItem("token"),
       },
     }).then((res) => {
-      console.log(res);
+      // console.log(res);
       if (res.data.userId !== undefined) {
         setLogin(true);
       }

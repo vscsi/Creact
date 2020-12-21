@@ -85,14 +85,14 @@ function RegisterContainer() {
             body: JSON.stringify(body)
           });
          const result = await response.json();
-         console.log(result.userNameRepeated);
+        //  console.log(result.userNameRepeated);
         if(result.userNameRepeated === true){
           // console.log(result.userNameRepeated)
            setServerError({username: 'username is already taken, please choose a new one.'})
           }else{
            setServerError({username: ''})
         }
-        console.log(values)
+        // console.log(values)
       }catch(e){
         console.error(e.message);
       }

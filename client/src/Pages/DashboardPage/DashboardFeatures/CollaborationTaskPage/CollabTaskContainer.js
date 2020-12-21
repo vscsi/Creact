@@ -46,8 +46,8 @@ const CollabTaskContainer = (props) => {
           headers: { "x-access-token": localStorage.getItem("token") },
         }
       ).then((res) => {
-        console.log("get res from '/tasks");
-        console.log(res);
+        // console.log("get res from '/tasks");
+        // console.log(res);
         setTasks(res.data);
         // console.log(jsonData);
       });
@@ -79,8 +79,8 @@ const CollabTaskContainer = (props) => {
           "x-access-token": localStorage.getItem("token"),
         },
       }).then((res) => {
-        console.log(`delete res from '/tasks/id`);
-        console.log(res);
+        // console.log(`delete res from '/tasks/id`);
+        // console.log(res);
         setTasks(
           tasks.filter((task, index) => {
             return task.id !== id;

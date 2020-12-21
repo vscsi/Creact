@@ -20,7 +20,7 @@ const DashboardCreateWorkspace = () => {
         },
         config
       ).then((res) => {
-        console.log(res);
+        // console.log(res);
       });
       window.location = "/profile";
       
