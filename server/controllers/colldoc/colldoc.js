@@ -1,4 +1,5 @@
 let workspace = '';
+let typedata = null
 
 
 module.exports = function (io) {
@@ -6,17 +7,21 @@ module.exports = function (io) {
         console.log('A client has connect to colldoc server with socketid : ', socket.id);
         socket.on('join', (data)=> {
             socket.join(data.workspaceName)
-            workspace = data.workspaceName    
+            workspace = data.workspaceName   
+            
+            
 
         })
 
 
         socket.on('saveCardFromClient', (data)=> {
             console.log('got doc save card, amazing Charles')    
+            typedata = data;
 
             socket.broadcast.to(workspace).emit('servertoClientSaveCard', data)
 
-        } )
+            
+        })
 
         socket.on('disconnect', ()=> {
             console.log('Colldoc client disconnected')
