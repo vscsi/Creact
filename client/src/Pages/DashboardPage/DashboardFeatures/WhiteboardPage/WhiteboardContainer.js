@@ -4,7 +4,7 @@ import io from 'socket.io-client';
 import CanvasDraw from 'react-canvas-draw'
 import ReactColorPicker from '@super-effective/react-color-picker';
 import {getCurrentWorkspace} from '../../../../services/getCurrentWorkspace'
-import './Whiteboard.css'
+import classes from './Whiteboard.module.css'
 
 
 
@@ -19,7 +19,7 @@ function WhiteboardContainer(props, {location}) {
   //eslint-disable-next-line
   const [my_socketid, setSocketId] =useState('');
   const [brushColor, setBrushColor] = useState('#3cd6bf');
-  const [brushRadius, setBrushRadius] = useState(10);
+  const [brushRadius, setBrushRadius] = useState(5);
   const [drawingData, setDrawingData] = useState(null);
   //eslint-disable-next-line
   const [trigger, setTrigger] = useState(true)
@@ -131,44 +131,50 @@ function WhiteboardContainer(props, {location}) {
 
 
   return (
-    <div className= "canvas" >
-      <ReactColorPicker color={brushColor} onChange={onColorChange} />
-      <div>
-      <button onClick={()=>{
-        saveableCanvas.current.clear();
-      }} >Clear</button>
-      <button onClick={()=>{
-        saveableCanvas.current.undo();
-      }} >Undo</button>
-      
-          <button
-          onClick={() => {
-            saveableCanvas.loadSaveData(
-              drawingData
-            );
-          }}
-        >
-          Load
-        </button>    
-
-      </div>
-      <div>
-      <label>Brush-Radius:</label>
-            <input
-              type="number"
-              value={brushRadius}
-              onChange={e =>
-                setBrushRadius( parseInt(e.target.value, 10))
-              }
-            />
-      </div>
-
+    <div>
+      <div className={classes.Canvasdiv}>
       <CanvasDraw 
         ref={saveableCanvas}
-         brushColor={brushColor} brushRadius={brushRadius}
-        canvasWidth={1000}
-        canvasHeight={500} />
-    </div>
+        brushColor={brushColor} brushRadius={brushRadius}
+        canvasWidth={1200}
+        canvasHeight={600} />
+      </div>
+
+      <div className={classes.PickerDiv}>
+        <ReactColorPicker className={classes.Picker} color={brushColor} onChange={onColorChange} />
+          <div>
+            <label>Brush-Radius:</label>
+                <input
+                  type="number"
+                  value={brushRadius}
+                  onChange={e =>
+                    setBrushRadius( parseInt(e.target.value, 10))
+                  }
+                />
+          </div>
+        <div className={classes.UndoRedo}>
+          <button className={classes.Buttons} onClick={()=>{
+            saveableCanvas.current.clear();
+          }} >Clear</button>
+        </div>
+        <div className={classes.UndoRedo}>
+          <button className={classes.Buttons} onClick={()=>{
+            saveableCanvas.current.undo();
+          }} >Undo</button>
+        </div>
+            {/* <button
+            onClick={() => {
+              saveableCanvas.loadSaveData(
+                drawingData
+              );
+            }}
+          >
+            Load
+          </button>     */}
+        </div>
+        <div>
+        </div>
+      </div>
   )
 }
 

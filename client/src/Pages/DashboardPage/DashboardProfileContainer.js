@@ -4,6 +4,8 @@ import DashboardProfileSidebar from "./DashboardComponent/DashboardProfieSidebar
 import { Grid } from "@material-ui/core";
 import {
   BrowserRouter as Router,
+  //eslint-disable-next-line
+  Switch,
   Route,
   // Redirect,
 } from "react-router-dom";

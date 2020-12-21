@@ -30,7 +30,30 @@
     margin: 2vh 18vw;
     color: #212429;
     display: flex;
+    justify-content: center;
 }
+
+@media only screen and (max-width: 1500px) {
+    .Buttons{
+        margin: 2vh 10vw;
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    .Buttons{
+        margin: 2vh 2vw;
+    }
+}
+
+@media only screen and (max-width: 776px) {
+    .Buttons{
+        margin: 2vh 0vw;
+        flex-wrap: wrap;
+        
+    }
+}
+
+
 
 .Raise:hover,
 .Raise:focus {
@@ -38,9 +61,6 @@
   transform: translateY(-0.25em);
 }
 
-.notehr{
-    width: 50vw;
-}
 
 .notebutton {
     background: none;
@@ -49,5 +69,5 @@
     line-height: 1%;
     margin: 0.1em;
     padding: 1em 1em;
-  }
+}
   
