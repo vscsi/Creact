@@ -119,6 +119,7 @@ function DashboardProfileContainer() {
             md={11}
             spacing={0}
             alignItems={"flex-end"}
+            className={DashboardContainerCss.gridFeatureMain}
           >
             <DashboardNavbar loginUsers={loginUsers} name={userName} />
             <Route exact path="/profile">

@@ -228,7 +228,6 @@ function DashboardContainer() {
             <Route exact path="/profile" component={DashboardProfileHome} />
             {/* <Route path="/profile/find" component={DashboardAddSocial} /> */}
             <Route
-              exact
               path="/profile/create"
               render={() => {
                 setCurrentWorkspace("");
@@ -236,12 +235,11 @@ function DashboardContainer() {
               }}
               // component={DashboardCreateWorkspace}
             />
-            <Route exact path="/profile/search">
+            <Route path="/profile/search">
               <DashboardSearchWorkspace allWorkspaces={allWorkspaces} />
             </Route>
             {/* for workspace route */}
             <Route
-              exact
               path={`/workspace/:${currentWorkspace}/chat`}
               component={ChatroomContainer}
             />

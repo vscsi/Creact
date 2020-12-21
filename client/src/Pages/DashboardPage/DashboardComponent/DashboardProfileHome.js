@@ -2,18 +2,24 @@ import React from "react";
 import DashboardProfileUserInfo from "./DashboardProfileUserInfo";
 import DashboardProfileUserCalender from "./DashboardProfileUserCalender";
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
+// import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
+import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    // backgroundColor: '#F0EFE9',
+    // fontFamily: `Josefin Sans`
   },
   paper: {
     padding: theme.spacing(2),
     textAlign: "center",
     color: theme.palette.text.secondary,
   },
+  calendar: {
+    backgroundColor: '#F0EFE9',
+  }
 }));
 
 const DashboardProfileHome = (props) => {
@@ -21,14 +27,14 @@ const DashboardProfileHome = (props) => {
   return (
     <>
       <div className={classes.root}>
-        <Grid container spacing={3}>
+        <Grid container spacing={1}>
           <Grid item xs={12}>
-            <h1>Welcome to Creact, {props.name}</h1>
+            <Typography align="center" variant="h3" gutterBottom >Welcome to Creact, {props.name}</Typography>
           </Grid>
           <Grid item xs={6}>
             <DashboardProfileUserInfo />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={6} className={classes.calendar}>
             <DashboardProfileUserCalender />
           </Grid>
         </Grid>

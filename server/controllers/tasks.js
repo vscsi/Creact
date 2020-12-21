@@ -39,15 +39,17 @@ exports.postTasks = async (req, res, next) => {
       // console.log(`eachTask is below`)
       // console.log(eachTask);
       const userId = eachTask[0].user_id;
-      const returnUsername = await knex('users').where({
-        id: userId
-      }).select('*');
+      const returnUsername = await knex("users")
+        .where({
+          id: userId,
+        })
+        .select("*");
       // console.log(`returnUsername is below`);
       // console.log(returnUsername);
       const userName = returnUsername[0].username;
       // console.log(`userName is ${userName}`);
       // console.log(`userId is ${userId}`);
-      const eachObj = {...eachTask[0], userName};
+      const eachObj = { ...eachTask[0], userName };
       // console.log(`eachObj is below`);
       // console.log(eachObj);
       allTasksInfo.push(eachObj);
@@ -119,19 +121,84 @@ exports.postTask = async (req, res, next) => {
 
 exports.deleteTasks = async (req, res) => {
   try {
-    console.log(`delete from '/tasks/id`)
+    console.log(`delete from '/tasks/id`);
     const { id } = req.params;
     //1. delete from task_workspace
     const userId = req.userId;
     console.log(`taskId = ${id}`);
     console.log(`userId = ${userId}`);
-    const deleteTaskWorkspace = await knex('task_workspace').where({
-      task_id: id,
-      user_id: userId
-    }).del();
+    const deleteTaskWorkspace = await knex("task_workspace")
+      .where({
+        task_id: id,
+        user_id: userId,
+      })
+      .del();
     //2. delete from task
     const deleteTask = await knex("task").where("id", id).del();
     res.json("Task is deleted");
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
+exports.getUserTasks = async (req, res) => {
+  try {
+    console.log("In /task/usertasks");
+    // console.log(req.userId);
+    const returnUserWP = await knex("user_workspace").where({
+      user_id: req.userId,
+    });
+    // console.log(`returnUserWP is below`);
+    // console.log(returnUserWP);
+    let allTasks = [];
+    let allTasksInfo = [];
+    for (let wp of returnUserWP) {
+      const eachWorkspaceId = wp.workspace_id;
+      const returnTasks = await knex("task_workspace").where({
+        workspace_id: eachWorkspaceId,
+        user_id: req.userId,
+      });
+      // console.log(`returnTasks is below`);
+      // console.log(returnTasks);
+      for (let task of returnTasks) {
+        allTasks.push(task);
+      }
+    }
+    // console.log(`allTasks is below`);
+    // console.log(allTasks);
+
+    for (let each of allTasks) {
+      let eachObj = {};
+      const eachWorkspaceId = each.workspace_id;
+      const eachTaskId = each.task_id;
+      const eachUserId = each.user_id;
+      const eachWorkspaceInfo = await knex("workspace").where({
+        id: eachWorkspaceId,
+      });
+      const eachTaskInfo = await knex("task").where({
+        id: eachTaskId,
+      });
+      const eachUserInfo = await knex("users").where({
+        id: eachUserId,
+      });
+      // console.log(`eachWorkspaceInfo`);
+      // console.log(eachWorkspaceInfo);
+      // console.log(`eachTaskInfo`);
+      // console.log(eachTaskInfo);
+      // console.log(`eachUserInfo`);
+      // console.log(eachUserInfo);
+      eachObj = {
+        workspaceName: eachWorkspaceInfo[0].workspace_name,
+        title: eachTaskInfo[0].task_name,
+        content: eachTaskInfo[0].task_content,
+        date: eachTaskInfo[0].deadline,
+        userName: eachUserInfo[0].username,
+      };
+      allTasksInfo.push(eachObj);
+    }
+    console.log(`allTasksinfo is below`);
+    console.log(allTasksInfo);
+    res.json({ allTasks: allTasksInfo });
   } catch (error) {
     console.error(error.message);
   }

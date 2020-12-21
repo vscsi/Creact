@@ -12,10 +12,10 @@ const verifyJWT = (req, res, next) => {
         res.json({ auth: false, message: "U failed to authenticated" });
       } else {
         //get user info using decoded
-        console.log("JWT token should be correct");
-        console.log("Decoding...");
-        console.log("YoYoYO, Decoded is below");
-        console.log(decoded);
+        // console.log("JWT token should be correct");
+        // console.log("Decoding...");
+        // console.log("YoYoYO, Decoded is below");
+        // console.log(decoded);
         //will assign the value to req.userId and req.userName 
         req.userId = decoded.id;
         req.userName = decoded.name;
