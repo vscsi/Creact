@@ -4,6 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { FormHelperText} from '@material-ui/core';
+// import UploadImage from './UploadImage'
 import {
   Redirect
 } from "react-router-dom";
@@ -14,7 +15,7 @@ function RegisterContainer() {
   * @param errors setting states for errors 
   * @param serverError setting states for errors with response from server (check if  username repeated)  
    */
-  const[values,setValues] = useState({username:"", firstname:"", lastname:"", email:"",password:""})
+  const[values,setValues] = useState({username:"", firstname:"", lastname:"", email:"",password:"", user_icon:""})
   const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState({});
 
@@ -27,6 +28,11 @@ function RegisterContainer() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+
+  /**For image uploading */
+  // const [image, setImage] = useState({ preview: "", raw: "" });
+
+  
   /**validating login*/
   const validateLogin=(values)=>{
     let errors = {};
@@ -54,6 +60,11 @@ function RegisterContainer() {
     } else if (values.password.length < 8) {
       errors.password = "Password needs to be more than 8 characters";
     }
+
+    if(!values.user_icon){
+      errors.user_icon = 'User Icon is required'
+    }
+
     return errors;
   }
 
@@ -73,10 +84,18 @@ function RegisterContainer() {
     e.preventDefault();
     setIsSubmitting(true);
     setServerError({})
-    const {username, firstname, lastname, email,password} =values;
-    const body = {username, firstname, lastname, email, password};
+    const {username, firstname, lastname, email,password, user_icon} =values;
+    const body = {username, firstname, lastname, email, password, user_icon};
     const url = "http://localhost:4000/register";
       // const url = `${process.env.REACT_APP_API_SERVER}/register`;
+    //attach raw image info into the formData to be posted 
+    // const formData = new FormData();
+    // console.log(image, 'this is image')
+    // console.log(image.raw, 'this is image raw')
+    // console.log(image.preview, 'this is objectURL')
+    // let imageObjectUrl = image.preview;
+    // formData.append("image", image.raw);
+  
       async function postRegister(){
         try{
           const response = await fetch(url,{
@@ -84,8 +103,19 @@ function RegisterContainer() {
             headers: {"Content-Type":"application/json"},
             body: JSON.stringify(body)
           });
-         const result = await response.json();
-        //  console.log(result.userNameRepeated);
+          
+          // const imageUpload = await fetch(url, {
+          //   // const url = `${process.env.REACT_APP_API_SERVER}/register`;
+          //   method: "POST",
+          //   headers: {
+          //     "Content-Type": "multipart/form-data"
+          //   },
+          //   body: formData
+          // });
+        const result = await response.json();
+        // const imageResult = await imageUpload.json();
+
+        // console.log(result.userNameRepeated);
         if(result.userNameRepeated === true){
           // console.log(result.userNameRepeated)
            setServerError({username: 'username is already taken, please choose a new one.'})
@@ -97,6 +127,7 @@ function RegisterContainer() {
         console.error(e.message);
       }
     }
+
     postRegister();
     setErrors(validateLogin(values));
       // console.log(isSubmitted)
@@ -104,6 +135,34 @@ function RegisterContainer() {
       // console.log(Object.keys(errors).length);
       
     }
+
+    /**handling image upload */
+    // const handleImageChange = e => {
+    //   if (e.target.files.length) {
+    //     console.log(e.target.files, 'this is e.target.files')
+    //     setImage({
+    //       preview: URL.createObjectURL(e.target.files[0]),
+    //       raw: e.target.files[0]
+    //     });
+    //   }
+    // };
+
+    // const handleUpload = async e => {
+    //   e.preventDefault();
+    //   const formData = new FormData();
+    //   //attach raw image info into the formData to be posted 
+    //   console.log(image.raw, 'this is image raw')
+    //   formData.append("image", image.raw);
+  
+    //   await fetch("http://localhost:4000/register", {
+    //     // const url = `${process.env.REACT_APP_API_SERVER}/register`;
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "multipart/form-data"
+    //     },
+    //     body: formData
+    //   });
+    // };
     
     
     //if there are no errors, go ahead to submit
@@ -139,6 +198,7 @@ function RegisterContainer() {
         direction="column"
         justify="center"
         alignItems="center"
+
         >
             <TextField 
             placeholder="Enter your user name" 
@@ -182,13 +242,28 @@ function RegisterContainer() {
             onChange={handleChange}/>
             {errors.password ? <FormHelperText>{errors.password}</FormHelperText>:""}
 
+             <TextField 
+            placeholder="user image (please upload the image url)" 
+            name="user_icon"
+            type="user_icon"
+            value={values.user_icon}
+            onChange={handleChange}/>
+            {errors.user_icon ? <FormHelperText>{errors.user_icon}</FormHelperText>:""}
+
+            {/* <UploadImage handleImageChange={handleImageChange} image={image}/> */}
+
             <Button 
             variant="outlined"
             type="submit"
-            onClick={()=>setIsSubmitted(false)}
+            onClick={()=>
+              {
+                setIsSubmitted(false);
+              }
+            }
             >
               Sign up
             </Button>
+            {/* <img src ={image.preview} /> */}
 
         </Grid>
         </form>   

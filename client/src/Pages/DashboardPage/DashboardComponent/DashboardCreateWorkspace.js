@@ -5,6 +5,8 @@ import Axios from "axios";
 const DashboardCreateWorkspace = () => {
   const [workspaceName, setWorkSpaceName] = useState("");
   const [maxppl, setMaxppl] = useState(0);
+  //eslint-disable-next-line
+  const [enterPage, setEnterPage] = useState(false);
   const onSubmitForm = (e) => {
     e.preventDefault();
     let config = {
@@ -28,6 +30,7 @@ const DashboardCreateWorkspace = () => {
       console.error(error.message);
     }
   };
+
   return (
     <>
       <div className={styles.box_wrapper}>

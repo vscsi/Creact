@@ -40,7 +40,7 @@ const DashboardProfileUserInfo = () => {
   return (
     <>
       <Card className={classes.root}>
-        {/* <div style={{ backgroundImage: `${blurBackground}` }}> */}
+        <div style={{ backgroundImage: `${blurBackground}` }}>
         <CardMedia className={classes.media} image={userPhoto} />
         {/* <img src={userPhoto}></img> */}
         <CardContent>
@@ -49,7 +49,7 @@ const DashboardProfileUserInfo = () => {
           </Typography>
         </CardContent>
         <Divider />
-        {/* </div> */}
+        </div>
         <CardContent>
           <Typography className={classes.inputStyle}>
             Username: handsome
