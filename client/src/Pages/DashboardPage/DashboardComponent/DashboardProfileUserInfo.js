@@ -35,30 +35,29 @@ const useStyles = makeStyles({
   },
 });
 
-const DashboardProfileUserInfo = () => {
+const DashboardProfileUserInfo = (props) => {
   const classes = useStyles();
   return (
     <>
       <Card className={classes.root}>
-        <div style={{ backgroundImage: `${blurBackground}` }}>
-        <CardMedia className={classes.media} image={userPhoto} />
+        {/* <div style={{ backgroundImage: `${blurBackground}` }}> */}
+        <CardMedia className={classes.media} image={props.userImg} />
         {/* <img src={userPhoto}></img> */}
         <CardContent>
           <Typography align="center" variant="h6" className={classes.nameStyle}>
-            Handome Guy
+            {props.userFirstName} {props.userLastName}
           </Typography>
         </CardContent>
         <Divider />
-        </div>
         <CardContent>
           <Typography className={classes.inputStyle}>
-            Username: handsome
+            Username: {props.userName}
           </Typography>
           <Typography className={classes.inputStyle}>
             Password: ********
           </Typography>
           <Typography className={classes.inputStyle}>
-            Email: handsome@gmail.com
+            Email: {props.userEmail}
           </Typography>
         </CardContent>
       </Card>
