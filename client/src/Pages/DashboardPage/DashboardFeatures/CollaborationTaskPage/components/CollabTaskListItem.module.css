@@ -1,0 +1,37 @@
+.FinishButton {
+    display: inline !important;
+    background: none !important;
+    height: auto !important;
+    width: auto !important;
+    margin: 1vh 1vw !important;
+    text-align: center !important;
+    border: 2px solid #A4303F !important;
+    color: #A4303F !important;
+    font: inherit !important;
+    letter-spacing: 1px !important;
+    text-shadow: 0 !important;
+    text-transform: uppercase !important;
+    position: relative !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    transition: all 0.25s ease !important;
+}
+
+.FinishButton:hover {
+    color: white !important;
+    background: #A4303F !important;
+}
+
+.FinishButton:active {
+    letter-spacing: 2px !important;
+}
+
+
+.FinishDiv{
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 5vh;
+}

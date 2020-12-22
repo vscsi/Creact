@@ -1,9 +1,8 @@
 # Creact - Capstone project
 
 [Creact app](https://creact-app.com)
-showingyouguys
-test run
 
+### 
 
 ## Tech Stack
 - React
@@ -13,14 +12,12 @@ test run
 - Postgresql
 - Knex.js
 
-
-
-
 ## Features
 - Task list
 - Video Calling
-- Collaboration Document
+- Collaborative Document
 - Chatroom
+- collaborative Whiteboard
 
 ## Developed by
 

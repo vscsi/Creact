@@ -7,6 +7,7 @@ exports.up = function(knex) {
       table.text('first_name').notNullable();
       table.text('last_name').notNullable();
       table.text('email').notNullable();
+      table.binary('img');
   })
 };
 

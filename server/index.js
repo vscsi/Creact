@@ -9,8 +9,11 @@ const jwt = require("jsonwebtoken");
 const session = require("express-session");
 const config = require("./config.json");
 const bcrypt = require("bcrypt");
+const multer  = require('multer')
+const upload = multer();
 // const expressJwt = require("express-jwt");
 const { verifyJWT } = require("./_helpers/jwt-handler");
+
 
 //socket set up
 const http = require("http");
@@ -33,6 +36,7 @@ app.use(cors());
 app.use(express.json()); //req.body
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
 //routers
 const taskRoutes = require("./routes/task");
 const registerRoutes = require("./routes/register");
@@ -41,6 +45,7 @@ const workspaceRoutes = require("./routes/workspace");
 const userRoutes = require("./routes/user");
 const videoCreateRoomRoutes = require("./routes/videoCreateRoom");
 const videoShowRoomRoutes = require('./routes/videoShowRoom')
+const docRoutes = require('./routes/docs')
 
 //jwt
 // app.use(
@@ -62,6 +67,7 @@ app.use(workspaceRoutes);
 app.use(userRoutes);
 app.use(videoCreateRoomRoutes);
 app.use(videoShowRoomRoutes);
+app.use(docRoutes);
 //api routes
 
 //Auth stuff

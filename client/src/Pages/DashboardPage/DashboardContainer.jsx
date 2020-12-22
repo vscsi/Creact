@@ -45,13 +45,13 @@ function DashboardContainer() {
   const [userId, setUserId] = useState("");
   const [loginUsers, setLoginUsers] = useState([]);
   // const [currClickWorkspace, setCurrClickWorkspace] = useState("");
+  const location = window.location.pathname;
 
   const chatroomInit = (workspace) => {
     console.log("chatroomInit receive", workspace);
     try {
-      Axios.post(
-        "http://localhost:4000/workspace/chatroominit",
-        // Axios.post(`${process.env.REACT_APP_API_SERVER}/workspace/chatroominit`,
+      Axios.post( "http://localhost:4000/workspace/chatroominit",
+      // Axios.post(`${process.env.REACT_APP_API_SERVER}/workspace/chatroominit`,
         {
           workspaceName: workspace,
         },
@@ -64,7 +64,7 @@ function DashboardContainer() {
         console.log("chatroominit", res);
         console.log("chatroom Id", res.data);
         setChatroomId(res.data);
-      });
+      })
     } catch (error) {}
   };
 
@@ -89,7 +89,7 @@ function DashboardContainer() {
   const getUserInfo = () => {
     try {
       Axios.get("http://localhost:4000/username", {
-        // Axios.get(`${process.env.REACT_APP_API_SERVER}/username`, {
+      // Axios.get(`${process.env.REACT_APP_API_SERVER}/username`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -122,7 +122,7 @@ function DashboardContainer() {
   const getAllWorkspaces = () => {
     try {
       Axios.get("http://localhost:4000/workspace/all", {
-        // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/all`, {
+      // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/all`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -167,6 +167,7 @@ function DashboardContainer() {
     try {
       Axios.post(
         "http://localhost:4000/checkloginusers",
+      //  `${process.env.REACT_APP_API_SERVER}/checkloginusers`,
         {
           userName: "",
         },
@@ -183,8 +184,8 @@ function DashboardContainer() {
     } catch (error) {
       console.error(error.message);
     }
-  };
-
+  }
+  // const checkLocation =
   useEffect(() => {
     getUserWorkspaces();
     getUserInfo();
@@ -202,6 +203,7 @@ function DashboardContainer() {
         alignItems="stretch"
         // wrap="nowrap"
         className={`${DashboardContainerCss.containerHeight} ${DashboardContainerCss.containerBackground}`}
+        
       >
         <Router>
           <DashboardProfileSidebar
@@ -213,11 +215,12 @@ function DashboardContainer() {
             currentWorkspace={currentWorkspace}
             userId={userId}
             chatroomId={chatroomId}
+            location = {location}
           />
           <Grid
             Container
             direction="row"
-            md={9}
+            md={10}
             spacing={0}
             alignItems={"flex-end"}
             className={DashboardContainerCss.gridFeatureMain}
@@ -225,10 +228,9 @@ function DashboardContainer() {
             <DashboardNavbar loginUsers={loginUsers} userName={userName} />
             {/* <Switch> */}
             {/* for profile route */}
-            <Route path="/profile" component={DashboardProfileHome} />
+            <Route exact path="/profile" component={DashboardProfileHome} />
             {/* <Route path="/profile/find" component={DashboardAddSocial} /> */}
             <Route
-              exact
               path="/profile/create"
               render={() => {
                 setCurrentWorkspace("");
@@ -236,13 +238,20 @@ function DashboardContainer() {
               }}
               // component={DashboardCreateWorkspace}
             />
-            <Route path="/profile/search">
-              <DashboardSearchWorkspace allWorkspaces={allWorkspaces} />
-            </Route>
+            <Route 
+              path="/profile/search"
+              render = {()=>
+                <DashboardSearchWorkspace allWorkspaces={allWorkspaces} />
+            }
+            
+            />
+            {/* </Route> */}
             {/* for workspace route */}
             <Route
-              exact
               path={`/workspace/:${currentWorkspace}/chat`}
+              // render ={()=>{
+              //   <ChatroomContainer/>
+              // }}
               component={ChatroomContainer}
             />
             <Route

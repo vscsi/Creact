@@ -4,23 +4,79 @@ import {
     Editor, 
     EditorState,
     RichUtils,
-    convertFromRaw,
-    convertToRaw
+    convertToRaw,
+    convertFromRaw
 } from 'draft-js';
 import io from 'socket.io-client';
 import {getCurrentWorkspace} from '../../../../services/getCurrentWorkspace'
 import 'draft-js/dist/Draft.css';
+import Axios from 'axios';
+
 
 let socket
 
 function MyEditor() {
     const ENDPOINT = 'http://localhost:4000';
-    const [editorState, setEditorState] = React.useState(
+    // const ENDPOINT = process.env.REACT_APP_API_SERVER;
+    const [editorState, setEditorState] = useState(
         () => EditorState.createEmpty(),
     );
+
+    useEffect(() =>{
+        const currentWorkspace = getCurrentWorkspace();
+        Axios.post(
+            "http://localhost:4000/getdoc",
+            // `${process.env.REACT_APP_API_SERVER}/getdoc`,
+            {
+                docName: currentWorkspace
+            },
+            {
+                headers: { "x-access-token": localStorage.getItem("token") },
+            }
+        ).then((res)=>{
+            // console.log(res.data.length)
+            if(res.data.length >0){
+                const documentContent = res.data[0]["document_content"]
+                // console.log(documentContent, "woooooo")
+                // const doc = convertFromRaw(JSON.parse(documentContent))
+                // console.log(doc, "weeee")
+                setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(documentContent))))
+            } else {
+                setEditorState(EditorState.createEmpty());
+            }
+        })
+    }, []);
+
+    //eslint-disable-next-line
     const [my_socketid, setSocketId] =useState('');    
 
+        //=== save content ===//
+    //eslint-disable-next-line
+    const SaveDoc = useCallback(() => {
+        const currentWorkspace = getCurrentWorkspace();
+        const contentState = editorState.getCurrentContent();
+        const docContent = JSON.stringify(convertToRaw(contentState))
+        try{
+            Axios.post(
+                "http://localhost:4000/savedoc",
+                // `${process.env.REACT_APP_API_SERVER}/savedoc`,
+                {
+                    docContent: docContent,
+                    docName: currentWorkspace
+                },
+                {
+                    headers: { "x-access-token": localStorage.getItem("token") },
+                }
+            )
+            .then((res) => {
+                // console.log(res);
+            })
+        }catch (err){
+            console.err();
+        }
+    })
 
+    //eslint-disable-next-line
     const handler = useCallback ( e => {
         // console.log('Keyup get, Charles the great' );
         const contentState = editorState.getCurrentContent();
@@ -31,15 +87,14 @@ function MyEditor() {
       })
 
 
-
+ //eslint-disable-next-line
     const handler2 = useCallback(e => {
-        console.log('mousedown get thank you ');
-        console.log('is it becuase you are empty?', socket.id)
+        // console.log('mousedown get thank you ');
+        // console.log('is it becuase you are empty?', socket.id)
         socket.emit('newClient', {socket_id: socket.id})
 
     } )
-
-
+    
       useEventListener('keyup', handler)
       useEventListener('mousedown', handler2)
 
@@ -62,13 +117,9 @@ function MyEditor() {
           }
         }, [eventName, element]  )
     
-    
       }   
 
-
-
-
-
+      //eslint-disable-next-line
     const handleKeyCommand = useCallback((command, editorState) => {
         const newState = RichUtils.handleKeyCommand(editorState, command)
         if(newState) {
@@ -79,61 +130,59 @@ function MyEditor() {
         return "not-handled"
     })
 
-    
-    
-
-    //=== save content ===//
-
-
-
     //=== Style controls ===//
     
     //Inline Styles
+    //eslint-disable-next-line
     const _onBoldClick = useCallback(() => {
         setEditorState(RichUtils.toggleInlineStyle(editorState, "BOLD"))
     })
     
+    //eslint-disable-next-line
     const _onItalicClick = useCallback(() => {
         setEditorState(RichUtils.toggleInlineStyle(editorState, "ITALIC"))
     })
     
+    //eslint-disable-next-line
     const _onUnderlineClick = useCallback(() => {
         setEditorState(RichUtils.toggleInlineStyle(editorState, "UNDERLINE"))
     })
     
+    //eslint-disable-next-line
     const _onCodeClick = useCallback(() => {
         setEditorState(RichUtils.toggleInlineStyle(editorState, "CODE"))
     })
     
     //Block Styles
+    //eslint-disable-next-line
     const _onH1Click = useCallback(() =>{
         setEditorState(RichUtils.toggleBlockType(editorState, "header-one"))
     })
-
+    //eslint-disable-next-line
     const _onH2Click = useCallback(() =>{
         setEditorState(RichUtils.toggleBlockType(editorState, "header-two"))
     })
-
+    //eslint-disable-next-line
     const _onH3Click = useCallback(() =>{
         setEditorState(RichUtils.toggleBlockType(editorState, "header-three"))
     })
-
+    //eslint-disable-next-line
     const _onH4Click = useCallback(() =>{
         setEditorState(RichUtils.toggleBlockType(editorState, "header-four"))
     })
-
+    //eslint-disable-next-line
     const _onH5Click = useCallback(() =>{
         setEditorState(RichUtils.toggleBlockType(editorState, "header-five"))
     })
-
+    //eslint-disable-next-line
     const _onH6Click = useCallback(() =>{
         setEditorState(RichUtils.toggleBlockType(editorState, "header-six"))
     })
-
+    //eslint-disable-next-line
     const UL = useCallback(() => {
         setEditorState(RichUtils.toggleBlockType(editorState, "unordered-list-item"))
     })
-
+    //eslint-disable-next-line
     const OL = useCallback(() => {
         setEditorState(RichUtils.toggleBlockType(editorState, "ordered-list-item"))
     })
@@ -146,14 +195,11 @@ function MyEditor() {
           socket.on('onConnect', data=> {
             setSocketId(data.socket_id)
            
-           
           })
       
           socket.emit('join', {workspaceName})
 
-
           socket.emit('newClient', {socket_id: socket.id})
-
 
           return () => {
             socket.disconnect();
@@ -167,71 +213,88 @@ function MyEditor() {
     useEffect(()=> {
         socket.on('servertoClientSaveCard', (data)=> {
 
-            console.log('recevie from server, one take Charles')
+            // console.log('recevie from server, one take Charles')
             const content = data.data;
             setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(content))))
         })
 
         // console.log('editor state', editorState.getCurrentContent())
-        
-    }, [])
+        //eslint-disable-next-line
+    },[])
 
 
     return (
         <div className={classes.Doc}>
             {/* inline styles */}
-            <button 
-                onClick={_onBoldClick}
-                className={classes.Bold}>
-                    Bold
-            </button>
-            <button 
-                onClick={_onItalicClick}
-                className={classes.Italic}>
-                    Italic
-            </button>
-            <button 
-                onClick={_onUnderlineClick}
-                className={classes.Underline}>
-                    Underline
-            </button>
-            <button 
-                onClick={_onCodeClick}
-                className={classes.Code}>
-                    Monospace
-            </button>
-            {/* block styles */}
-            <button 
-                onClick={_onH1Click}>
-                    H1
-            </button>
-            <button 
-                onClick={_onH2Click}>
-                    H2
-            </button>
-            <button 
-                onClick={_onH3Click}>
-                    H3
-            </button>
-            <button 
-                onClick={_onH4Click}>
-                    H4
-            </button>
-            <button 
-                onClick={_onH5Click}>
-                    H5
-            </button>            <button 
-                onClick={_onH6Click}>
-                    H6
-            </button>
-            <button 
-                onClick={UL}>
-                    UL
-            </button>
-            <button 
-                onClick={OL}>
-                    OL
-            </button>
+            <div className={classes.Buttons}>
+                <button 
+                    onClick={_onBoldClick}
+                    className={`${classes.Bold} ${classes.Raise} ${classes.notebutton}`}>
+                        B
+                </button>
+                <button 
+                    onClick={_onItalicClick}
+                    className={`${classes.Italic} ${classes.Raise} ${classes.notebutton}`}>
+                        I
+                </button>
+                <button 
+                    onClick={_onUnderlineClick}
+                    className={`${classes.Underline} ${classes.Raise} ${classes.notebutton}`}>
+                        U
+                </button>
+                <button 
+                    onClick={_onCodeClick}
+                    className={`${classes.Code} ${classes.Raise} ${classes.notebutton}`}>
+                        Mono
+                </button>
+                {/* block styles */}
+                <button 
+                    onClick={_onH1Click}
+                    className={`${classes.Raise} ${classes.notebutton}`}>
+                        H1
+                </button>
+                <button 
+                    onClick={_onH2Click}
+                    className={`${classes.Raise} ${classes.notebutton}`}>
+                        H2
+                </button>
+                <button 
+                    onClick={_onH3Click}
+                    className={`${classes.Raise} ${classes.notebutton}`}>
+                        H3
+                </button>
+                <button 
+                    onClick={_onH4Click}
+                    className={`${classes.Raise} ${classes.notebutton}`}>
+                        H4
+                </button>
+                <button 
+                    onClick={_onH5Click}
+                    className={`${classes.Raise} ${classes.notebutton}`}>
+                        H5
+                </button>            
+                <button 
+                    onClick={_onH6Click}
+                    className={`${classes.Raise} ${classes.notebutton}`}>
+                        H6
+                </button>
+                <button 
+                    onClick={UL}
+                    className={`${classes.Raise} ${classes.notebutton}`}>
+                        UL
+                </button>
+                <button 
+                    onClick={OL}
+                    className={`${classes.Raise} ${classes.notebutton}`}>
+                        OL
+                </button>
+                <button
+                    onClick={SaveDoc}
+                    className={`${classes.Raise} ${classes.notebutton}`}>
+                    Save
+                </button>
+            </div>
+            <hr></hr>
             <Editor 
                 editorState={editorState}
                 handleKeyCommand={handleKeyCommand} 

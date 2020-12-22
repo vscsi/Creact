@@ -1,4 +1,7 @@
 const knex = require("../models/knex");
+// const Buffers = require("buffers");
+var Buffer = require("buffer/").Buffer;
+
 // const jwt = require("jsonwebtoken");
 // const config = require("../config.json");
 
@@ -11,9 +14,26 @@ exports.getUserName = async (req, res) => {
     const returnUser = await knex("users").where({
       id: userId,
     });
-    // console.log("users rendering from db fuck you");
+    console.log("users rendering from db fuck you");
+    console.log(returnUser);
+    const bufs = Buffer.from(returnUser[0].img);
+    // const bufs = Buffers(returnUser[0].img).buffers;
+    const base64 = bufs.toString();
+    // let buff = buffer.from(returnUser[0].img);
+    // let base64 = buff.toString('base64');
+    // console.log(`buff is below`);
+    // console.log(returnUser[0].img)
+    // console.log(base64);
+    // console.log(imgData)
     // console.log(returnUser[0].id);
-    res.json({ userName: returnUser[0].username, id: returnUser[0].id });
+    res.json({
+      userName: returnUser[0].username,
+      id: returnUser[0].id,
+      userImg: base64,
+      firstName: returnUser[0].first_name,
+      lastName: returnUser[0].last_name,
+      email: returnUser[0].email
+    });
   } catch (error) {
     console.error(error.message);
   }
@@ -71,11 +91,11 @@ exports.removeLoginUsers = async (req, res) => {
         username: removeUser,
       })
       .del();
-    const currUsers = await knex('login_users').select('*');
+    const currUsers = await knex("login_users").select("*");
     console.log(`currUsers are below`);
     console.log(currUsers);
     console.log("has removed users from login_users table");
-    res.json({ user: removeUser, currUsers: currUsers});
+    res.json({ user: removeUser, currUsers: currUsers });
   } catch (error) {
     console.error(error.message);
   }

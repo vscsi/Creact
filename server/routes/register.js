@@ -1,9 +1,15 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
+const multer = require("multer");
+const upload = multer();
 
-const registerController = require('../controllers/register');
+const registerController = require("../controllers/register");
 
-router.get('/register',registerController.getRegister)
-router.post('/register',registerController.postRegister)
+router.get("/register", registerController.getRegister);
+router.post(
+  "/register",
+  upload.single("image"),
+  registerController.postRegister
+);
 
-module.exports=router;
+module.exports = router;

@@ -6,8 +6,8 @@ function CalenderContainer() {
   const [tasks, setTasks] = useState([]);
   useEffect(() => {
     getTasks((res) => {
-      console.log("using improved way to show res");
-      console.log(res);
+      // console.log("using improved way to show res");
+      // console.log(res);
       let allTasks = [];
       for (let item of res) {
         allTasks.push({
@@ -22,7 +22,7 @@ function CalenderContainer() {
   }, []);
   return (
     <>
-      <EventCalendar tasks={tasks} />
+      <EventCalendar tasks={tasks} onlyUser={false} onlyWorkspace={true}/>
     </>
   );
 }

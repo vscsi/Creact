@@ -23,6 +23,7 @@ function getModalStyle() {
 }
 
 const useStyles = makeStyles((theme) => ({
+
   paper: {
     position: "absolute",
     width: 400,
@@ -42,6 +43,7 @@ const EventCalendar = (props) => {
   const [eventRepsonsible, setEventResponsible] = useState("");
   const [eventContent, setEventContent] = useState("");
   const [eventDeadline, setEventDeadline] = useState("");
+  const [eventWorkspace, setEventWorkspace] = useState("");
 
   function parseISOString(s) {
     var b = s.split(/\D+/);
@@ -67,6 +69,7 @@ const EventCalendar = (props) => {
         setEventResponsible(props.tasks[i].responsible);
         setEventContent(props.tasks[i].content);
         setEventDeadline(parseISOString(props.tasks[i].date).toString());
+        setEventWorkspace(props.tasks[i].workspaceName);
       }
     }
   };
@@ -74,7 +77,12 @@ const EventCalendar = (props) => {
   const body = (
     <div style={modalStyle} className={classes.paper}>
       <h2 id="simple-modal-title">Task: {eventTitle}</h2>
-      <p id="simple-modal-description">Responsible: {eventRepsonsible}</p>
+      {!props.onlyWorkspace && (
+        <p id="simple-modal-description">Workspace: {eventWorkspace}</p>
+      )}
+      {!props.onlyUser && (
+        <p id="simple-modal-description">Responsible: {eventRepsonsible}</p>
+      )}
       <p id="simple-modal-description">Deadline: {eventDeadline}</p>
       <p id="simple-modal-description">Description: {eventContent}</p>
     </div>
