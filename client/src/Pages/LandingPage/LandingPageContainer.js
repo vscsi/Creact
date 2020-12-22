@@ -278,6 +278,8 @@ function LandingPageContainer(props) {
 
   return (
     <>
+    <div className="hhtml">
+
       {/* <NavBar/> */}
       <div id="body">
         <Header />
@@ -286,6 +288,8 @@ function LandingPageContainer(props) {
         <Card />
         <Footer />
       </div>
+    </div>
+      
     </>
   );
 }
