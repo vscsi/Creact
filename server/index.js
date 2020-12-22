@@ -9,8 +9,11 @@ const jwt = require("jsonwebtoken");
 const session = require("express-session");
 const config = require("./config.json");
 const bcrypt = require("bcrypt");
+const multer  = require('multer')
+const upload = multer();
 // const expressJwt = require("express-jwt");
 const { verifyJWT } = require("./_helpers/jwt-handler");
+
 
 //socket set up
 const http = require("http");

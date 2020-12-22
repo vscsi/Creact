@@ -18,8 +18,8 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
   },
   calendar: {
-    backgroundColor: '#F0EFE9',
-  }
+    backgroundColor: "#F0EFE9",
+  },
 }));
 
 const DashboardProfileHome = (props) => {
@@ -29,10 +29,18 @@ const DashboardProfileHome = (props) => {
       <div className={classes.root}>
         <Grid container spacing={1}>
           <Grid item xs={12}>
-            <Typography align="center" variant="h3" gutterBottom >Welcome to Creact, {props.name}</Typography>
+            <Typography align="center" variant="h3" gutterBottom>
+              Welcome to Creact, {props.name}
+            </Typography>
           </Grid>
           <Grid item xs={6}>
-            <DashboardProfileUserInfo />
+            <DashboardProfileUserInfo
+              userName={props.name}
+              userImg={props.userImg}
+              userFirstName={props.userFirstName}
+              userLastName={props.userLastName}
+              userEmail={props.userEmail}
+            />
           </Grid>
           <Grid item xs={6} className={classes.calendar}>
             <DashboardProfileUserCalender />
