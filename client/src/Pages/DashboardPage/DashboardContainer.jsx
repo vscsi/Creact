@@ -45,6 +45,7 @@ function DashboardContainer() {
   const [userId, setUserId] = useState("");
   const [loginUsers, setLoginUsers] = useState([]);
   // const [currClickWorkspace, setCurrClickWorkspace] = useState("");
+  const location = window.location.pathname;
 
   const chatroomInit = (workspace) => {
     console.log("chatroomInit receive", workspace);
@@ -183,8 +184,8 @@ function DashboardContainer() {
     } catch (error) {
       console.error(error.message);
     }
-  };
-
+  }
+  // const checkLocation =
   useEffect(() => {
     getUserWorkspaces();
     getUserInfo();
@@ -214,11 +215,12 @@ function DashboardContainer() {
             currentWorkspace={currentWorkspace}
             userId={userId}
             chatroomId={chatroomId}
+            location = {location}
           />
           <Grid
             Container
             direction="row"
-            md={9}
+            md={10}
             spacing={0}
             alignItems={"flex-end"}
             className={DashboardContainerCss.gridFeatureMain}
@@ -247,6 +249,9 @@ function DashboardContainer() {
             {/* for workspace route */}
             <Route
               path={`/workspace/:${currentWorkspace}/chat`}
+              // render ={()=>{
+              //   <ChatroomContainer/>
+              // }}
               component={ChatroomContainer}
             />
             <Route

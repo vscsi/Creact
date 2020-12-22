@@ -6,61 +6,79 @@ import { Card, CardMedia, Divider, Typography } from "@material-ui/core";
 import CardContent from "@material-ui/core/CardContent";
 import userPhoto from "../../../images/tomcruise.jpg";
 import blurBackground from "../../../images/blurbackground.jpg";
+import {FaUserAlt} from 'react-icons/fa';
+import {RiLockPasswordLine} from 'react-icons/ri';
+import {MdEmail} from 'react-icons/md';
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345,
+    maxWidth:'100%',
+    borderRadius: '10%',
   },
   media: {
     height: 0,
     paddingTop: "56.25%", // 16:9
+    marginTop: '10%',
     width: 150,
-    margin: "auto",
-    marginTop: 20,
     borderRadius: "50%",
-    borderColor: "white",
-    borderWidth: "solid",
+    borderColor: "#048A81",
+    border: "0.2rem solid",
     backgroundColor: "black",
   },
   nameStyle: {
     fontWeight: "bold",
     margin: 20,
-    // color: "white",
+    color: "white",
   },
+
+  /**Card content */
   inputStyle: {
-    margin: 20,
+    margin: 30,
   },
+
+  iconMargin:{
+    margin: '0 0.5vw 0 0 ',
+  },
+
   profileBackground: {
-    backgroundImage: `${blurBackground}`,
+    background: `no-repeat url(${blurBackground})`,
+    backgroundSize: 'cover',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
 });
 
-const DashboardProfileUserInfo = () => {
+const DashboardProfileUserInfo = (props) => {
   const classes = useStyles();
   return (
     <>
-      <Card className={classes.root}>
-        <div style={{ backgroundImage: `${blurBackground}` }}>
-        <CardMedia className={classes.media} image={userPhoto} />
+      <Card className={`${classes.root} ${classes.profileBackground}`}>
+        {/* <div className={`${classes.profileBackground} `}>
+        </div> */}
+        <CardMedia className={`${classes.media} `} image={props.userImg} />
         {/* <img src={userPhoto}></img> */}
         <CardContent>
           <Typography align="center" variant="h6" className={classes.nameStyle}>
-            Handome Guy
+            {props.userFirstName} {props.userLastName}
           </Typography>
         </CardContent>
         <Divider />
-        </div>
         <CardContent>
           <Typography className={classes.inputStyle}>
-            Username: handsome
+          <FaUserAlt className ={classes.iconMargin}/>
+            Username: {props.userName}
           </Typography>
           <Typography className={classes.inputStyle}>
+            <RiLockPasswordLine className ={classes.iconMargin}/>
             Password: ********
           </Typography>
           <Typography className={classes.inputStyle}>
-            Email: handsome@gmail.com
+            <MdEmail className ={classes.iconMargin}/>
+            Email: {props.userEmail}
           </Typography>
         </CardContent>
+        {/* </div> */}
       </Card>
     </>
   );

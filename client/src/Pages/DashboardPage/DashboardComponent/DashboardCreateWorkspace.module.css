@@ -1,0 +1,84 @@
+.WsTitle{
+    color: #212429;
+    text-transform: capitalize;
+    display: block;
+}
+
+.WsTitleH1{
+    justify-content: center;
+    text-align: center;
+    text-decoration: underline;
+    line-height: 3em;
+}
+
+.ButtonContainer{
+    margin-top: 50px;
+    margin-bottom: 50px;
+    position: relative;
+}
+
+.CreateGuide{
+    color: #6a6a6a;
+    text-align: center;
+    margin-top: 10vh;
+}
+
+.CreateButton {
+    background: none;
+    height: 40px;
+    text-align: center;
+    border: 2px solid #A4303F;
+    color:#A4303F;
+    font: inherit;
+    letter-spacing: 1px;
+    text-shadow: 0;
+    text-transform: uppercase;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.25s ease;
+}
+
+.CreateButton:hover{
+    color: white;
+    background: #A4303F;
+}
+
+.CreateButton:active{
+    letter-spacing: 2px;
+}
+
+.WsName{
+    text-align: center;
+    margin-top: 3vh;
+    text-transform: uppercase;
+}
+
+.WsNameInput{
+    margin-left: 3vw;
+    width: 150px;
+    background: none;
+    color: #212429;
+    border-bottom: 1px solid;
+    border-top: none;
+    border-left: none;
+    border-right:none;
+}
+
+.MaxPeople{
+    text-align: center;
+    margin-top: 3vh;
+    text-transform: uppercase;
+}
+
+.MaxPeopleInput{
+    margin-left: 3vw;
+    width: 150px;
+    background: none;
+    color: #212429;
+    border-bottom: 1px solid;
+    border-top: none;
+    border-left: none;
+    border-right:none;
+}

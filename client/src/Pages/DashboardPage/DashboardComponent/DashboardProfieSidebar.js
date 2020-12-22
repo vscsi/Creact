@@ -11,12 +11,56 @@ import Axios from "axios";
 //eslint-disable-next-line
 import { makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 //eslint-disable-next-line
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import CreateIcon from '@material-ui/icons/Create';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Drawer from '@material-ui/core/Drawer';
+// import Avatar from '@material-ui/core/Avatar';
 
 
 function DashboardProfileSidebar(props) {
+  const useStyles = makeStyles((theme) => ({
+    iconButton: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between",
+    },
+
+    /**drawer */
+    /**overriding drawer properties */
+    paper:{
+      background: "#2c2e31",
+      width: 150,
+    },
+
+    /**Item icon */
+    topIconSpacing:{
+      margin: '0 0.5rem 0 0.3rem',
+      padding: '0 0 0 0.2rem'
+    },
+    
+    bottomIconSpacing:{
+      margin: '0 0.5rem 0 0.3rem',
+      padding: '0 0 0 0.5rem'
+    },
+
+    /**Item text */
+    listTextSize:{
+      fontSize: '0.8rem',
+      padding: '0 0.2rem 0 0',
+    },
+
+    /**divider */
+    dividerHeight: {
+      height: '0.5vh',
+    },
+
+  }));
+  const classes = useStyles();
 
   const handleLogout = () => {
     try {
@@ -69,71 +113,94 @@ function DashboardProfileSidebar(props) {
         xs={1}
         spacing={0}
         alignItems="center"
-        justify="flex-start"
+        justify="space-between"
         direction="column"
-        className={DashboardSidebarCss.sideBarBorder}
       >
-        <Link href="/profile">
-          <div className={DashboardSidebarCss.workspaceIconUser}>
-            {props.name}
+        <Drawer
+        classes={{paper: classes.paper}}
+        variant="permanent"
+        >
+
+          <Link href="/profile"  style={{ textDecoration: 'none' }}>
+            <div className={DashboardSidebarCss.workspaceIconUser}>
+              {props.name}
+            </div>
+          </Link>
+
+          <Divider 
+            className = {classes.dividerHeight}
+          />
+          {/* sidebar top */}
+          <div className={DashboardSidebarCss.displayIconsWrap}>
+            <div>
+                {props.workspaces.map((item, index) => {
+                  return (
+                    <DashboardSidebarEachWorkspace
+                      id={index}
+                      key={index}
+                      workspaceName={item.eachWorkspaceName}
+                      currClickWorkspace={props.currClickWorkspace}
+                    />
+                  );
+                })}
+
+              {/* Creating ws */}
+              <ListItem button>
+                <NavLink
+                  to="/profile/create"
+                  activeClassName={DashboardSidebarCss.isActive}
+                  style={{ textDecoration: 'none' }}
+                >
+                  <MaterialUI.Tooltip
+                    title="Create Workspace"
+                    placement="right-end"
+                  >
+                    <div className={DashboardSidebarCss.workspaceIcon}>
+                      <CreateIcon className={classes.topIconSpacing}/>
+                      <ListItemText classes= {{primary: classes.listTextSize}}>Create workspace</ListItemText>
+                    </div>
+                  </MaterialUI.Tooltip>
+                </NavLink>
+              </ListItem>
+            {/* Sidebar bottom */}
+              {/* searching workspace */}
+              <ListItem button>
+                <NavLink
+                  to="/profile/search"
+                  activeClassName={DashboardSidebarCss.isActive}
+                  style={{ textDecoration: 'none' }}
+                  >
+                  <MaterialUI.Tooltip title="Find Workspace" placement="right-end">
+                    <div className={DashboardSidebarCss.workspaceIcon}>
+                      <SearchIcon className={classes.topIconSpacing}/>
+                      <ListItemText classes= {{primary: classes.listTextSize}}>Search workspace</ListItemText>
+                    </div>
+                  </MaterialUI.Tooltip>
+                </NavLink>
+                </ListItem>
+            </div>
+
+
+              {/* Logout */}
+            <div className = {DashboardSidebarCss.displayIconsBottom}>
+              <ListItem button>
+                <MaterialUI.Tooltip
+                  title="Logout"
+                  placement="right-end"
+                  activeClassName={DashboardSidebarCss.isActive}
+                >
+                  <div
+                    className={DashboardSidebarCss.workspaceIcon}
+                    onClick={handleLogout}
+                  >
+                    <ExitToAppIcon className={classes.bottomIconSpacing}/>
+                    <ListItemText classes= {{primary: classes.listTextSize}}>Logout</ListItemText>
+                  </div>
+                </MaterialUI.Tooltip>
+              </ListItem>
+            </div>
           </div>
-        </Link>
-
-        <div className={DashboardSidebarCss.workSpaceSeparator}></div>
-
-        <div className={DashboardSidebarCss.displayIconsWrap}>
-          <div className={DashboardSidebarCss.displayIcons}>
-            {props.workspaces.map((item, index) => {
-              return (
-                <DashboardSidebarEachWorkspace
-                  id={index}
-                  key={index}
-                  workspaceName={item.eachWorkspaceName}
-                  currClickWorkspace={props.currClickWorkspace}
-                />
-              );
-            })}
-          </div>
-          <div className={DashboardSidebarCss.displayIcons}>
-            <NavLink
-              to="/profile/create"
-              activeClassName={DashboardSidebarCss.isActive}
-            >
-              <MaterialUI.Tooltip
-                title="Create Workspace"
-                placement="right-end"
-              >
-                <div className={DashboardSidebarCss.workspaceIcon}>
-                  <CreateIcon />
-                </div>
-              </MaterialUI.Tooltip>
-            </NavLink>
-
-            <NavLink
-              to="/profile/search"
-              activeClassName={DashboardSidebarCss.isActive}
-            >
-              <MaterialUI.Tooltip title="Find Workspace" placement="right-end">
-                <div className={DashboardSidebarCss.workspaceIcon}>
-                  <SearchIcon />
-                </div>
-              </MaterialUI.Tooltip>
-            </NavLink>
-
-            <MaterialUI.Tooltip
-              title="Logout"
-              placement="right-end"
-              activeClassName={DashboardSidebarCss.isActive}
-            >
-              <div
-                className={DashboardSidebarCss.workspaceIcon}
-                onClick={handleLogout}
-              >
-                Logout
-              </div>
-            </MaterialUI.Tooltip>
-          </div>
-        </div>
+          </Drawer>
       </MaterialUI.Grid>
     </>
   );
