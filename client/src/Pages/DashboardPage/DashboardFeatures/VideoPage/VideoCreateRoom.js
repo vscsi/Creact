@@ -174,6 +174,7 @@ function VideoCreateRoom({userName, currentWorkspace}) {
                 width: '90vw',
                 height: '92vh',
                 background: `linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) ), url(${sunset})`,
+                backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',
             },
 
