@@ -22,7 +22,9 @@ const DashboardProfileUserCalender = () => {
 
   return (
     <>
-      <EventCalendar tasks={tasks} onlyUser={true} onlyWorkspace={false}/>
+      <EventCalendar 
+      
+      tasks={tasks} onlyUser={true} onlyWorkspace={false}/>
     </>
   );
 };

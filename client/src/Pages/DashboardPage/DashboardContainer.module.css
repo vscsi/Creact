@@ -1,8 +1,10 @@
 .containerHeight {
   height: 100vh;
+  flex-wrap: 'no-wrap';
+  overflow: auto;
 }
 .containerBackground{
-  background: #F0efe9;
+  background: #F0EFE9;
 }
 
 .gridFeatureMain{
