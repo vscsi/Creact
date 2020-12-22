@@ -3,12 +3,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 2vh;
     height: 80%;
 }
 
 .CanvasArea{
-    margin-top: 8vh;
+    margin-top: 2vh;
 }
 
 .PickerDiv{
