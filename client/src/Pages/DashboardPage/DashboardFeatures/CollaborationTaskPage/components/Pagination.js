@@ -1,4 +1,5 @@
 import React from "react";
+import classes from './Pagination.module.css'
 
 const Pagination = ({ tasksPerPage, totalTasks, paginate }) => {
   const pageNumbers = [];
@@ -9,18 +10,21 @@ const Pagination = ({ tasksPerPage, totalTasks, paginate }) => {
   // console.log(tasksPerPage);
   // console.log(totalTasks);
   return (
-    <nav>
+    <nav className={classes.PaginationNav}>
       <ul className="pagination">
         {pageNumbers.map((number) => {
           return (
             <li key={number} className="page-item">
-              <a
-                onClick={() => paginate(number)}
-                href="!#"
-                className="page-link"
-              >
-                {number}
-              </a>
+              {/* eslint-disable-next-line */}
+                <a
+                  className={classes.PaginationButton}
+                  onClick={() => paginate(number)}
+                  href="#"
+                >
+                  {number}
+                </a>
+
+              {/* </button> */}
             </li>
           );
         })}
