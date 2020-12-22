@@ -60,7 +60,7 @@ const DashboardCreateWorkspace = () => {
             <div className={classes.MaxPeople}>
               <label htmlFor="workspace_ppl_max">Maximum people</label>
               <input
-                className={classes.MaxPeopleInput}
+                            className={classes.MaxPeopleInput}
                 type="number"
                 name="workspace_ppl_max"
                 id=""
