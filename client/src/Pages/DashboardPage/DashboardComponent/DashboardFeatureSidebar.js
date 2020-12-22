@@ -2,17 +2,11 @@ import React from "react";
 import * as MaterialUI from "@material-ui/core";
 import DashboardSidebarCss from "./DashboardSidebar.module.css";
 import {
-  // BrowserRouter as Router,
-  // Switch,
-  // Route,
   NavLink,
-  // useHistory,
-  // useParams,
 } from "react-router-dom";
 
 const DashboardFeatureSidebar = (props) => {
   
-  // console.log('dashboardfeaturessidebar props.chatroomId', props)
   return (
     <MaterialUI.Grid
       container

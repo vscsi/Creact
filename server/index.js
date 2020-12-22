@@ -36,6 +36,7 @@ app.use(cors());
 app.use(express.json()); //req.body
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
 //routers
 const taskRoutes = require("./routes/task");
 const registerRoutes = require("./routes/register");

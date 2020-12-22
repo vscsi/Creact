@@ -1,8 +1,5 @@
-
-
-.flexDivs{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.pillButton{
+  border-radius: 0.5rem;
+  background-color: #808080;
 }
 

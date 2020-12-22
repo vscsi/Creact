@@ -1,0 +1,42 @@
+.Canvasdiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80%;
+}
+
+.CanvasArea{
+    margin-top: 2vh;
+}
+
+.PickerDiv{
+    margin-top: 2vh;
+    display: flex;
+    justify-content: center;
+}
+
+.Picker {
+    height: 200px;
+    width: 200px;
+}
+
+.UndoRedo{
+    display: inline;
+}
+
+.Buttons{
+    background: none;
+    border: none;
+    font: inherit;
+    line-height: 1%;
+    margin: 0.1em;
+    padding: 1em 1em;
+}
+
+.Buttons:hover,
+.Buttons:focus{
+    box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+    transform: translateY(-0.25em);
+
+}

@@ -2,43 +2,31 @@ import React from "react";
 import * as MaterialUI from "@material-ui/core";
 import DashboardSidebarCss from "./DashboardSidebar.module.css";
 import {
-  // BrowserRouter as Router,
-  // Switch,
-  // Route,
-  // Redirect,
   NavLink,
   useHistory,
 } from "react-router-dom";
 import Link from "@material-ui/core/Link";
 import DashboardSidebarEachWorkspace from "./DashboardSidebarEachWorkspace";
-// import { getCurrentWorkspace } from "../../../services/getCurrentWorkspace";
 import Axios from "axios";
+//eslint-disable-next-line
 import { makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
+//eslint-disable-next-line
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import CreateIcon from '@material-ui/icons/Create';
 
-// const useStyles = makeStyles((theme) => ({
-//   iconButton: {
-//     display: "flex",
-//     flexDirection: "column",
-//     justifyContent: "space-between",
-//   },
-// }));
 
 function DashboardProfileSidebar(props) {
-  // const classes = useStyles();
 
   const handleLogout = () => {
     try {
       //1. remove localstorage of JWT
-      console.log("Handling logout");
+      // console.log("Handling logout");
       //should communicate with checkLoginUsers route
       removeUser(props.name);
       localStorage.removeItem("token");
       localStorage.removeItem("userName");
 
-      // console.log(localStorage.getItem('token'));
       // //2. redirect to landing page
       history.push("/");
       window.location.reload();
@@ -51,13 +39,14 @@ function DashboardProfileSidebar(props) {
   const removeUser = (userName) => {
     try {
       Axios.delete(`http://localhost:4000/checklogoutusers/${userName}`, {
+      // Axios.delete(`${process.env.REACT_APP_API_SERVER}/checklogoutusers/${userName}`, {
         headers: { "x-access-token": localStorage.getItem("token") },
       }).then((res) => {
-        console.log("has removed the userName in login_users");
-        console.log(`currUsers is below`);
-        console.log(res.data.currUsers);
+        // console.log("has removed the userName in login_users");
+        // console.log(`currUsers is below`);
+        // console.log(res.data.currUsers);
         localStorage.setItem(
-          `${res.data.user}`,
+          `${res.data.user}`, //eslint-disable-next-line
           `${res.data.user} is deleted in server`
         );
         localStorage.setItem(

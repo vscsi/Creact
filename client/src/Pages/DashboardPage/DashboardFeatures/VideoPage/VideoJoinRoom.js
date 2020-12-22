@@ -1,11 +1,15 @@
 import {React, useState, useEffect} from 'react'
+import SnackbarContent from '@material-ui/core/SnackbarContent';
+import Grid from '@material-ui/core/Grid';
+import { Motion, spring } from "react-motion";
+
 
 // eslint-disable-next-line 
 function VideoJoinRoom({userName, currentWorkspace, url, pw, roomName}) {
         const [jitsi, setJitsi] = useState({});
 
         useEffect(()=>{
-          console.log('This is from VideoJoinRoom')
+          // console.log('This is from VideoJoinRoom')
         },[])
 
         //Jitsi config
@@ -55,13 +59,58 @@ function VideoJoinRoom({userName, currentWorkspace, url, pw, roomName}) {
 
         return (
           <>
-          <h1>Video Join room</h1>
+          {/* <h1>Video Join room</h1>
           <h2>You are in room: {roomName}</h2>
-          <h2>You are the participant of the room.</h2>
+        <h2>You are the participant of the room.</h2> */}
           {/* eslint-disable-next-line */}
-          <iframe allow={iframeAllow} 
-          src={url}
-          style={{height: "70%", width: "70%", marginLeft:"10%"}}></iframe>
+
+          <Grid
+          container
+          direction='column'
+          alignItems = 'center'
+          >
+              <Grid 
+              item
+              >
+              {/* eslint-disable-next-line */}
+              <iframe allow={iframeAllow} 
+              src={url}
+              style=
+              {{height: "80vh",
+               width: "100vh",
+               marginTop: "2vh",
+               boxShadow: '0.5rem 0.5rem 0.5rem #888888'
+               }}></iframe>
+              </Grid>
+              <Grid>
+              <Motion
+              defaultStyle={{ x: -300, opacity: 0 }}
+              style={{
+                x: spring(0),
+                opacity: spring(1)
+              }}
+              >
+                {
+                  style => (
+                    <SnackbarContent 
+                    message={
+                      `
+                      You are in room: ${roomName} and 
+                      you are the participant of the room.
+                      `
+                    }
+                    style = {{
+                      width: '50vw', 
+                      marginBottom: '5vh',
+                      transform: `translateX(${style.x}px)`,
+                      opacity: style.opacity
+                    }}
+                    />
+                  )
+                }
+              </Motion>
+            </Grid>
+        </Grid>
           </>
         )
 }

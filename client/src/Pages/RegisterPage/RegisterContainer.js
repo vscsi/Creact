@@ -70,6 +70,11 @@ function RegisterContainer() {
     } else if (values.password.length < 8) {
       errors.password = "Password needs to be more than 8 characters";
     }
+
+    if (!values.user_icon) {
+      errors.user_icon = "User Icon is required";
+    }
+
     return errors;
   };
 
@@ -81,7 +86,7 @@ function RegisterContainer() {
         setImage({
           preview: URL.createObjectURL(e.target.files[0]),
           raw: e.target.files[0],
-          imageDisplay: reader.result
+          imageDisplay: reader.result,
         });
       };
 
@@ -144,21 +149,22 @@ function RegisterContainer() {
           // body: JSON.stringify(body),
           body: formData,
         });
-        // const result = await response.json();
-        // console.log(result.userNameRepeated);
-        // if (result.userNameRepeated === true) {
-        //   // console.log(result.userNameRepeated)
-        //   setServerError({
-        //     username: "username is already taken, please choose a new one.",
-        //   });
-        // } else {
-        //   setServerError({ username: "" });
-        // }
+        const result = await response.json();
+        console.log(result.userNameRepeated);
+        if (result.userNameRepeated === true) {
+          // console.log(result.userNameRepeated)
+          setServerError({
+            username: "username is already taken, please choose a new one.",
+          });
+        } else {
+          setServerError({ username: "" });
+        }
         // console.log(values);
       } catch (e) {
         console.error(e.message);
       }
     }
+
     postRegister();
     setErrors(validateLogin(values));
     // console.log(isSubmitted)
