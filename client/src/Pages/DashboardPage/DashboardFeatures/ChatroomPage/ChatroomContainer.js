@@ -157,8 +157,8 @@ function ChatroomContainer({location}) {
           </h4>
         </div>
         {/* <div className="chat__headerRight">
-          <HelpIcon /> 
-        </div> */}
+          {/* <HelpIcon />  */}
+        {/* </div> */}
       </div>
       <ScrollToBottom className={classes.Chat__messages} >
         {messages.map(({userName, message, userImage, timestamp}, i)=> {
