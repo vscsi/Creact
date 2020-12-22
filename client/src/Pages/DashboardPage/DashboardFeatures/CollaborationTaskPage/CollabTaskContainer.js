@@ -95,16 +95,16 @@ const CollabTaskContainer = (props) => {
   return (
     // <div className={styles.wrapper}>
     <div className={classes.root}>
-      <Grid container spacing={2} m={2}>
-        {props.isAdmin && (
-          <Grid item xs={6}>
+      {/* <Grid container spacing={2} m={2}> */}
+        {/* {props.isAdmin && ( */}
+          {/* // <Grid item xs={6}> */}
             <CollabTaskBox
               users={props.users}
               firstEmptyUsers={props.firstEmptyUsers}
             />
-          </Grid>
-        )}
-        <Grid item xs={!props.isAdmin ? 12 : 6}>
+          {/* </Grid> */}
+        {/* )} */}
+        {/* <Grid item xs={!props.isAdmin ? 12 : 6}> */}
           <CollabTaskList
             tasks={currentTasks}
             handleDelete={handleDelete}
@@ -113,8 +113,8 @@ const CollabTaskContainer = (props) => {
             paginate={paginate}
             currentUser={props.name}
           />
-        </Grid>
-      </Grid>
+        {/* </Grid>
+      </Grid> */}
     </div>
     // </div>
   );

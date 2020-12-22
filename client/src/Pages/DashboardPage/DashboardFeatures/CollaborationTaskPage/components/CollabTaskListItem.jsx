@@ -10,6 +10,7 @@ import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Divider from "@material-ui/core/Divider";
+import moduleClasses from './CollabTaskListItem.module.css'
 // import Moment from 'react-moment';
 
 const useStyles = makeStyles((theme) => ({
@@ -46,22 +47,6 @@ export default function CollabTaskListItem(props) {
     return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
   }
 
-  // function parseISOString(s) {
-  //   const date = new Date(s);
-
-  //   return (
-  //     date.getFullYear() +
-  //     "-" +
-  //     (date.getMonth() + 1) +
-  //     "-" +
-  //     date.getDate() +
-  //     "," +
-  //     date.getHours() +
-  //     ":" +
-  //     date.getMinutes()
-  //   );
-  // }
-
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -74,9 +59,11 @@ export default function CollabTaskListItem(props) {
       />
       <CardContent>
         <div className={classes.section2}>
+
           <Typography gutterBottom variant="h5" component="h2">
             Task:
           </Typography>
+
           <Typography
             className={classes.title}
             color="textPrimary"
@@ -84,39 +71,55 @@ export default function CollabTaskListItem(props) {
           >
             {props.task.task_name}
           </Typography>
+
         </div>
+
+
         <Divider variant="middle" />
+
         <div className={classes.section2}>
+
           <Typography gutterBottom variant="h5" component="h2">
             Deadline:
           </Typography>
+
           <Typography variant="body2" color="textSecondary" component="p">
             {parseISOString(props.task.deadline).toString()}
             {/* {parseISOString(props.task.deadline).toString()} */}
             {/* <Moment locale="zh">{props.task.deadline}</Moment> */}
             <br />
           </Typography>
+
         </div>
 
         <Divider variant="middle" />
+
         <div className={classes.section2}>
+          
           <Typography gutterBottom variant="h5" component="h2">
             Description:
           </Typography>
+
           <Typography variant="body2" color="textSecondary" component="p">
             {props.task.task_content}
             <br />
           </Typography>
+
         </div>
+
       </CardContent>
+
       {props.currentUser === props.task.userName && (
-        <CardActions>
+        // <CardActions>
+          <div className={moduleClasses.FinishDiv}>
           <div className={classes.section2}>
+
             <Button
+              // className={moduleClasses.FinishButton}
               startIcon={<DeleteIcon />}
               size="small"
               color="secondary"
-              className={classes.button}
+              className={`${classes.button} ${moduleClasses.FinishButton}`}
               variant="contained"
               onClick={() => {
                 props.handleDelete(props.id);
@@ -124,50 +127,11 @@ export default function CollabTaskListItem(props) {
             >
               Finish Task
             </Button>
+
           </div>
-        </CardActions>
+          </div>
+        // </CardActions>
       )}
     </Card>
   );
 }
-
-// const CollabTaskListItem = (props) => {
-//   function parseISOString(s) {
-//     var b = s.split(/\D+/);
-//     return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
-//   }
-
-//   return (
-//     <div className={styles.task}>
-//       <div className={styles.task_box}>
-//         <h3>Task: </h3>
-//         <p>{props.task.task_name}</p>
-//       </div>
-//       <div className={styles.task_box}>
-//         <h3>Responsible: </h3>
-//         <p>{props.task.userName}</p>
-//       </div>
-//       <div className={styles.task_box}>
-//         <h3>Deadline: </h3>
-//         <p>{parseISOString(props.task.deadline).toString()}</p>
-//       </div>
-//       <div className={styles.task_box}>
-//         <h3>Description: </h3>
-//         <p>{props.task.task_content}</p>
-//       </div>
-//       {props.currentUser === props.task.userName && (
-//         <div className={styles.task_box}>
-//           <input
-//             type="button"
-//             value="Finish Task"
-//             onClick={() => {
-//               props.handleDelete(props.id);
-//             }}
-//           />
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default CollabTaskListItem;
