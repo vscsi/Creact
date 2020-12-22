@@ -2,7 +2,6 @@ import React from "react";
 import DashboardProfileUserInfo from "./DashboardProfileUserInfo";
 import DashboardProfileUserCalender from "./DashboardProfileUserCalender";
 import { makeStyles } from "@material-ui/core/styles";
-// import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import { 
   Typography,
@@ -127,10 +126,17 @@ const DashboardProfileHome = (props) => {
             justify = "center"
           >
             <Typography variant="h4" className={classes.profileTitle}>Your profile:</Typography>
-            <DashboardProfileUserInfo />
+            <DashboardProfileUserInfo
+              userName={props.name}
+              userImg={props.userImg}
+              userFirstName={props.userFirstName}
+              userLastName={props.userLastName}
+              userEmail={props.userEmail}
+            />
            </Grid>
           <Grid item xs={12} md={6} className={classes.calendar}>
             <Typography variant="h4" className={classes.calendarTitle}>Your tasks:</Typography>
+
             <DashboardProfileUserCalender />
            </Grid>
         </Grid>

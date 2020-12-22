@@ -4,6 +4,7 @@ import DashboardProfileSidebar from "./DashboardComponent/DashboardProfieSidebar
 import { Grid } from "@material-ui/core";
 import {
   BrowserRouter as Router,
+  //eslint-disable-next-line
   Switch,
   Route,
   // Redirect,
@@ -23,6 +24,10 @@ function DashboardProfileContainer() {
   const [allWorkspaces, setAllWorkspaces] = useState([]);
   const [loginUsers, setLoginUsers] = useState([]);
   const [currClickWorkspace, setCurrClickWorkspace] = useState("");
+  const [userImg, setUserImg] = useState("");
+  const [userFirstName, setUserFirstName] = useState("");
+  const [userLastName, setUserLastName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
 
   const getUserWorkspaces = () => {
     try {
@@ -32,8 +37,8 @@ function DashboardProfileContainer() {
           "x-access-token": localStorage.getItem("token"),
         },
       }).then((res) => {
-        console.log(`all user workspaces`);
-        console.log(res);
+        // console.log(`all user workspaces`);
+        // console.log(res);
         // console.log(res.data.allWorkspaces);
         setUserWorkspaces(res.data.userWorkspaces);
       });
@@ -51,8 +56,14 @@ function DashboardProfileContainer() {
         },
       }).then((res) => {
         console.log(`res from /username`);
-        console.log(res.data.userName);
+        // console.log(res.data.userName);
+        // console.log(res.data.userImg);
+        console.log(res.data.firstName)
         setUserName(res.data.userName);
+        setUserImg(res.data.userImg);
+        setUserFirstName(res.data.firstName);
+        setUserLastName(res.data.lastName);
+        setUserEmail(res.data.email);
       });
     } catch (error) {
       console.error(error.message);
@@ -67,8 +78,8 @@ function DashboardProfileContainer() {
           "x-access-token": localStorage.getItem("token"),
         },
       }).then((res) => {
-        console.log(`res from workspace/all`);
-        console.log(res);
+        // console.log(`res from workspace/all`);
+        // console.log(res);
         setAllWorkspaces(res.data);
       });
     } catch (error) {
@@ -82,10 +93,10 @@ function DashboardProfileContainer() {
       // Axios.get(`${process.env.REACT_APP_API_SERVER}/checkloginusers`, {
         headers: { "x-access-token": localStorage.getItem("token") },
       }).then((res) => {
-        console.log("Current login users from '/checkloginusers'");
-        console.log(res.data.loginUsers);
+        // console.log("Current login users from '/checkloginusers'");
+        // console.log(res.data.loginUsers);
         const currentLoginUsers = res.data.loginUsers;
-        console.log(currentLoginUsers);
+        // console.log(currentLoginUsers);
         setLoginUsers(currentLoginUsers);
       });
     } catch (error) {
@@ -124,7 +135,13 @@ function DashboardProfileContainer() {
           >
             <DashboardNavbar loginUsers={loginUsers} name={userName} />
             <Route exact path="/profile">
-              <DashboardProfileHome name={userName} />
+              <DashboardProfileHome
+                name={userName}
+                userImg={userImg}
+                userFirstName={userFirstName}
+                userLastName={userLastName}
+                userEmail={userEmail}
+              />
             </Route>
             <Route
               exact

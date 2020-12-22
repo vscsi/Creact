@@ -65,15 +65,16 @@ const CollabTaskBox = (props) => {
         taskUser,
         currentWorkspace,
       };
-      console.log("Form is submtted");
-      console.log(body);
+      // console.log("Form is submtted");
+      // console.log(body);
+      //eslint-disable-next-line
       const response = await Axios.post("http://localhost:4000/task", body, {
       // const response = await Axios.post(`${process.env.REACT_APP_API_SERVER}/task`, body, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
       });
-      console.log(response);
+      // console.log(response);
       window.location = `/workspace/${currentWorkspace}/tasks`;
     } catch (err) {
       console.error(err.message);
@@ -144,7 +145,7 @@ const CollabTaskBox = (props) => {
               onClose={handleClose}
               onOpen={handleOpen}
               onChange={(e) => {
-                console.log(e.target.value);
+                // console.log(e.target.value);
                 setTaskUser(parseInt(e.target.value));
               }}
             >

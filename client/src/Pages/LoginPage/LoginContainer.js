@@ -69,7 +69,7 @@ export default function SignIn() {
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
-      console.log("Submit user login data to db");
+      // console.log("Submit user login data to db");
       const body = {
         username,
         password,
@@ -86,7 +86,7 @@ export default function SignIn() {
       if (!response.auth) {
         setLoginStatus(false);
       } else {
-        console.log(response);
+        // console.log(response);
         localStorage.setItem("token", response.accessToken);
         localStorage.setItem('userName', response.userName)
         setLoginStatus(true);
@@ -106,7 +106,7 @@ export default function SignIn() {
           "x-access-token": localStorage.getItem("token"),
         },
       }).then((res) => {
-        console.log(res);
+        // console.log(res);
       });
     } catch (error) {
       console.error(error.message);

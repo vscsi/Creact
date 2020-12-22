@@ -9,7 +9,7 @@ function VideoJoinRoom({userName, currentWorkspace, url, pw, roomName}) {
         const [jitsi, setJitsi] = useState({});
 
         useEffect(()=>{
-          console.log('This is from VideoJoinRoom')
+          // console.log('This is from VideoJoinRoom')
         },[])
 
         //Jitsi config
@@ -72,6 +72,7 @@ function VideoJoinRoom({userName, currentWorkspace, url, pw, roomName}) {
               <Grid 
               item
               >
+              {/* eslint-disable-next-line */}
               <iframe allow={iframeAllow} 
               src={url}
               style=

@@ -2,12 +2,7 @@ import {React, useState} from "react";
 import * as MaterialUI from "@material-ui/core";
 import DashboardSidebarCss from "./DashboardSidebar.module.css";
 import {
-  // BrowserRouter as Router,
-  // Switch,
-  // Route,
   NavLink,
-  // useHistory,
-  // useParams,
 } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from '@material-ui/core/Avatar';

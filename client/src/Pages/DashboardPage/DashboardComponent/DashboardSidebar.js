@@ -2,15 +2,11 @@ import React from "react";
 import * as MaterialUI from "@material-ui/core";
 import DashboardSidebarCss from "./DashboardSidebar.module.css";
 import {
-  // BrowserRouter as Router,
-  // Switch,
-  // Route,
   NavLink,
-  // useHistory,
 } from "react-router-dom";
 import Link from "@material-ui/core/Link";
 
-
+function DashboardSidebar(props) {
   return (
     <>
       {/* sidebar1 */}
@@ -61,6 +57,6 @@ import Link from "@material-ui/core/Link";
       </MaterialUI.Grid>
     </>
   );
-
+}
 
 export default DashboardSidebar;

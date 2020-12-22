@@ -3,17 +3,16 @@ import io from 'socket.io-client';
 import queryString from 'query-string';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import ChatInput from "./ChatInput/ChatInput"
-import HelpIcon from '@material-ui/icons/Help';
+// import HelpIcon from '@material-ui/icons/Help';
 import Message from './Message/Message'
 import {getCurrentWorkspace} from '../../../../services/getCurrentWorkspace'
-import "./Chat.css";
+import classes from './Chat.module.css';
 let socket;
 
 function ChatroomContainer({location}) {
   const ENDPOINT = 'http://localhost:4000';
   // const ENDPOINT = process.env.REACT_APP_API_SERVER;
   const [my_userid, setUserid] = useState('');
-  // const [my_name, setName] = useState('');
   const [my_room, setRoom] = useState('');
   //eslint-disable-next-line
   const [my_socketid, setSocketId] =useState('');
@@ -24,7 +23,6 @@ function ChatroomContainer({location}) {
 
 
   useEffect(()=> {
-    // let data = {name: 'Charles', room: '1'};
     const data = queryString.parse(location.search);
     const {userid, room} = data;
      socket = io(ENDPOINT, {
@@ -46,8 +44,9 @@ function ChatroomContainer({location}) {
     socket.emit('join', {userid, room})
 
     return () => {
-      socket.on('disconnect', ()=> {console.log(socket.id)})
-      console.log('...unmounting')
+      socket.on('disconnect', ()=> {})
+      // socket.on('disconnect', ()=> {console.log(socket.id)})
+      // console.log('...unmounting')
       socket.emit('removeUser', {})
       socket.off();
       socket.disconnect();
@@ -61,7 +60,7 @@ function ChatroomContainer({location}) {
 
   useEffect(()=> {
     socket.on('usersInRoom', (data)=> {
-    console.log('usersInRoom received' )
+    // console.log('usersInRoom received' )
     let result = [];
      data.usersInRoom.map((user)=> {
       let name=user.name;
@@ -149,19 +148,19 @@ function ChatroomContainer({location}) {
   
 
   return (
-    <div className="chat">
-      <div className="chat__header">
-        <div className="chat__headerLeft">
-          <h4 className="chat__channelName">
+    <div className={classes.Chat}>
+      <div className={classes.Chat__header}>
+        <div className={classes.Chat__headerLeft}>
+          <h4 className={classes.Chat__channelName}>
             <strong># {workspaceName} chatroom</strong>
-            <span className="user__in__room" > {roomUsers}</span>
+            <span className={classes.User__in__room} > {roomUsers}</span>
           </h4>
         </div>
-        <div className="chat__headerRight">
-          <HelpIcon /> 
-        </div>
+        {/* <div className="chat__headerRight">
+          {/* <HelpIcon />  */}
+        {/* </div> */}
       </div>
-      <ScrollToBottom className="chat__messages" >
+      <ScrollToBottom className={classes.Chat__messages} >
         {messages.map(({userName, message, userImage, timestamp}, i)=> {
           return(
             <Message 

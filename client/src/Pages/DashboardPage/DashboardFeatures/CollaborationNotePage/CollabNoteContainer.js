@@ -37,7 +37,7 @@ function MyEditor() {
             // console.log(res.data.length)
             if(res.data.length >0){
                 const documentContent = res.data[0]["document_content"]
-                console.log(documentContent, "woooooo")
+                // console.log(documentContent, "woooooo")
                 // const doc = convertFromRaw(JSON.parse(documentContent))
                 // console.log(doc, "weeee")
                 setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(documentContent))))
@@ -69,7 +69,7 @@ function MyEditor() {
                 }
             )
             .then((res) => {
-                console.log(res);
+                // console.log(res);
             })
         }catch (err){
             console.err();
@@ -89,8 +89,8 @@ function MyEditor() {
 
  //eslint-disable-next-line
     const handler2 = useCallback(e => {
-        console.log('mousedown get thank you ');
-        console.log('is it becuase you are empty?', socket.id)
+        // console.log('mousedown get thank you ');
+        // console.log('is it becuase you are empty?', socket.id)
         socket.emit('newClient', {socket_id: socket.id})
 
     } )
@@ -294,7 +294,7 @@ function MyEditor() {
                     Save
                 </button>
             </div>
-            <hr className={classes.notehr}></hr>
+            <hr></hr>
             <Editor 
                 editorState={editorState}
                 handleKeyCommand={handleKeyCommand} 

@@ -49,28 +49,25 @@ const useStyles = makeStyles({
   },
 });
 
-const DashboardProfileUserInfo = () => {
+const DashboardProfileUserInfo = (props) => {
   const classes = useStyles();
   return (
     <>
-      <Card className={classes.root}>
-        <div className = {`${classes.profileBackground}`}>
-        <CardMedia 
-          className={`${classes.media}`} 
-          image={userPhoto}
-          />
+      <Card className={`${classes.root} ${classes.profileBackground}`}>
+        {/* <div className={`${classes.profileBackground} `}>
+        </div> */}
+        <CardMedia className={`${classes.media} `} image={props.userImg} />
         {/* <img src={userPhoto}></img> */}
         <CardContent>
-          <Typography align="center" variant="h4" className={classes.nameStyle}>
-            Handome Guy
+          <Typography align="center" variant="h6" className={classes.nameStyle}>
+            {props.userFirstName} {props.userLastName}
           </Typography>
         </CardContent>
         <Divider />
-        </div>
         <CardContent>
           <Typography className={classes.inputStyle}>
           <FaUserAlt className ={classes.iconMargin}/>
-          Username: handsome
+            Username: {props.userName}
           </Typography>
           <Typography className={classes.inputStyle}>
             <RiLockPasswordLine className ={classes.iconMargin}/>
@@ -78,9 +75,10 @@ const DashboardProfileUserInfo = () => {
           </Typography>
           <Typography className={classes.inputStyle}>
             <MdEmail className ={classes.iconMargin}/>
-            Email: handsome@gmail.com
+            Email: {props.userEmail}
           </Typography>
         </CardContent>
+        {/* </div> */}
       </Card>
     </>
   );
