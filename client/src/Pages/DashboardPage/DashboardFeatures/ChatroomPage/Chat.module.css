@@ -1,31 +1,33 @@
-.chat {
+.Chat {
     padding-bottom: 150px;
     height: 100vh;
     width: 100% !important;
+    background-color: #f0efe9;
 }
 
-.chat__header {
+.Chat__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 1rem;
-    border-bottom: 0.2rem solid grey;
+    border-bottom: 0.2rem solid #212429;
 }
 
-.chat__channelName {
+.Chat__channelName {
     display: flex;
     flex-direction: column;
     text-transform: lowercase;
     align-items: flex-start;
 }
 
-.chat__messages {
+.Chat__messages {
     height: 90%;
     overflow: auto;
+    color: #212429;
 }
 
-.user__in__room  {
-    color: rgb(126, 119, 119);
+.User__in__room  {
+    color: #6a6a6a;
     font-size: 1rem;
     font-weight: 577;
     text-transform: capitalize;
