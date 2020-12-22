@@ -13,6 +13,7 @@ import TextField from "@material-ui/core/TextField";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
+import moduleTaskClasses from './CollabTaskBox.module.css'
 // import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
@@ -96,83 +97,89 @@ const CollabTaskBox = (props) => {
         autoComplete="off"
         onSubmit={onSubmitForm}
       >
-        <CardContent>
-          <FormControl className={classes.formControl}>
-            <TextField
-              required
-              id="standard-required"
-              label="Task Name"
-              defaultValue="Task"
-              onChange={(e) => setTaskName(e.target.value)}
-            />
-          </FormControl>
-          <FormControl className={classes.formControl}>
-            <TextField
-              id="datetime-local"
-              label="Task Deadline"
-              type="datetime-local"
-              required
-              className={classes.textField}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={(e) => setTaskDeadline(e.target.value)}
-            />
-          </FormControl>
+        <div className={moduleTaskClasses.TaskDiv}>
+          <CardContent>
 
-          <FormControl className={classes.formControl}>
-            {/* <InputLabel htmlFor="input-with-icon-adornment">
-              Description
-            </InputLabel> */}
-            <TextField
-              id="standard-multiline-flexible"
-              label="Description"
-              // className={classes.textField}
-              multiline
-              rowsMax={4}
-              value={taskContent}
-              onChange={(e) => setTaskContent(e.target.value)}
-            />
-          </FormControl>
-          <FormControl className={classes.formControl}>
-            <InputLabel id="demo-controlled-open-select-label">
-              Assign to:
-            </InputLabel>
-            <Select
-              labelId="demo-controlled-open-select-label"
-              id="demo-controlled-open-select"
-              open={open}
-              onClose={handleClose}
-              onOpen={handleOpen}
-              onChange={(e) => {
-                // console.log(e.target.value);
-                setTaskUser(parseInt(e.target.value));
-              }}
-            >
-              {props.firstEmptyUsers.map((item, index) => {
-                return (
-                  //value should be user.id
-                  <MenuItem key={item.user_id} value={item.user_id}>
-                    {item.user_name}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
-        </CardContent>
+            <FormControl className={classes.formControl}>
+              <TextField
+                required
+                id="standard-required"
+                label="Task Name"
+                defaultValue="Task"
+                onChange={(e) => setTaskName(e.target.value)}
+              />
+            </FormControl>
 
-        <CardActions>
-          <FormControl className={classes.formControl}>
-            <Button
-              variant="contained"
-              color="primary"
-              className={classes.button}
-              type="submit"
-            >
-              Send
-            </Button>
-          </FormControl>
-        </CardActions>
+            <FormControl className={classes.formControl}>
+              <TextField
+                id="datetime-local"
+                label="Task Deadline"
+                type="datetime-local"
+                required
+                className={classes.textField}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                onChange={(e) => setTaskDeadline(e.target.value)}
+              />
+            </FormControl>
+
+            <FormControl className={classes.formControl}>
+              {/* <InputLabel htmlFor="input-with-icon-adornment">
+                Description
+              </InputLabel> */}
+              <TextField
+                id="standard-multiline-flexible"
+                label="Description"
+                // className={classes.textField}
+                multiline
+                rowsMax={4}
+                value={taskContent}
+                onChange={(e) => setTaskContent(e.target.value)}
+              />
+            </FormControl>
+
+            <FormControl className={`${classes.formControl} ${moduleTaskClasses.AssignTo}`}>
+              <InputLabel id="demo-controlled-open-select-label">
+                Assign to:
+              </InputLabel>
+              <Select
+                labelId="demo-controlled-open-select-label"
+                id="demo-controlled-open-select"
+                open={open}
+                onClose={handleClose}
+                onOpen={handleOpen}
+                onChange={(e) => {
+                  // console.log(e.target.value);
+                  setTaskUser(parseInt(e.target.value));
+                }}
+              >
+                {props.firstEmptyUsers.map((item, index) => {
+                  return (
+                    //value should be user.id
+                    <MenuItem key={item.user_id} value={item.user_id}>
+                      {item.user_name}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+          
+            <FormControl className={classes.formControl}>
+              <Button
+                className={`${classes.button} ${moduleTaskClasses.TaskButton}`}
+                variant="contained"
+                color="primary"
+                type="submit"
+              >
+                Send
+              </Button>
+            </FormControl>
+            
+          
+          </CardContent>
+        </div>
+
       </form>
     </Card>
   );
