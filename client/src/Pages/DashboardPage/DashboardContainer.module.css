@@ -12,3 +12,8 @@
   max-height: 100%;
   overflow-x: hidden;
 }
+
+/* Feature sidebar */
+.brandBar{
+ padding: 3rem ;
+}

@@ -125,7 +125,6 @@ const DashboardProfileHome = (props) => {
           <Grid container item xs={12} md={3} 
             justify = "center"
           >
-            <Typography variant="h4" className={classes.profileTitle}>Your profile:</Typography>
             <DashboardProfileUserInfo
               userName={props.name}
               userImg={props.userImg}
