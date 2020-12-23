@@ -243,7 +243,7 @@ function DashboardContainer() {
                 alignItems="center"
                 justify="space-around"
                 direction="column"
-                className={` ${DashboardSidebarCss.sidebar2Background} ${DashboardContainerCss.gridFeatureMain}`}
+                className={`${DashboardContainerCss.gridFeatureMain}`}
                  >
                  {/* <div className = {DashboardSidebarCss.sidebarHeight}> */}
                  {currentWorkspace !== "" && (

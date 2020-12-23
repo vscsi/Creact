@@ -174,7 +174,7 @@ function VideoCreateRoom({userName, currentWorkspace}) {
             videoConfCard:{
                 width: '90vw',
                 height: '100vh',
-                background: `linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) ), url(${sunset})`,
+                background: `linear-gradient(-45deg, #ee7752, #E73C7E, #23A6D5, #23D5AB)`,
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',
             },
@@ -188,7 +188,20 @@ function VideoCreateRoom({userName, currentWorkspace}) {
                 margin: '1%',
                 '&:hover': {
                     textDecoration: 'none',
-                }
+                },
+
+            },
+
+            customButton2: {
+                borderRadius: 40,
+                boxShadow: "0 3px 5px 2px rgba(255, 200, 200, .3)",
+                maxWidth: '50%',
+                maxHeight: '50%',
+                margin: '1%',
+                '&:hover': {
+                    textDecoration: 'none',
+                },
+
             },
 
             /** Typography */ 
@@ -406,10 +419,10 @@ function VideoCreateRoom({userName, currentWorkspace}) {
                                     </Button>
                                 <Button
                                 variant="contained"
-                                className={`${classes.customButton}`}
+                                className={`${classes.customButton2}`}
                                 inputProps={{ disableUnderline: true }}
                                 >
-                                    <Link to ={`/workspace/${currentWorkspace}/video/rooms`}>
+                                    <Link style={{textDecoration: 'none', color: '#000'}} to ={`/workspace/${currentWorkspace}/video/rooms`}>
                                     <Typography>Check out other video rooms</Typography>
                                     </Link>
                                 </Button>

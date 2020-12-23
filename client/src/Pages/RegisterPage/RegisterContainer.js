@@ -198,6 +198,7 @@ function RegisterContainer() {
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
+      marginTop: '20vh'
     },
 
     /**creactLogo */
@@ -253,6 +254,11 @@ function RegisterContainer() {
       color: '#fff'
     },
 
+    /**image */
+    // img: {
+    //   position: 'sticky',
+    //   left: '10vw',
+    // },
 
   }));
 
@@ -435,6 +441,7 @@ function RegisterContainer() {
                       alt="dummy"
                       width="200"
                       height="200"
+                      className={classes.img}
                       />
                       </div>
                         ) : (
