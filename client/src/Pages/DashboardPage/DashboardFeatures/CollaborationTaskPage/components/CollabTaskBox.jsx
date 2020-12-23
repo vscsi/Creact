@@ -11,6 +11,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
 import Card from "@material-ui/core/Card";
+//eslint-disable-next-line
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import moduleTaskClasses from './CollabTaskBox.module.css'

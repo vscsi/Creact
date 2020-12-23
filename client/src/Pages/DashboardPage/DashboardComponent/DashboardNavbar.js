@@ -1,4 +1,5 @@
 import React from "react";
+//eslint-disable-next-line
 import * as MaterialUI from "@material-ui/core";
 // import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import DashboardNavbarCss from "./DashboardNavbar.module.css";
@@ -10,6 +11,7 @@ function DashboardNavbar(props) {
       margin: "0.5rem",
     },
   });
+  //eslint-disable-next-line
   const classes = styles();
 
   return (

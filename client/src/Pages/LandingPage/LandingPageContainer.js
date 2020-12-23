@@ -1,4 +1,5 @@
 import React from "react";
+//eslint-disable-next-line
 import NavBar from "./Nav/NavBar";
 
 import Collabsvg from "./svg/collaborate.svg";
@@ -49,12 +50,7 @@ function LandingPageContainer(props) {
                 Keep track of your task
               </h3>
               <p className="paragraph">
-                Creact server keep all your tasks which can be assigned or show
-                other colleague what are you working on. Lorem ipsum dolor sit
-                amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                veniam, quis nostrud exercitation ullamco laboris nisi ut
-                aliquip ex ea commodo consequat.
+                Creact server keeps all your tasks. Workspace leader can assign each co-workers tasks, and keep track with the tasks on a shared calendar.
               </p>
             </div>
             <div className="col-1-of-2">
@@ -93,9 +89,7 @@ function LandingPageContainer(props) {
                 Explore your limits
               </h4>
               <p className="feature-box__text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam.
+              Creact is a collaborative platform that promotes operational excellence by integrating fundamental work tools into one place.
               </p>
             </div>
           </div>
@@ -106,9 +100,7 @@ function LandingPageContainer(props) {
                 Meet your goals
               </h4>
               <p className="feature-box__text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam.
+              With Creact, you can create a workspace to collaborate on the same document with your teammates in real-time. Instantly connect with them on a video call, or messaging them in the chatroom, which are all in-built in our app, all in one place.
               </p>
             </div>
           </div>
@@ -119,9 +111,7 @@ function LandingPageContainer(props) {
                 Find your team
               </h4>
               <p className="feature-box__text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam.
+                Creact centralises resources for better teamwork dynamics, elevate problem solving efficiency.  You can share and draw your ideas on a real-time collaborative whiteboard straight away.
               </p>
             </div>
           </div>

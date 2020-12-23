@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import RegisterCss from "./Register.module.css";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -6,6 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import { FormHelperText } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
 import PublishIcon from "@material-ui/icons/Publish";
+//eslint-disable-next-line
 import Axios from "axios";
 
 function RegisterContainer() {
@@ -32,6 +33,7 @@ function RegisterContainer() {
    */
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  //eslint-disable-next-line
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const [image, setImage] = useState({
@@ -57,8 +59,8 @@ function RegisterContainer() {
     if (!values.email) {
       errors.email = "Email is required";
 
-      // eslint-disable-next-line
     } else if (
+      //eslint-disable-next-line
       !/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
         values.email
       )
@@ -127,8 +129,8 @@ function RegisterContainer() {
     formData.append("password", password);
     // console.log(image);
 
-    const url = "http://localhost:4000/register";
-    // const url = `${process.env.REACT_APP_API_SERVER}/register`;
+    // const url = "http://localhost:4000/register";
+    const url = `${process.env.REACT_APP_API_SERVER}/register`;
     const response = await fetch(url, {
       method: "POST",
       // headers: { "Content-Type": "multipart/form-data" },
