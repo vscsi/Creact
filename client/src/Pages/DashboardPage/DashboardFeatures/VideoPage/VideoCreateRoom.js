@@ -29,7 +29,7 @@ function VideoCreateRoom({userName, currentWorkspace}) {
         const [call, setCall] = useState(false)
         const [jitsiInit, setJitsiInit] = useState({});
         const [deleteRoom, setDeleteRoom] = useState(false);
-        console.log(deleteRoom, 'for react warning')
+        // console.log(deleteRoom, 'for react warning')
         // const [value, setValue] = useState('');
         // const [copied, setCopied] = useState(false);
         // const [hostEndMeeting, setHostEndMeeting] = useState(false);
@@ -123,7 +123,7 @@ function VideoCreateRoom({userName, currentWorkspace}) {
                      body: JSON.stringify(body)
                  })
                  const response = await deleteVideo.json();
-                 console.log(response.message);
+                //  console.log(response.message);
                  setDeleteRoom(response.redirect);
              }catch(e){
                  console.error(e)

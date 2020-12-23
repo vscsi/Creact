@@ -53,7 +53,7 @@ function DashboardContainer() {
   const [userImg, setUserImg] = useState("");
 
   const chatroomInit = (workspace) => {
-    console.log("chatroomInit receive", workspace);
+    // console.log("chatroomInit receive", workspace);
     try {
       // Axios.post(
         // "http://localhost:4000/workspace/chatroominit",
@@ -67,10 +67,10 @@ function DashboardContainer() {
           },
         }
       ).then((res) => {
-        console.log("chatroominit", res);
-        console.log("chatroom Id", res.data);
+        // console.log("chatroominit", res);
+        // console.log("chatroom Id", res.data);
         setChatroomId(res.data);
-      })
+      });
     } catch (error) {}
   };
 
@@ -84,7 +84,7 @@ function DashboardContainer() {
       }).then((res) => {
         // console.log(`all workspaces`);
         // console.log(res);
-        console.log("this is userworkspaceSS", res.data.allWorkspaces);
+        // console.log("this is userworkspaceSS", res.data.allWorkspaces);
         setUserWorkspaces(res.data.userWorkspaces);
       });
     } catch (error) {
@@ -92,7 +92,7 @@ function DashboardContainer() {
     }
   };
 
- const getUserInfo = () => {
+  const getUserInfo = () => {
     try {
       // Axios.get("http://localhost:4000/username", {
         Axios.get(`${process.env.REACT_APP_API_SERVER}/username`, {
@@ -108,7 +108,7 @@ function DashboardContainer() {
       console.error(error.message);
     }
   };
-  
+
   const getCurrentWorkspace = () => {
     const path = window.location.pathname;
     // console.log(`url is below`);
@@ -119,7 +119,7 @@ function DashboardContainer() {
     // console.log(`currworkspace url is below`);
     // console.log(result);
     const currWorkspace = result[1];
-    console.log("currWorkspace value", currWorkspace);
+    // console.log("currWorkspace value", currWorkspace);
     chatroomInit(currWorkspace);
     setCurrentWorkspace(currWorkspace);
     //send post request to server and check if user is admin
@@ -182,7 +182,7 @@ function DashboardContainer() {
           headers: { "x-access-token": localStorage.getItem("token") },
         }
       ).then((res) => {
-        console.log("Current login users from '/checkloginusers'");
+        // console.log("Current login users from '/checkloginusers'");
         // console.log(res.data.loginUsers);
         const currentLoginUsers = res.data.loginUsers;
         // console.log(currentLoginUsers);
@@ -191,7 +191,7 @@ function DashboardContainer() {
     } catch (error) {
       console.error(error.message);
     }
-  }
+  };
   // const checkLocation =
   useEffect(() => {
     getUserWorkspaces();
@@ -205,42 +205,46 @@ function DashboardContainer() {
 
   return (
     <>
-    {/* Grid1 */}
+      {/* Grid1 */}
       <Grid
         container
         direction="row"
         alignItems="stretch"
         // wrap="nowrap"
         className={`${DashboardContainerCss.containerHeight} ${DashboardContainerCss.containerBackground}`}
-        
       >
         <Router>
           {/* Grid2 */}
-            <DashboardProfileSidebar
-              name={userName}
-              workspaces={userWorkspaces}
-              currClickWorkspace={currentWorkspace}
-              userImg={userImg}
-              />
-            {/* Grid 3 */}
+          <DashboardProfileSidebar
+            name={userName}
+            workspaces={userWorkspaces}
+            currClickWorkspace={currentWorkspace}
+            userImg={userImg}
+          />
+          {/* Grid 3 */}
+          <Grid
+            Container
+            item
+            direction="column"
+            md={11}
+            spacing={0}
+            alignItems="flex-end"
+            className={DashboardContainerCss.gridFeatureMain}
+          >
+            {/* Grid 4 */}
+            <Grid item xs={12}>
+              <DashboardNavbar loginUsers={loginUsers} userName={userName} />
+            </Grid>
+
+            {/* Grid 5 */}
             <Grid
-              Container
+              container
               item
-              direction="column"
-              md={11}
-              spacing={0}
-              alignItems="flex-end"
+              xs={12}
               className={DashboardContainerCss.gridFeatureMain}
             >
-              {/* Grid 4 */}
-              <Grid item xs={12}>
-                <DashboardNavbar loginUsers={loginUsers} userName={userName} />
-              </Grid>
-
-              {/* Grid 5 */}
-              <Grid container item xs ={12} className={DashboardContainerCss.gridFeatureMain}>
-                {/* Grid 6 */}
-                <Grid
+              {/* Grid 6 */}
+              <Grid
                 container
                 item
                 md={2}
@@ -323,12 +327,80 @@ function DashboardContainer() {
                   />
                   <VideoContainer
                     currentWorkspace={currentWorkspace}
-                    userName={userName}
+                    userId={userId}
+                    chatroomId={chatroomId}
+                    location={location}
                   />
-                  {/* </Switch> */}
-                  </Grid>
+                )
+                {/* </div> */}
+              </Grid>
+
+              {/* Grid 7 */}
+              <Grid item xs={10}>
+                {/* <Switch> */}
+                {/* for profile route */}
+                <Route exact path="/profile" component={DashboardProfileHome} />
+                {/* <Route path="/profile/find" component={DashboardAddSocial} /> */}
+                <Route
+                  path="/profile/create"
+                  render={() => {
+                    setCurrentWorkspace("");
+                    return <DashboardCreateWorkspace />;
+                  }}
+                  // component={DashboardCreateWorkspace}
+                />
+                <Route
+                  path="/profile/search"
+                  render={() => {
+                    setCurrentWorkspace("");
+                    return <DashboardSearchWorkspace allWorkspaces={allWorkspaces} />;
+                  }}
+                />
+                {/* </Route> */}
+                {/* for workspace route */}
+                <Route
+                  path={`/workspace/:${currentWorkspace}/chat`}
+                  // render ={()=>{
+                  //   <ChatroomContainer/>
+                  // }}
+                  component={ChatroomContainer}
+                />
+                <Route
+                  path={`/workspace/:${currentWorkspace}/docs`}
+                  component={CollabNoteContainer}
+                />
+                <Route
+                  path={`/workspace/:${currentWorkspace}/dropbox`}
+                  component={DropboxContainer}
+                />
+                <Route
+                  path={`/workspace/:${currentWorkspace}/tasks`}
+                  render={(props) => (
+                    <CollabTaskContainer
+                      {...props}
+                      isAdmin={isAdmin}
+                      users={users}
+                      name={userName}
+                      firstEmptyUsers={firstEmptyUsers}
+                    />
+                  )}
+                ></Route>
+                <Route
+                  path={`/workspace/:${currentWorkspace}/calender`}
+                  component={CalenderContainer}
+                />
+                <Route
+                  path={`/workspace/:${currentWorkspace}/whiteboard`}
+                  component={WhiteboardContainer}
+                />
+                <VideoContainer
+                  currentWorkspace={currentWorkspace}
+                  userName={userName}
+                />
+                {/* </Switch> */}
               </Grid>
             </Grid>
+          </Grid>
         </Router>
       </Grid>
     </>
@@ -336,5 +408,3 @@ function DashboardContainer() {
 }
 
 export default DashboardContainer;
-
-

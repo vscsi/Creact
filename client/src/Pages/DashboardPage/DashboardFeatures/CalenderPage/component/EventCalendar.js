@@ -45,6 +45,7 @@ const EventCalendar = (props) => {
   const [eventDeadline, setEventDeadline] = useState("");
   const [eventWorkspace, setEventWorkspace] = useState("");
 
+  //eslint-disable-next-line
   function parseISOString(s) {
     var b = s.split(/\D+/);
     return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
@@ -68,7 +69,8 @@ const EventCalendar = (props) => {
       if (info.event.title === props.tasks[i].title) {
         setEventResponsible(props.tasks[i].responsible);
         setEventContent(props.tasks[i].content);
-        setEventDeadline(parseISOString(props.tasks[i].date).toString());
+        setEventDeadline(props.tasks[i].date);
+        // setEventDeadline(parseISOString(props.tasks[i].date).toString());
         setEventWorkspace(props.tasks[i].workspaceName);
       }
     }

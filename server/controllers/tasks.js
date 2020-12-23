@@ -44,18 +44,27 @@ exports.postTasks = async (req, res, next) => {
           id: userId,
         })
         .select("*");
+
+      const deadline = eachTask[0].deadline;
+      const convertDeadline = new Date(deadline).toLocaleString("zh-HK", {
+        timeZone: "UTC",
+      });
+      console.log(`deadline is below`);
+      console.log(deadline);
+      console.log(convertDeadline);
+
       // console.log(`returnUsername is below`);
       // console.log(returnUsername);
       const userName = returnUsername[0].username;
       // console.log(`userName is ${userName}`);
       // console.log(`userId is ${userId}`);
-      const eachObj = { ...eachTask[0], userName };
+      const eachObj = { ...eachTask[0], userName, deadline: convertDeadline };
       // console.log(`eachObj is below`);
       // console.log(eachObj);
       allTasksInfo.push(eachObj);
     }
-    // console.log(`allTasksInfo is below`);
-    // console.log(allTasksInfo);
+    console.log(`allTasksInfo is below`);
+    console.log(allTasksInfo);
     res.json(allTasksInfo);
   } catch (error) {
     console.error(error.message);
@@ -191,7 +200,9 @@ exports.getUserTasks = async (req, res) => {
         workspaceName: eachWorkspaceInfo[0].workspace_name,
         title: eachTaskInfo[0].task_name,
         content: eachTaskInfo[0].task_content,
-        date: eachTaskInfo[0].deadline,
+        date: new Date(eachTaskInfo[0].deadline).toLocaleString("zh-HK", {
+          timeZone: "UTC",
+        }),
         userName: eachUserInfo[0].username,
       };
       allTasksInfo.push(eachObj);

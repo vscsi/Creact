@@ -57,10 +57,10 @@ function DashboardProfileContainer() {
           "x-access-token": localStorage.getItem("token"),
         },
       }).then((res) => {
-        console.log(`res from /username`);
+        // console.log(`res from /username`);
         // console.log(res.data.userName);
         // console.log(res.data.userImg);
-        console.log(res.data.firstName);
+        // console.log(res.data.firstName);
         setUserName(res.data.userName);
         setUserImg(res.data.userImg);
         setUserFirstName(res.data.firstName);
