@@ -14,8 +14,8 @@ exports.getUserName = async (req, res) => {
     const returnUser = await knex("users").where({
       id: userId,
     });
-    console.log("users rendering from db fuck you");
-    console.log(returnUser);
+    // console.log("users rendering from db fuck you");
+    // console.log(returnUser);
     const bufs = Buffer.from(returnUser[0].img);
     // const bufs = Buffers(returnUser[0].img).buffers;
     const base64 = bufs.toString();

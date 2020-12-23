@@ -1,7 +1,60 @@
-.canvas {
+.container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     position: relative;
+    margin-left: 0;
 }
+
+.items-container {
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    align-items: center;
+}
+
+.colorpicker {
+    display: inline-block;
+
+    flex: .7
+}
+
+.items {
+    text-align: center;
+    flex: .2;
+    
+}
+
+.button {
+    
+    background: none !important;
+    width: 5rem;
+    margin-left: 46%;
+    text-align: center !important;
+    border: 2px solid #6a6a6a !important;
+    color:#6a6a6a !important;
+    font: inherit !important;
+    letter-spacing: 1px !important;
+    
+    text-transform: uppercase !important;
+    transform: translate(-50%, -50%) !important;
+    transition: all 0.25s ease !important;
+}
+
+.button:hover{
+    color: white !important;
+    background: #211782 !important;
+}
+
+.button:active{
+    letter-spacing: 2px !important;
+}
+
+
+
+.items__radius {
+    flex: .1 ;
+    justify-self: flex-end;
+}
+
