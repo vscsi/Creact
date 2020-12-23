@@ -44,14 +44,17 @@ function DashboardContainer() {
   const [chatroomId, setChatroomId] = useState("");
   const [userId, setUserId] = useState("");
   const [loginUsers, setLoginUsers] = useState([]);
+  const [userImg, setUserImg] = useState("");
+
   // const [currClickWorkspace, setCurrClickWorkspace] = useState("");
   const location = window.location.pathname;
 
   const chatroomInit = (workspace) => {
     console.log("chatroomInit receive", workspace);
     try {
-      Axios.post( "http://localhost:4000/workspace/chatroominit",
-      // Axios.post(`${process.env.REACT_APP_API_SERVER}/workspace/chatroominit`,
+      Axios.post(
+        "http://localhost:4000/workspace/chatroominit",
+        // Axios.post(`${process.env.REACT_APP_API_SERVER}/workspace/chatroominit`,
         {
           workspaceName: workspace,
         },
@@ -64,7 +67,7 @@ function DashboardContainer() {
         console.log("chatroominit", res);
         console.log("chatroom Id", res.data);
         setChatroomId(res.data);
-      })
+      });
     } catch (error) {}
   };
 
@@ -89,13 +92,14 @@ function DashboardContainer() {
   const getUserInfo = () => {
     try {
       Axios.get("http://localhost:4000/username", {
-      // Axios.get(`${process.env.REACT_APP_API_SERVER}/username`, {
+        // Axios.get(`${process.env.REACT_APP_API_SERVER}/username`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
       }).then((res) => {
         setUserId(res.data.id);
         setUserName(res.data.userName);
+        setUserImg(res.data.userImg);
       });
     } catch (error) {
       console.error(error.message);
@@ -122,7 +126,7 @@ function DashboardContainer() {
   const getAllWorkspaces = () => {
     try {
       Axios.get("http://localhost:4000/workspace/all", {
-      // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/all`, {
+        // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/all`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -167,7 +171,7 @@ function DashboardContainer() {
     try {
       Axios.post(
         "http://localhost:4000/checkloginusers",
-      //  `${process.env.REACT_APP_API_SERVER}/checkloginusers`,
+        //  `${process.env.REACT_APP_API_SERVER}/checkloginusers`,
         {
           userName: "",
         },
@@ -184,7 +188,7 @@ function DashboardContainer() {
     } catch (error) {
       console.error(error.message);
     }
-  }
+  };
   // const checkLocation =
   useEffect(() => {
     getUserWorkspaces();
@@ -203,19 +207,19 @@ function DashboardContainer() {
         alignItems="stretch"
         // wrap="nowrap"
         className={`${DashboardContainerCss.containerHeight} ${DashboardContainerCss.containerBackground}`}
-        
       >
         <Router>
           <DashboardProfileSidebar
             name={userName}
             workspaces={userWorkspaces}
             currClickWorkspace={currentWorkspace}
+            userImg={userImg}
           />
           <DashboardFeatureSidebar
             currentWorkspace={currentWorkspace}
             userId={userId}
             chatroomId={chatroomId}
-            location = {location}
+            location={location}
           />
           <Grid
             Container
@@ -238,12 +242,11 @@ function DashboardContainer() {
               }}
               // component={DashboardCreateWorkspace}
             />
-            <Route 
+            <Route
               path="/profile/search"
-              render = {()=>
+              render={() => (
                 <DashboardSearchWorkspace allWorkspaces={allWorkspaces} />
-            }
-            
+              )}
             />
             {/* </Route> */}
             {/* for workspace route */}

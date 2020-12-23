@@ -1,26 +1,22 @@
 import React from "react";
 import * as MaterialUI from "@material-ui/core";
 import DashboardSidebarCss from "./DashboardSidebar.module.css";
-import {
-  NavLink,
-  useHistory,
-} from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import Link from "@material-ui/core/Link";
 import DashboardSidebarEachWorkspace from "./DashboardSidebarEachWorkspace";
 import Axios from "axios";
 //eslint-disable-next-line
 import { makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 //eslint-disable-next-line
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
-import CreateIcon from '@material-ui/icons/Create';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Drawer from '@material-ui/core/Drawer';
+import CreateIcon from "@material-ui/icons/Create";
+import Divider from "@material-ui/core/Divider";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import Drawer from "@material-ui/core/Drawer";
 // import Avatar from '@material-ui/core/Avatar';
-
 
 function DashboardProfileSidebar(props) {
   const useStyles = makeStyles((theme) => ({
@@ -32,33 +28,40 @@ function DashboardProfileSidebar(props) {
 
     /**drawer */
     /**overriding drawer properties */
-    paper:{
+    paper: {
       background: "#2c2e31",
       width: 150,
     },
 
     /**Item icon */
-    topIconSpacing:{
-      margin: '0 0.5rem 0 0.3rem',
-      padding: '0 0 0 0.2rem'
+    topIconSpacing: {
+      margin: "0 0.5rem 0 0.3rem",
+      padding: "0 0 0 0.2rem",
     },
-    
-    bottomIconSpacing:{
-      margin: '0 0.5rem 0 0.3rem',
-      padding: '0 0 0 0.5rem'
+
+    bottomIconSpacing: {
+      margin: "0 0.5rem 0 0.3rem",
+      padding: "0 0 0 0.5rem",
     },
 
     /**Item text */
-    listTextSize:{
-      fontSize: '0.8rem',
-      padding: '0 0.2rem 0 0',
+    listTextSize: {
+      fontSize: "0.8rem",
+      padding: "0 0.2rem 0 0",
     },
 
     /**divider */
     dividerHeight: {
-      height: '0.5vh',
+      height: "0.5vh",
     },
 
+    profileBackground: {
+      background: `no-repeat url(${props.userImg})`,
+      backgroundSize: "cover",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+    },
   }));
   const classes = useStyles();
 
@@ -83,7 +86,7 @@ function DashboardProfileSidebar(props) {
   const removeUser = (userName) => {
     try {
       Axios.delete(`http://localhost:4000/checklogoutusers/${userName}`, {
-      // Axios.delete(`${process.env.REACT_APP_API_SERVER}/checklogoutusers/${userName}`, {
+        // Axios.delete(`${process.env.REACT_APP_API_SERVER}/checklogoutusers/${userName}`, {
         headers: { "x-access-token": localStorage.getItem("token") },
       }).then((res) => {
         // console.log("has removed the userName in login_users");
@@ -116,73 +119,73 @@ function DashboardProfileSidebar(props) {
         justify="space-between"
         direction="column"
       >
-        <Drawer
-        classes={{paper: classes.paper}}
-        variant="permanent"
-        >
-
-          <Link href="/profile"  style={{ textDecoration: 'none' }}>
-            <div className={DashboardSidebarCss.workspaceIconUser}>
-              {props.name}
-            </div>
+        <Drawer classes={{ paper: classes.paper }} variant="permanent">
+          <Link href="/profile" style={{ textDecoration: "none" }}>
+            <div
+              className={`${DashboardSidebarCss.workspaceIconUser} ${classes.profileBackground}`}
+            ></div>
           </Link>
 
-          <Divider 
-            className = {classes.dividerHeight}
-          />
+          <Divider className={classes.dividerHeight} />
           {/* sidebar top */}
           <div className={DashboardSidebarCss.displayIconsWrap}>
             <div>
-                {props.workspaces.map((item, index) => {
-                  return (
-                    <DashboardSidebarEachWorkspace
-                      id={index}
-                      key={index}
-                      workspaceName={item.eachWorkspaceName}
-                      currClickWorkspace={props.currClickWorkspace}
-                    />
-                  );
-                })}
+              {props.workspaces.map((item, index) => {
+                return (
+                  <DashboardSidebarEachWorkspace
+                    id={index}
+                    key={index}
+                    workspaceName={item.eachWorkspaceName}
+                    currClickWorkspace={props.currClickWorkspace}
+                  />
+                );
+              })}
 
               {/* Creating ws */}
               <ListItem button>
                 <NavLink
                   to="/profile/create"
                   activeClassName={DashboardSidebarCss.isActive}
-                  style={{ textDecoration: 'none' }}
+                  style={{ textDecoration: "none" }}
                 >
                   <MaterialUI.Tooltip
                     title="Create Workspace"
                     placement="right-end"
                   >
                     <div className={DashboardSidebarCss.workspaceIcon}>
-                      <CreateIcon className={classes.topIconSpacing}/>
-                      <ListItemText classes= {{primary: classes.listTextSize}}>Create workspace</ListItemText>
+                      <CreateIcon className={classes.topIconSpacing} />
+                      <ListItemText classes={{ primary: classes.listTextSize }}>
+                        Create workspace
+                      </ListItemText>
                     </div>
                   </MaterialUI.Tooltip>
                 </NavLink>
               </ListItem>
-            {/* Sidebar bottom */}
+              {/* Sidebar bottom */}
               {/* searching workspace */}
               <ListItem button>
                 <NavLink
                   to="/profile/search"
                   activeClassName={DashboardSidebarCss.isActive}
-                  style={{ textDecoration: 'none' }}
+                  style={{ textDecoration: "none" }}
+                >
+                  <MaterialUI.Tooltip
+                    title="Find Workspace"
+                    placement="right-end"
                   >
-                  <MaterialUI.Tooltip title="Find Workspace" placement="right-end">
                     <div className={DashboardSidebarCss.workspaceIcon}>
-                      <SearchIcon className={classes.topIconSpacing}/>
-                      <ListItemText classes= {{primary: classes.listTextSize}}>Search workspace</ListItemText>
+                      <SearchIcon className={classes.topIconSpacing} />
+                      <ListItemText classes={{ primary: classes.listTextSize }}>
+                        Search workspace
+                      </ListItemText>
                     </div>
                   </MaterialUI.Tooltip>
                 </NavLink>
-                </ListItem>
+              </ListItem>
             </div>
 
-
-              {/* Logout */}
-            <div className = {DashboardSidebarCss.displayIconsBottom}>
+            {/* Logout */}
+            <div className={DashboardSidebarCss.displayIconsBottom}>
               <ListItem button>
                 <MaterialUI.Tooltip
                   title="Logout"
@@ -193,14 +196,16 @@ function DashboardProfileSidebar(props) {
                     className={DashboardSidebarCss.workspaceIcon}
                     onClick={handleLogout}
                   >
-                    <ExitToAppIcon className={classes.bottomIconSpacing}/>
-                    <ListItemText classes= {{primary: classes.listTextSize}}>Logout</ListItemText>
+                    <ExitToAppIcon className={classes.bottomIconSpacing} />
+                    <ListItemText classes={{ primary: classes.listTextSize }}>
+                      Logout
+                    </ListItemText>
                   </div>
                 </MaterialUI.Tooltip>
               </ListItem>
             </div>
           </div>
-          </Drawer>
+        </Drawer>
       </MaterialUI.Grid>
     </>
   );

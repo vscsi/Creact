@@ -34,6 +34,7 @@ const useStyles = makeStyles({
   /**Card content */
   inputStyle: {
     margin: 30,
+    color: 'white'
   },
 
   iconMargin:{
