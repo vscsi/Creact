@@ -12,8 +12,8 @@ let Buffer = require("buffer/").Buffer;
 let socket;
 
 function ChatroomContainer({location}) {
-  const ENDPOINT = 'http://localhost:4000';
-  // const ENDPOINT = process.env.REACT_APP_API_SERVER;
+  // const ENDPOINT = 'http://localhost:4000';
+  const ENDPOINT = process.env.REACT_APP_API_SERVER;
   const [my_userid, setUserid] = useState('');
   const [my_room, setRoom] = useState('');
   //eslint-disable-next-line

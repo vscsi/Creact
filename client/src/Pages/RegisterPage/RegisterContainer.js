@@ -99,7 +99,7 @@ function RegisterContainer() {
         ...values, //make shallow copies of current states in object
         [name]: value, //replacing current values with newly changed values
       });
-      console.log(name, value);
+      // console.log(name, value);
     }
   };
 
@@ -131,8 +131,8 @@ function RegisterContainer() {
     formData.append("password", password);
     // console.log(image);
 
-    const url = "http://localhost:4000/register";
-    // const url = `${process.env.REACT_APP_API_SERVER}/register`;
+    // const url = "http://localhost:4000/register";
+    const url = `${process.env.REACT_APP_API_SERVER}/register`;
     const response = await fetch(url, {
       method: "POST",
       // headers: { "Content-Type": "multipart/form-data" },
@@ -140,7 +140,7 @@ function RegisterContainer() {
       body: formData,
     });
     const result = await response.json();
-    console.log(result.userNameRepeated);
+    // console.log(result.userNameRepeated);
     if (result.userNameRepeated === true) {
       // console.log(result.userNameRepeated)
       setServerError({

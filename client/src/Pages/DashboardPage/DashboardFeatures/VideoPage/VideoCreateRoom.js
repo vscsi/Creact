@@ -9,6 +9,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import {RiMacLine} from 'react-icons/ri';
 import {FaWpforms} from 'react-icons/fa';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
+//eslint-disable-next-line
 import sunset from '../../../../images/sunset.jpg';
 import {
     // withStyles,
@@ -88,8 +89,8 @@ function VideoCreateRoom({userName, currentWorkspace}) {
             const body = { userName, currentWorkspace, customRoomName} // put values into body object
             try{
                 // console.log('sending video room info to server')
-                const sendVideo = await fetch(`http://localhost:4000/workspace/${currentWorkspace}/video`,{
-                // const sendVideo = await fetch(`${process.env.REACT_APP_API_SERVER}/workspace/${currentWorkspace}/video`,{
+                // const sendVideo = await fetch(`http://localhost:4000/workspace/${currentWorkspace}/video`,{
+                const sendVideo = await fetch(`${process.env.REACT_APP_API_SERVER}/workspace/${currentWorkspace}/video`,{
                     method:"POST",
                     headers: {
                         "Content-Type":"application/json",
@@ -112,7 +113,8 @@ function VideoCreateRoom({userName, currentWorkspace}) {
             const body = { userName, room, password} // put values into body object
             try{
                 console.log('sending video delete request to server')
-                const deleteVideo = await fetch(`http://localhost:4000/workspace/${currentWorkspace}/video`,{
+                // const deleteVideo = await fetch(`http://localhost:4000/workspace/${currentWorkspace}/video`,{
+                const deleteVideo = await fetch(`${process.env.REACT_APP_API_SERVER}/${currentWorkspace}/video`,{
                     method:"DELETE",
                     headers: {
                         "Content-Type":"application/json",
