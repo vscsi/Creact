@@ -21,9 +21,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#212429",
     color: "#f0efe9",
   },
-  containerSpacing:{
-    margin: '0 0 0 3vw'
-  },
   media: {
     height: 0,
     paddingTop: "56.25%", // 16:9
@@ -72,7 +69,7 @@ const DashboardSearchWorkspace = (props) => {
   };
   return (
     <>
-      <Grid container spacing={3} className={classes.containerSpacing}>
+      <Grid container spacing={3}>
         <Grid item xs={12}>
           <h1>Search Workspace</h1>
         </Grid>
