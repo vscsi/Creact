@@ -17,7 +17,7 @@ module.exports = function (io) {
         socket.on('saveCardFromClient', (data)=> {
             console.log('got doc save card, amazing Charles')    
             typedata = data;
-
+            
             socket.broadcast.to(workspace).emit('servertoClientSaveCard', data)
 
             
