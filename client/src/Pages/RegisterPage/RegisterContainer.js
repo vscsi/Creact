@@ -198,7 +198,7 @@ function RegisterContainer() {
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      marginTop: '20vh'
+      margin: '20vh 0 10vh 0'
     },
 
     /**creactLogo */
