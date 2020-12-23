@@ -198,7 +198,7 @@ function DashboardProfileSidebar(props) {
                   >
                     <ExitToAppIcon className={classes.bottomIconSpacing} />
                     <ListItemText classes={{ primary: classes.listTextSize }}>
-                      Logout
+                      Logout {props.currClickWorkspace}
                     </ListItemText>
                   </div>
                 </MaterialUI.Tooltip>

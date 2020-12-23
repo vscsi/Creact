@@ -9,7 +9,7 @@ const DashboardProfileUserCalender = () => {
       Axios.get("http://localhost:4000/task/usertasks", {
         headers: { "x-access-token": localStorage.getItem("token") },
       }).then((res) => {
-        console.log(res.data.allTasks);
+        // console.log(res.data.allTasks);
         setTasks(res.data.allTasks);
       });
     } catch (error) {

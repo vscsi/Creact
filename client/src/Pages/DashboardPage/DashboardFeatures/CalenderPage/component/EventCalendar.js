@@ -68,7 +68,8 @@ const EventCalendar = (props) => {
       if (info.event.title === props.tasks[i].title) {
         setEventResponsible(props.tasks[i].responsible);
         setEventContent(props.tasks[i].content);
-        setEventDeadline(parseISOString(props.tasks[i].date).toString());
+        setEventDeadline(props.tasks[i].date);
+        // setEventDeadline(parseISOString(props.tasks[i].date).toString());
         setEventWorkspace(props.tasks[i].workspaceName);
       }
     }
