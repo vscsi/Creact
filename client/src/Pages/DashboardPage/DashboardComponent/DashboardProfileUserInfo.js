@@ -27,7 +27,7 @@ const useStyles = makeStyles({
     backgroundColor: "black",
   },
   nameStyle: {
-    fontWeight: "bold",
+    fontWeight: "800",
     margin: 20,
     color: "white",
   },
@@ -35,7 +35,8 @@ const useStyles = makeStyles({
   /**Card content */
   inputStyle: {
     margin: 30,
-    color: 'white'
+    fontSize: '1.3rem',
+    color: '#fff',
   },
 
   iconMargin:{

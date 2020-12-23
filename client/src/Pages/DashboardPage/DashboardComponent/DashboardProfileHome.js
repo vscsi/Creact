@@ -9,7 +9,7 @@ import {
   Card,
   Avatar
  } from "@material-ui/core";
- import firework from '../../../images/firework.png'
+ import creactLogo from '../../../images/creactBlack.png'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,26 +23,30 @@ const useStyles = makeStyles((theme) => ({
     width:'12rem',
   },
 
-  fireworkIcon:{
-    height: '8rem',
-    width: '8rem ',
+  logoMargin:{
+    height: '10rem',
+    width: '10rem ',
+    margin: '70% 0 0 0'
   },
 
   /**welcome title */
   welcomeContainer: {
-    margin: '3% 0 3% 15%'
+    margin: '3% 0 3% 12%'
   },
   
   usernameTitle: {
-    margin: '8% 0 0 15%',
+    margin: '8% 0 0 12%',
     fontSize: '5vw',
-    fontWeight: '800',
-    letterSpacing: '0.2vw'
+    fontWeight: '600',
+    letterSpacing: '0.2vw',
+    color: '#000',
   },
   
   welcomeTitle: {
     margin: '0 0 5% 15%',
-    letterSpacing: '0.2vw'
+    letterSpacing: '0.2vw',
+    fontSize: '2vw',
+    color: '#000',
   },
 
   /**calendar */
@@ -51,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '10%',
   },
   calendarTitle:{
+    color:'#000',
     margin: '1vh 0 0 0',
   },
 
@@ -84,8 +89,8 @@ const DashboardProfileHome = (props) => {
             <Grid 
             Item>
               <Avatar
-                src={firework}
-                className = {classes.fireworkMargin}
+                src={creactLogo}
+                className = {classes.logoMargin}
                 >
               </Avatar>
             </Grid>
@@ -95,38 +100,17 @@ const DashboardProfileHome = (props) => {
             >
               <Typography 
               className = {classes.usernameTitle}
-              align="start" variant="h3">{props.name},</Typography>
+              align="start">{props.name},</Typography>
               <br />
               <Typography 
               className = {classes.welcomeTitle}
-              align="start" variant="h3" gutterBottom >Welcome to Creact! </Typography>
+              align="start" gutterBottom >Welcome to Creact! </Typography>
             </Grid>
           </Grid>
           
-          {/* <Grid item xs ={3}>
-            <Typography>Here's what you can do in Creact:</Typography>
-            <Grid Container>
-              <Paper>
-                <Avatar className ={classes.avatarSize} >
-                  <Filter1Icon />
-                </Avatar>
-              </Paper>
-              <Paper>
-                <Avatar className ={classes.avatarSize} >
-                  <Filter2Icon />
-                </Avatar>
-              </Paper>
-              <Paper>
-                <Avatar className ={classes.avatarSize} >
-                  <Filter3Icon />
-                </Avatar>
-              </Paper>
-            </Grid>
-          </Grid> */}
           <Grid container item xs={12} md={3} 
             justify = "center"
           >
-            {/* <Typography variant="h4" className={classes.profileTitle}>Your profile:</Typography> */}
             <DashboardProfileUserInfo
               userName={props.name}
               userImg={props.userImg}

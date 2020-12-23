@@ -54,7 +54,7 @@ function App() {
           component={isLogin && DashboardContainer}
         /> */}
         <Route
-          path="/workspace/:workspaceName"
+          path="/workspace/:workspaceName/"
           component={isLogin && DashboardContainer}
         />
         <Route path="*" component={ErrorContainer} />

@@ -173,7 +173,7 @@ function VideoCreateRoom({userName, currentWorkspace}) {
             /**Cards */
             videoConfCard:{
                 width: '90vw',
-                height: '92vh',
+                height: '100vh',
                 background: `linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6) ), url(${sunset})`,
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',
