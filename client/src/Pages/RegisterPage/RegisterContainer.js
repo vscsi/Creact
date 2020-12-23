@@ -131,8 +131,8 @@ function RegisterContainer() {
     formData.append("password", password);
     // console.log(image);
 
-    // const url = "http://localhost:4000/register";
-    const url = `${process.env.REACT_APP_API_SERVER}/register`;
+    const url = "http://localhost:4000/register";
+    // const url = `${process.env.REACT_APP_API_SERVER}/register`;
     const response = await fetch(url, {
       method: "POST",
       // headers: { "Content-Type": "multipart/form-data" },
@@ -201,6 +201,7 @@ function RegisterContainer() {
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
+      marginTop: '20vh'
     },
 
     /**creactLogo */
@@ -256,6 +257,11 @@ function RegisterContainer() {
       color: '#fff'
     },
 
+    /**image */
+    // img: {
+    //   position: 'sticky',
+    //   left: '10vw',
+    // },
 
   }));
 
@@ -439,6 +445,7 @@ function RegisterContainer() {
                       alt="dummy"
                       width="200"
                       height="200"
+                      className={classes.img}
                       />
                       </div>
                         ) : (

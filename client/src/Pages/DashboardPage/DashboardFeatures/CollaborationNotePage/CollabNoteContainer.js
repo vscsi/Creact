@@ -16,8 +16,8 @@ import Axios from 'axios';
 let socket
 
 function MyEditor() {
-    // const ENDPOINT = 'http://localhost:4000';
-    const ENDPOINT = process.env.REACT_APP_API_SERVER;
+    const ENDPOINT = 'http://localhost:4000';
+    // const ENDPOINT = process.env.REACT_APP_API_SERVER;
     const [editorState, setEditorState] = useState(
         () => EditorState.createEmpty(),
     );
@@ -25,8 +25,8 @@ function MyEditor() {
     useEffect(() =>{
         const currentWorkspace = getCurrentWorkspace();
         Axios.post(
-            // "http://localhost:4000/getdoc",
-            `${process.env.REACT_APP_API_SERVER}/getdoc`,
+            "http://localhost:4000/getdoc",
+            // `${process.env.REACT_APP_API_SERVER}/getdoc`,
             {
                 docName: currentWorkspace
             },
@@ -58,8 +58,8 @@ function MyEditor() {
         const docContent = JSON.stringify(convertToRaw(contentState))
         try{
             Axios.post(
-                // "http://localhost:4000/savedoc",
-                `${process.env.REACT_APP_API_SERVER}/savedoc`,
+                "http://localhost:4000/savedoc",
+                // `${process.env.REACT_APP_API_SERVER}/savedoc`,
                 {
                     docContent: docContent,
                     docName: currentWorkspace

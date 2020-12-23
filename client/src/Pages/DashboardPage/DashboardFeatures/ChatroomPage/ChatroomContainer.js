@@ -7,11 +7,13 @@ import ChatInput from "./ChatInput/ChatInput"
 import Message from './Message/Message'
 import {getCurrentWorkspace} from '../../../../services/getCurrentWorkspace'
 import classes from './Chat.module.css';
+//eslint-disable-next-line
+let Buffer = require("buffer/").Buffer;
 let socket;
 
 function ChatroomContainer({location}) {
-  // const ENDPOINT = 'http://localhost:4000';
-  const ENDPOINT = process.env.REACT_APP_API_SERVER;
+  const ENDPOINT = 'http://localhost:4000';
+  // const ENDPOINT = process.env.REACT_APP_API_SERVER;
   const [my_userid, setUserid] = useState('');
   const [my_room, setRoom] = useState('');
   //eslint-disable-next-line
@@ -93,11 +95,12 @@ function ChatroomContainer({location}) {
     socket.on('returnHistory', (data)=> {
       
       const updatedmessages = data.rows.map(msg => {
+        console.log(msg.imgurl)
         return {
           message: msg.chatmessage_content,
           timestamp: (new Date(msg.created_at)).toLocaleString(),
           userName: msg.first_name,
-          userImage: 'https://picsum.photos/200'
+          userImage: msg.imgurl
         }
       })
       // console.log('on return History', updatedmessages)
@@ -139,7 +142,7 @@ function ChatroomContainer({location}) {
     
     if (message) {
       socket.emit('sendMessage', {message:message, userId: my_userid, roomId: my_room}, ()=> setMessage(''))
-      
+      setTrigger(!trigger)
     }
 
   }

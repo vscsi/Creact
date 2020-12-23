@@ -9,13 +9,13 @@
 
 span.message__username{
     font-weight: 600;
-    font-size: 1.5rem;
+    font-size: 1.37rem;
 }
 
 .message > img {
     padding: 0.8rem;
-    height: 3.2rem;
-    width: 3.2rem;
+    
+    width: 3.47rem;
     padding-right: 0.5rem;
     object-fit: contain;
     border-radius: 50%;
@@ -23,7 +23,14 @@ span.message__username{
 
 .message__timestamp {
     margin-left: 0.5rem;
+    margin-bottom: 0.3rem;
     color: grey;
     font-size: 0.8rem;
     font-weight: 300;
+
+}
+
+.message__info {
+    margin: 0;
+    padding: 0;
 }

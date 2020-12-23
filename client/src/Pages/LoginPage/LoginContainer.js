@@ -104,8 +104,8 @@ export default function SignIn() {
         username,
         password,
       };
-      // const result = await fetch("http://localhost:4000/login", {
-      const result = await fetch(`${process.env.REACT_APP_API_SERVER}/login`, {
+      const result = await fetch("http://localhost:4000/login", {
+      // const result = await fetch(`${process.env.REACT_APP_API_SERVER}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
@@ -130,8 +130,8 @@ export default function SignIn() {
 
   const checkAuth = () => {
     try {
-      // Axios.get("http://localhost:4000/isUserAuth", {
-      Axios.get(`${process.env.REACT_APP_API_SERVER}/isUserAuth`, {
+      Axios.get("http://localhost:4000/isUserAuth", {
+      // Axios.get(`${process.env.REACT_APP_API_SERVER}/isUserAuth`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },

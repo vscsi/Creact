@@ -1,6 +1,6 @@
 
 const knex = require("../../models/knex");
-
+let Buffer = require("buffer/").Buffer;
 const users = [];
 
 let existed = false
@@ -48,24 +48,31 @@ const getUsersInRoom = (room) => users.filter((user)=> user.room === room);
 
 
 const findUserName = async (userid, cb ) => {
-    console.log('FinduserName triggered')
-    let query = await knex.select('first_name').where('id', userid)
+    console.log('FinduserName and img')
+    let query = await knex.select('first_name', 'img').where('id', userid)
     .from('users')
+    console.log('query =', query )
+    const buffer = Buffer.from(query[0].img);
+    const base64 = buffer.toString();
     
-    // console.log(query);
-    const result = query[0]["first_name"];
-    
+    const result = {name: query[0]["first_name"], imgurl: base64 }
+    // console.log('result', result)
     // return result;
     cb (result)
 }
 
-const findAdminId = async (cb) => {
-    console.log("findadminId triggered")
-    let query = await knex.select('id').where('first_name', 'Admin').from('users')
 
-    console.log("admin id Found", typeof query[0].id);
-    cb(query[0].id)   
+
+const findAdminId = async (cb) => {
+    
+    let query = await knex.select('id', 'img').where('first_name', 'Admin').from('users')
+    // console.log('admin query',query)
+    // console.log("admin id Found", typeof query[0].id);
+    const result = {id:query[0].id, imgurl: query[0].img}
+    cb(result)   
 }
+
+
 
 
 const getServerTime = async (cb) => {
@@ -77,27 +84,29 @@ const getServerTime = async (cb) => {
         cb (currentTimestamp)
 } 
 
-const writeToDatabase = async(roomId, userId, msg, cb) => {
+const writeToDatabase = async(roomId, userId, image, msg, cb) => {
     knex('chatmessage').insert({
         chatmessage_content: msg,
         user_id: userId,
-        chatroom_id: roomId
+        chatroom_id: roomId,
+        imgurl: image
     }).then(()=> console.log('chatroomdatabase.js chatmessage inserted'))
 }   
 
 const getChatHistory = async (roomId, cb) => {
-    console.log('getChatHistory triggered')
-        let query = await knex.select('chatmessage_content', 'created_at', 'users.first_name')
+    
+        let query = await knex.select('chatmessage_content', 'created_at', 'users.first_name', 'imgurl')
                 .where('chatroom_id', roomId )
                 .from ('chatmessage')
                 .join('users', 'chatmessage.user_id', '=', "users.id")
                 .orderBy('created_at')
+
+                
                 // let timestamp = (query[0].created_at)
                 // console.log(timestamp.toLocaleString())
-                 cb (query)
-    
-    
-                
+                 cb (query)       
+                 
+                 
 }
 
 

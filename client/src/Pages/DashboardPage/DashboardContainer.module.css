@@ -2,6 +2,7 @@
   height: 100vh;
   flex-wrap: 'no-wrap';
   overflow: auto;
+  overflow-x: hidden;
 }
 .containerBackground{
   background: #F0EFE9;
@@ -11,7 +12,6 @@
   overflow: auto;
   max-height: 100%;
   overflow-x: hidden;
-  margin: '0 0 0 10vw'
 }
 
 /* Feature sidebar */
