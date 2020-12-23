@@ -100,7 +100,7 @@ function LandingPageContainer(props) {
                 Meet your goals
               </h4>
               <p className="feature-box__text">
-              With Creact, you can create a workspace to collaborate on the same document with your teammates in real-time. Instantly connect with them on a video call, or messaging them in the chatroom, which are all in-built in our app, all in one place.
+              With Creact, you can create a workspace to collaborate on the same document with your teammates in real-time. 
               </p>
             </div>
           </div>
@@ -111,7 +111,7 @@ function LandingPageContainer(props) {
                 Find your team
               </h4>
               <p className="feature-box__text">
-                Creact centralises resources for better teamwork dynamics, elevate problem solving efficiency.  You can share and draw your ideas on a real-time collaborative whiteboard straight away.
+                Creact centralises resources for better teamwork dynamics, elevate problem solving efficiency.  
               </p>
             </div>
           </div>
@@ -122,9 +122,7 @@ function LandingPageContainer(props) {
                 Live a remote life
               </h4>
               <p className="feature-box__text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam.
+               Instantly connect with them on a video call, or messaging them in the chatroom, all functions in one place.
               </p>
             </div>
           </div>

@@ -1,5 +1,4 @@
 import React from "react";
-//eslint-disable-next-line
 import styles from "./DashboardSearchWorkspace.module.css";
 import { makeStyles } from "@material-ui/core/styles";
 import Axios from "axios";
@@ -20,9 +19,6 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 345,
     backgroundColor: "#212429",
     color: "#f0efe9",
-  },
-  containerSpacing:{
-    margin: '0 0 0 3vw'
   },
   media: {
     height: 0,
@@ -72,9 +68,10 @@ const DashboardSearchWorkspace = (props) => {
   };
   return (
     <>
-      <Grid container spacing={3} className={classes.containerSpacing}>
-        <Grid item xs={12}>
-          <h1>Search Workspace</h1>
+     <div className={styles.AddMargin}>
+      <Grid container spacing={3}>
+        <Grid  item xs={12}>
+          <h1 >Search Workspace</h1>
         </Grid>
         {props.allWorkspaces.map((item, index) => {
           return (
@@ -113,6 +110,7 @@ const DashboardSearchWorkspace = (props) => {
           );
         })}
       </Grid>
+     </div>
     </>
   );
 };

@@ -242,7 +242,7 @@ function DashboardContainer() {
                 <Grid
                 container
                 item
-                md={1}
+                md={2}
                 spacing={0}
                 alignItems="center"
                 justify="space-around"
@@ -262,7 +262,7 @@ function DashboardContainer() {
                 </Grid>
 
                 {/* Grid 7 */}
-                <Grid item xs ={11}>
+                <Grid item xs ={10}>
                   {/* <Switch> */}
                   {/* for profile route */}
                   <Route exact path="/profile" component={DashboardProfileHome} />
