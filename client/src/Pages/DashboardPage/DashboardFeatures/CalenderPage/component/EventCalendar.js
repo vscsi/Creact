@@ -6,6 +6,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
+import { Card, Divider } from "@material-ui/core";
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -23,7 +24,6 @@ function getModalStyle() {
 }
 
 const useStyles = makeStyles((theme) => ({
-
   paper: {
     position: "absolute",
     width: 400,
@@ -75,17 +75,22 @@ const EventCalendar = (props) => {
   };
 
   const body = (
-    <div style={modalStyle} className={classes.paper}>
-      <h2 id="simple-modal-title">Task: {eventTitle}</h2>
-      {!props.onlyWorkspace && (
-        <p id="simple-modal-description">Workspace: {eventWorkspace}</p>
-      )}
-      {!props.onlyUser && (
-        <p id="simple-modal-description">Responsible: {eventRepsonsible}</p>
-      )}
-      <p id="simple-modal-description">Deadline: {eventDeadline}</p>
-      <p id="simple-modal-description">Description: {eventContent}</p>
-    </div>
+    <Card>
+      <div style={modalStyle} className={classes.paper}>
+        <h2 id="simple-modal-title">Task: {eventTitle}</h2>
+        <Divider />
+        {!props.onlyWorkspace && (
+          <p id="simple-modal-description">Workspace: {eventWorkspace}</p>
+        )}
+        {!props.onlyUser && (
+          <p id="simple-modal-description">Responsible: {eventRepsonsible}</p>
+        )}
+        <p id="simple-modal-description">Deadline: {eventDeadline}</p>
+        <p id="simple-modal-description">
+          Description: {eventContent.substring(0, 50)}
+        </p>
+      </div>
+    </Card>
   );
   return (
     <div>

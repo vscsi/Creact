@@ -17,7 +17,7 @@ function DashboardNavbar(props) {
       <nav className={DashboardNavbarCss.DashboardNav}>
         {/* <div className={DashboardNavbarCss.remindBox}>Remind Box</div> */}
 
-        <div className={DashboardNavbarCss.userIcon}>
+        {/* <div className={DashboardNavbarCss.userIcon}>
           {props.loginUsers.map((item, index) => {
             return (
               <MaterialUI.Avatar key={index} classes={{ root: classes.root }}>
@@ -25,7 +25,7 @@ function DashboardNavbar(props) {
               </MaterialUI.Avatar>
             );
           })}
-        </div>
+        </div> */}
         {/* <div className={DashboardNavbarCss.userIcon}>
           <MaterialUI.Avatar classes={{ root: classes.root }}>
             {props.loginUsers[0].name}

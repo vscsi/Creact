@@ -2,6 +2,7 @@
   height: 100vh;
   flex-wrap: 'no-wrap';
   overflow: auto;
+  overflow-x: hidden;
 }
 .containerBackground{
   background: #F0EFE9;
@@ -11,4 +12,9 @@
   overflow: auto;
   max-height: 100%;
   overflow-x: hidden;
+}
+
+/* Feature sidebar */
+.brandBar{
+ padding: 3rem ;
 }
