@@ -98,12 +98,18 @@ const CollabTaskContainer = (props) => {
       {/* <Grid container spacing={2} m={2}> */}
         {/* {props.isAdmin && ( */}
           {/* // <Grid item xs={6}> */}
-            <CollabTaskBox
-              users={props.users}
-              firstEmptyUsers={props.firstEmptyUsers}
-            />
+            {/* // <CollabTaskBox */}
+            {/* //   users={props.users}
+            //   firstEmptyUsers={props.firstEmptyUsers}
+            // /> */}
           {/* </Grid> */}
         {/* )} */}
+        {props.isAdmin && (
+          <CollabTaskBox
+            users={props.users}
+            firstEmptyUsers={props.firstEmptyUsers}
+          />
+        )}
         {/* <Grid item xs={!props.isAdmin ? 12 : 6}> */}
           <CollabTaskList
             tasks={currentTasks}

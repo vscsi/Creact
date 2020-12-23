@@ -5,6 +5,7 @@
 }
 
 .WsTitleH1{
+    color:#212429;
     justify-content: center;
     text-align: center;
     text-decoration: underline;
@@ -26,6 +27,7 @@
 .CreateButton {
     background: none;
     height: 40px;
+    width: 100px;
     text-align: center;
     border: 2px solid #A4303F;
     color:#A4303F;
@@ -53,6 +55,7 @@
     text-align: center;
     margin-top: 3vh;
     text-transform: uppercase;
+    color: #212429;
 }
 
 .WsNameInput{
@@ -70,6 +73,7 @@
     text-align: center;
     margin-top: 3vh;
     text-transform: uppercase;
+    color: #212429;
 }
 
 .MaxPeopleInput{
