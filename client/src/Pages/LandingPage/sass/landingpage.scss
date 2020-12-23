@@ -1,0 +1,36 @@
+@import "abstracts/functions";
+@import "abstracts/mixins";
+@import "abstracts/variables";
+
+@import "./base/base";
+@import "./base/animation";
+@import "./base/typography";
+@import "./base/utilites";
+
+@import "./component/button";
+@import "./component/svgstyle";
+@import "./component/feature-box";
+@import "./component/card";
+@import "./layout/header";
+@import "./layout/grid";
+@import "./layout/footer";
+
+
+@import "pages/home";
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

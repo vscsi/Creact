@@ -1,0 +1,31 @@
+.section-about {
+    background-color:$color-grey-light-1 ;
+    padding:14.37rem 0 16.875rem 0;
+    margin-top: -20vh;
+}
+
+
+.section-features {
+    margin-top: -10.4rem;
+    height: 54rem;
+    padding: 12.5rem 0; 
+    background-image:linear-gradient(
+        to right bottom,
+         rgba($color-light, 0.8),
+         rgba($color-dark, 0.8)), 
+         url(../../img/hero2.jpg);
+    background-size: cover;
+    background-position: top;
+
+    clip-path: polygon(0 17%, 100% 0%, 100% 85%, 0 100%);
+    /* this is the base of absolute position */
+   
+}
+
+
+
+.section-products {
+    background-color:$color-grey-light-1 ;
+    padding:15.625rem 0;
+    margin-top: -20vh;
+}

@@ -1,0 +1,38 @@
+.composition {
+    position: relative;
+    
+    &__svgimg {
+        width: 55%;
+        // box-shadow: 0 1.5rem 4rem rgba($color-black, .4);
+        position: absolute;
+        z-index: 1;
+
+        &--svg_1 {
+            left: 0;
+            top: -3.56rem;
+        }
+
+        &--svg_2 {
+            right: 0;
+            top: 1.25rem;
+        }
+
+        &--svg_3 {
+            left: 23%;
+            top: 6.25rem;
+        }
+
+        &:hover {
+            transform: scale(1.09) translateY(-.5rem);
+            z-index: 20;
+        }
+    }
+
+    &:hover &__svgimg:not(:hover) {
+        transform: scale(.95);
+    }
+    
+    
+
+}
+

@@ -1,0 +1,83 @@
+body {
+    font-family: "Lato", sans-serif; 
+    font-weight: 400;
+    font-size:  16px;
+    line-height: 1.7; 
+    color: $color-greydark; 
+   
+}
+
+
+
+.heading-primary {
+    color: $color-white;
+    text-transform: uppercase;
+    
+    backface-visibility: hidden;
+    margin-bottom: 57px;
+
+    &-main {
+        display: block;
+        padding-left: 60px;
+        font-size: 60px;
+        font-weight: 400;
+        letter-spacing: 76px;
+        animation-name: moveInLeft;
+        animation-duration: 0.87s;
+        /* animation-delay: 1s; */
+        /* animation-iteration-count: 3; */
+        animation-timing-function: ease-out;
+    } 
+
+    &-sub {
+        display: block;
+        padding-top: 10px;
+        font-size: 20px;
+        font-weight: 400;
+        letter-spacing: 12.1px;
+    
+        animation: moveInRight 0.87s ease-out;
+        
+
+    
+    }
+}
+
+
+.heading-secondary {
+    font-size: 2.17rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    display: inline-block;
+    background-image: linear-gradient(to right, $color-lighter, $color-base);
+    -webkit-background-clip: text;
+    color: transparent;
+    letter-spacing: 1.7px;
+    transition: all .2s;
+
+    &:hover {
+        transform: skewX(-11deg) scale(1.03);
+        text-shadow: .2rem 1rem 2rem rgba($color-black, .2) ;
+    }
+}
+
+.heading-tertiary {
+    font-size: 3rem ;
+    font-weight: 700;
+    
+}
+
+.heading-fourth {
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.paragraph {
+    font-size: 1.13rem;
+
+
+    &:not(:last-child) {
+        margin-bottom: 1.9rem;
+    }
+}
