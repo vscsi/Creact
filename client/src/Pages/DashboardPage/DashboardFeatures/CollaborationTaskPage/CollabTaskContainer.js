@@ -75,7 +75,7 @@ const CollabTaskContainer = (props) => {
   const handleDelete = async (id) => {
     try {
       Axios.delete(`http://localhost:4000/tasks/${id}`, {
-      // Axios.delete(`${process.env.REACT_APP_API_SERVER}/tasks/${id}`, {
+        // Axios.delete(`${process.env.REACT_APP_API_SERVER}/tasks/${id}`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -97,30 +97,27 @@ const CollabTaskContainer = (props) => {
     // <div className={styles.wrapper}>
     <div className={classes.root}>
       {/* <Grid container spacing={2} m={2}> */}
-        {/* {props.isAdmin && ( */}
-          {/* // <Grid item xs={6}> */}
-            {/* // <CollabTaskBox */}
-            {/* //   users={props.users}
-            //   firstEmptyUsers={props.firstEmptyUsers}
-            // /> */}
-          {/* </Grid> */}
-        {/* )} */}
-        {props.isAdmin && (
-          <CollabTaskBox
-            users={props.users}
-            firstEmptyUsers={props.firstEmptyUsers}
-          />
-        )}
-        {/* <Grid item xs={!props.isAdmin ? 12 : 6}> */}
-          <CollabTaskList
-            tasks={currentTasks}
-            handleDelete={handleDelete}
-            tasksPerPage={tasksPerPage}
-            totalTasks={tasks.length}
-            paginate={paginate}
-            currentUser={props.name}
-          />
-        {/* </Grid>
+      {/* {props.isAdmin && ( */}
+      {/* // <Grid item xs={6}> */}
+      {props.isAdmin && (
+        <CollabTaskBox
+          users={props.users}
+          firstEmptyUsers={props.firstEmptyUsers}
+        />
+      )}
+
+      {/* </Grid> */}
+      {/* )} */}
+      {/* <Grid item xs={!props.isAdmin ? 12 : 6}> */}
+      <CollabTaskList
+        tasks={currentTasks}
+        handleDelete={handleDelete}
+        tasksPerPage={tasksPerPage}
+        totalTasks={tasks.length}
+        paginate={paginate}
+        currentUser={props.name}
+      />
+      {/* </Grid>
       </Grid> */}
     </div>
     // </div>

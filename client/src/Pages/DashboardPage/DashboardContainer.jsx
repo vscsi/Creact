@@ -199,6 +199,7 @@ function DashboardContainer() {
     getCurrentWorkspace();
     getAllWorkspaces();
     postLogout();
+    // checkCurrentUrl();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -275,13 +276,14 @@ function DashboardContainer() {
                     }}
                     // component={DashboardCreateWorkspace}
                   />
-                  <Route 
-                    path="/profile/search"
-                    render = {()=>
-                      <DashboardSearchWorkspace allWorkspaces={allWorkspaces} />
-                  }
+                  <Route
+                  path="/profile/search"
+                  render={() => {
+                    setCurrentWorkspace("");
+                    return <DashboardSearchWorkspace allWorkspaces={allWorkspaces} />;
+                  }}
+                />
                   
-                  />
                   {/* </Route> */}
                   {/* for workspace route */}
                   <Route
