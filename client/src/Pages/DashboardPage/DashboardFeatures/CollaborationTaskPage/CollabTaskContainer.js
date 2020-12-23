@@ -46,9 +46,9 @@ const CollabTaskContainer = (props) => {
           headers: { "x-access-token": localStorage.getItem("token") },
         }
       ).then((res) => {
-        // console.log("get res from '/tasks");
-        // console.log(res);
-        setTasks(res.data);
+        console.log("get res from '/tasks");
+        console.log(res);
+        setTasks(res.data.allTasksInfo);
         // console.log(jsonData);
       });
 

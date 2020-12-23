@@ -28,6 +28,7 @@ exports.postTasks = async (req, res, next) => {
     // console.log(allTasks);
     //3. base on the task_id to query in task table
     const allTasksInfo = [];
+    const allTasksCalender = [];
     for (let task of allTasks) {
       //**userId need to convert to userName
       const taskId = task.task_id;
@@ -59,13 +60,18 @@ exports.postTasks = async (req, res, next) => {
       // console.log(`userName is ${userName}`);
       // console.log(`userId is ${userId}`);
       const eachObj = { ...eachTask[0], userName, deadline: convertDeadline };
+      const eachObj1 = { ...eachTask[0], userName, deadline: deadline };
       // console.log(`eachObj is below`);
       // console.log(eachObj);
       allTasksInfo.push(eachObj);
+      allTasksCalender.push(eachObj1);
     }
     console.log(`allTasksInfo is below`);
     console.log(allTasksInfo);
-    res.json(allTasksInfo);
+    res.json({
+      allTasksInfo: allTasksInfo,
+      allTasksCalender: allTasksCalender,
+    });
   } catch (error) {
     console.error(error.message);
   }
@@ -161,6 +167,7 @@ exports.getUserTasks = async (req, res) => {
     // console.log(returnUserWP);
     let allTasks = [];
     let allTasksInfo = [];
+    let allTasksCalender = [];
     for (let wp of returnUserWP) {
       const eachWorkspaceId = wp.workspace_id;
       const returnTasks = await knex("task_workspace").where({
@@ -178,6 +185,7 @@ exports.getUserTasks = async (req, res) => {
 
     for (let each of allTasks) {
       let eachObj = {};
+      let eachObj1 = {};
       const eachWorkspaceId = each.workspace_id;
       const eachTaskId = each.task_id;
       const eachUserId = each.user_id;
@@ -205,11 +213,19 @@ exports.getUserTasks = async (req, res) => {
         }),
         userName: eachUserInfo[0].username,
       };
+      eachObj1 = {
+        workspaceName: eachWorkspaceInfo[0].workspace_name,
+        title: eachTaskInfo[0].task_name,
+        content: eachTaskInfo[0].task_content,
+        date: eachTaskInfo[0].deadline,
+        userName: eachUserInfo[0].username,
+      };
       allTasksInfo.push(eachObj);
+      allTasksCalender.push(eachObj1);
     }
     console.log(`allTasksinfo is below`);
     console.log(allTasksInfo);
-    res.json({ allTasks: allTasksInfo });
+    res.json({ allTasks: allTasksInfo, allTasksCalender: allTasksCalender });
   } catch (error) {
     console.error(error.message);
   }
