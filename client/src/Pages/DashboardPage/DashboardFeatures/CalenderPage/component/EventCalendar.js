@@ -67,9 +67,13 @@ const EventCalendar = (props) => {
     // console.log(props);
     for (let i = 0; i < props.tasks.length; i++) {
       if (info.event.title === props.tasks[i].title) {
+        const deadline = new Date(props.tasks[i].date).toLocaleString("zh-HK", {
+          timeZone: "UTC",
+        });
+
         setEventResponsible(props.tasks[i].responsible);
         setEventContent(props.tasks[i].content);
-        setEventDeadline(props.tasks[i].date);
+        setEventDeadline(deadline);
         // setEventDeadline(parseISOString(props.tasks[i].date).toString());
         setEventWorkspace(props.tasks[i].workspaceName);
       }
