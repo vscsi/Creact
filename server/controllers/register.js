@@ -9,7 +9,7 @@ exports.postRegister = async (req, res) => {
   // console.log(req.file);
   // console.log(img);
   // console.log(req.body);
-  console.log(req.body.image);
+  // console.log(req.body.image);
   let query;
   let hashedPassword = await bcrypt.hash(password, 10);
   try {

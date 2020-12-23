@@ -1,0 +1,154 @@
+.card {
+    perspective: 150rem;
+    -moz-perspective: 150rem;
+    position: relative;
+    height: 31.1rem;
+
+    
+
+
+    &__side {
+       
+        height: 31.1rem;
+        transition: all .8s ease;
+
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        backface-visibility: hidden;
+        border-radius: 3px;
+        overflow: hidden;
+        box-shadow:0 1.5rem 4rem rgba($color-black, .15) ;
+
+
+        &--front {
+            background-color: $color-white;
+            
+        }
+
+        &--back {
+           
+            transform: rotateY(180deg);
+
+            &-1 {
+                background-image: linear-gradient(to right bottom, $color-card-blue-1, $color-card-blue-2 )
+            }
+            &-2 {
+                background-image: linear-gradient(to right bottom, $color-card-purple-1, $color-card-purple-2 )
+            }
+            &-3 {
+                background-image: linear-gradient(to right bottom, $color-card-pink-1, $color-card-pink-2 )
+            }
+        }
+    }
+    
+
+    &:hover &__side--front {
+        transform: rotateY(-180deg);
+        
+    }
+    &:hover &__side--back {
+        transform: rotateY(0deg);
+    }
+
+    &__picture {
+        height: 14.37rem;
+        background-position: top;
+        background-blend-mode: multiply;
+        background-size: cover;
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        border-top-left-radius: 3px;
+
+        &--1 {
+            background-image: linear-gradient(to right bottom, $color-card-blue-1, $color-card-blue-2 ) ,url(../../img/card1.png);
+        }
+        &--2 {
+            background-image: linear-gradient(to right bottom, $color-card-purple-1, $color-card-purple-2 ), url(../../img/card2.png);
+        }
+        &--3 {
+            background-image: linear-gradient(to right bottom, $color-card-pink-1, $color-card-pink-2), url(../../img/card3.png);
+        }
+    }
+
+    &__heading {
+        font-size: 1.75rem;
+        font-weight: 300;
+        text-transform: uppercase;
+        text-align: right;
+        color: $color-white;
+        position: absolute;
+        top: 7.5rem;
+        right: 0.125rem;
+        width: 75%;
+
+    }
+
+
+    &__heading-span {
+        padding: 0.625rem 0.93rem;
+        -webkit-box-decoration-break: clone;
+        box-decoration-break: clone;
+    
+        
+        &--1 {
+            background-image: linear-gradient(to right bottom, rgba($color-card-blue-1, .85), rgba($color-card-blue-2, .85));
+        }
+        &--2 {
+            background-image: linear-gradient(to right bottom, rgba($color-card-purple-1, .85), rgba($color-card-purple-2, .85));
+        }
+        &--3 {
+            background-image: linear-gradient(to right bottom, rgba($color-card-pink-1, .85), rgba($color-card-pink-2, .85));
+        }
+    }
+
+    &__details {
+        padding: 1.53rem;
+        
+        
+        ul {
+            list-style: none;
+            width: 80%;
+            margin:0 auto;
+
+            li{
+                text-align: center;
+                font-size: 0.97rem;
+                padding: .62rem;
+
+                &:not(:last-child) {
+                    border-bottom: 1px solid $color-grey-light-2;
+                }
+            }
+        }
+    }
+
+
+    &__cta {
+        text-align: center;
+        width: 90%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+
+    &__price-box {
+        color: $color-white;
+        text-align: center;
+        margin-bottom: 5rem;
+    }
+
+    &__price-only {
+        font-size:.875rem;
+        text-transform: uppercase;
+
+    }
+
+    &__price-value {
+        font-size: 3.75rem;
+        font-weight: 100;
+    }
+
+}

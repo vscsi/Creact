@@ -4,7 +4,7 @@ import DashboardSidebarCss from '../DashboardPage/DashboardComponent/DashboardSi
 import { Grid } from "@material-ui/core";
 import {
   BrowserRouter as Router,
-  Switch,
+  // Switch,
   Route,
   // useParams,
 } from "react-router-dom";
@@ -47,6 +47,7 @@ function DashboardContainer() {
   const [loginUsers, setLoginUsers] = useState([]);
   // const [currClickWorkspace, setCurrClickWorkspace] = useState("");
   const location = window.location.pathname;
+  const [userImg, setUserImg] = useState("");
 
   const chatroomInit = (workspace) => {
     console.log("chatroomInit receive", workspace);
@@ -87,22 +88,23 @@ function DashboardContainer() {
     }
   };
 
-  const getUserInfo = () => {
+ const getUserInfo = () => {
     try {
       Axios.get("http://localhost:4000/username", {
-      // Axios.get(`${process.env.REACT_APP_API_SERVER}/username`, {
+        // Axios.get(`${process.env.REACT_APP_API_SERVER}/username`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
       }).then((res) => {
         setUserId(res.data.id);
         setUserName(res.data.userName);
+        setUserImg(res.data.userImg);
       });
     } catch (error) {
       console.error(error.message);
     }
   };
-
+  
   const getCurrentWorkspace = () => {
     const path = window.location.pathname;
     // console.log(`url is below`);
@@ -213,8 +215,8 @@ function DashboardContainer() {
               name={userName}
               workspaces={userWorkspaces}
               currClickWorkspace={currentWorkspace}
+              userImg={userImg}
               />
-              
             {/* Grid 3 */}
             <Grid
               Container
@@ -231,7 +233,7 @@ function DashboardContainer() {
               </Grid>
 
               {/* Grid 5 */}
-              <Grid container item xs ={12}>
+              <Grid container item xs ={12} className={DashboardContainerCss.gridFeatureMain}>
                 {/* Grid 6 */}
                 <Grid
                 container
@@ -241,20 +243,22 @@ function DashboardContainer() {
                 alignItems="center"
                 justify="space-around"
                 direction="column"
-                className={` ${DashboardSidebarCss.sidebar2Background}`}
+                className={` ${DashboardSidebarCss.sidebar2Background} ${DashboardContainerCss.gridFeatureMain}`}
                  >
                  {/* <div className = {DashboardSidebarCss.sidebarHeight}> */}
+                 {currentWorkspace !== "" && (
                     <DashboardFeatureSidebar
                       currentWorkspace={currentWorkspace}
                       userId={userId}
                       chatroomId={chatroomId}
-                      location = {location}
+                      location={location}
                     />
+                  )}
                   {/* </div> */}
                 </Grid>
 
                 {/* Grid 7 */}
-                <Grid item xs ={10}>
+                <Grid item xs ={11}>
                   {/* <Switch> */}
                   {/* for profile route */}
                   <Route exact path="/profile" component={DashboardProfileHome} />

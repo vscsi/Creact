@@ -23,6 +23,7 @@ function RegisterContainer() {
     lastname: "",
     email: "",
     password: "",
+    image: "",
   });
   const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState({});
@@ -75,6 +76,7 @@ function RegisterContainer() {
       errors.password = "Password needs to be more than 8 characters";
     }
 
+
     return errors;
   };
 
@@ -89,14 +91,14 @@ function RegisterContainer() {
           imageDisplay: reader.result,
         });
       };
-
-      // setImage({
-      //   preview: URL.createObjectURL(e.target.files[0]),
-      //   raw: e.target.files[0],
-      // });
+      const { name, value } = e.target;
+      setValues({
+        ...values, //make shallow copies of current states in object
+        [name]: value, //replacing current values with newly changed values
+      });
+      console.log(name, value);
     }
   };
-
 
   //handling changes
   const handleChange = (event) => {
@@ -111,75 +113,88 @@ function RegisterContainer() {
   //handling submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
     setServerError({});
+    setErrors(validateLogin(values));
+    // setIsSubmitting(true);
+
     const formData = new FormData();
     formData.append("image", image.imageDisplay);
     const { username, firstname, lastname, email, password } = values;
-    const body = { username, firstname, lastname, email, password };
+    // const body = { username, firstname, lastname, email, password };
     formData.append("username", username);
     formData.append("firstname", firstname);
     formData.append("lastname", lastname);
     formData.append("email", email);
     formData.append("password", password);
-    console.log(image);
+    // console.log(image);
+
     const url = "http://localhost:4000/register";
     // const url = `${process.env.REACT_APP_API_SERVER}/register`;
-    async function postRegister() {
-      try {
-        // const response = await Axios.post("url", JSON.stringify(body), {
-        //   headers: { "Content-Type": "application/json" },
-        // });
-        const response = await fetch(url, {
-          method: "POST",
-          // headers: { "Content-Type": "multipart/form-data" },
-          // body: JSON.stringify(body),
-          body: formData,
-        });
-        const result = await response.json();
-        console.log(result.userNameRepeated);
-        if (result.userNameRepeated === true) {
-          // console.log(result.userNameRepeated)
-          setServerError({
-            username: "username is already taken, please choose a new one.",
-          });
-        } else {
-          setServerError({ username: "" });
-        }
-        // console.log(values);
-      } catch (e) {
-        console.error(e.message);
-      }
+    const response = await fetch(url, {
+      method: "POST",
+      // headers: { "Content-Type": "multipart/form-data" },
+      // body: JSON.stringify(body),
+      body: formData,
+    });
+    const result = await response.json();
+    console.log(result.userNameRepeated);
+    if (result.userNameRepeated === true) {
+      // console.log(result.userNameRepeated)
+      setServerError({
+        username: "username is already taken, please choose a new one.",
+      });
+    } else {
+      setServerError({ username: "" });
+      setIsSubmitting(true);
     }
-
-    postRegister();
-    setErrors(validateLogin(values));
+    // postRegister();
     // console.log(isSubmitted)
+    // console.log(test);
     // console.log(serverError);
+    // console.log(errors);
     // console.log(Object.keys(errors).length);
+    // if (
+    //   Object.keys(errors).length === 0 &&
+    //   Object.keys(serverError).length === 0
+    // ) {
+    //   setIsSubmitted(true);
+    // }
+    //if no errors at this stage, can redirect to /login?
   };
 
-  //if there are no errors, go ahead to submit
-  useEffect(() => {
-    if (
-      Object.keys(errors).length === 0 &&
-      Object.keys(serverError).length === 0 &&
-      isSubmitting
-    ) {
-      setIsSubmitted(true);
-    }
-    // console.log(isSubmitted)
-    // console.log(serverError);
-    // console.log(errors, serverError)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [errors, serverError]);
+  // //if there are no errors, go ahead to submit
+  // useEffect(() => {
+  //   console.log(`render the page`);
+  //   // console.log(isSubmitted)
+  //   console.log(errors);
+  //   console.log(serverError);
+  //   if (
+  //     Object.keys(errors).length === 0 &&
+  //     Object.keys(serverError).length === 0 &&
+  //     isSubmitting
+  //   ) {
+  //     setIsSubmitted(true);
+  //     // window.location = "/login"
+  //   }
+  //   // setTimeout(() => {
+  //   //   if (
+  //   //     Object.keys(errors).length === 0 &&
+  //   //     Object.keys(serverError).length === 0 &&
+  //   //     isSubmitting
+  //   //   ) {
+  //   //     setIsSubmitted(true);
+  //   //   }
+  //   // }, 2000);
+
+  //   // console.log(errors, serverError)
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [errors, serverError]);
 
   /**
    * Styling */
   const useStyles = makeStyles((theme) => ({
     paper: {
       fontFamily: 'Roboto',
-      marginTop: '12vh',
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
@@ -245,9 +260,11 @@ function RegisterContainer() {
 
   return (
     <>
-      {isSubmitted ? (
-        <Redirect to="/login" /> 
-      ) : (
+       {Object.keys(errors).length === 0 &&
+        // Object.keys(serverError).length === 0 &&
+        isSubmitting ? (
+          <Redirect to="/login" />
+        ) : (
         <Grid container direction="row" justify="center" alignItems="center" maxWidth="xs"
         style={{backgroundColor: '#333'}}
         >
@@ -406,35 +423,43 @@ function RegisterContainer() {
                 ) : (
                   ""
                 )}
+
                 </Grid>
 
                 <div>
                   <label htmlFor="upload-button">
                     {image.preview ? (
+                      <div style={{ display: "flex" }}>
                       <img
-                        src={image.preview}
-                        alt="dummy"
-                        width="300"
-                        height="300"
+                      src={image.preview}
+                      alt="dummy"
+                      width="200"
+                      height="200"
                       />
-                    ) : (
-                      <>
-                        <div style={{ display: "flex" }}>
+                      </div>
+                        ) : (
+                          <>
                           <h5 className = {classes.uploadField}>
                             Press here to upload your photo
                           <PublishIcon />
                           </h5>
-                        </div>
-                      </>
+                          </>
                     )}
                   </label>
-                  <input
-                    type="file"
-                    id="upload-button"
-                    style={{ display: "none" }}
-                    onChange={handleImage}
-                    name="image"
-                  />
+                  <TextField
+                  placeholder="image"
+                  name="image"
+                  type="file"
+                  value={values.image}
+                  onChange={handleImage}
+                  id="upload-button"
+                  style={{ display: "none" }}
+                />
+                 {errors.image ? (
+                  <FormHelperText className ={classes.helpTextField}>{errors.image}</FormHelperText>
+                ) : (
+                  ""
+                )}
                   <br />
                 </div>
                 <Button
