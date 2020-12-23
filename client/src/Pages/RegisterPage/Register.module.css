@@ -3,11 +3,6 @@ body {
   overflow: auto;
 }
 
-.registerH1Container{
-  color: #fff;
-  width: '15vw';
-  margin: '1vh 0 0 0';
-}
 .registerButton{
   padding-top: 10vh;
 }

@@ -7,11 +7,10 @@ function ChatInput({message, setMessage, sendMessage }) {
         <div className="chatInput">
             <form>
                 <input
-
                   placeholder="Type your message..."  
                   value={message}
                   onChange={(e)=> setMessage(e.target.value)} ></input>
-                <button type="submit" onClick={ sendMessage} ></button>
+                <button type="submit" onClick={sendMessage} ></button>
             </form>
             
         </div>

@@ -23,12 +23,14 @@ module.exports = function (io) {
     let USER = [];
     let ROOM = [];
     let ID = [];
+    let IMG = [];
 
     socket.on("join", ({ userid, room }, callback) => {
       console.log("join triggered");
       findUserName(userid, (result) => {
-        let userName = result;
-        //  console.log('chatroomjs', room)
+        let userName = result.name;
+        let imageurl = result.imgurl;
+         
         const { exist, user } = addUser({
           id: socket.id,
           name: userName,
@@ -41,7 +43,7 @@ module.exports = function (io) {
         USER.push(userName);
         ROOM.push(room);
         ID.push(socket.id);
-
+        IMG.push(imageurl)
         let welcomeMsg = [
           {
             userName: "admin",
@@ -62,8 +64,14 @@ module.exports = function (io) {
           },
         ];
         if (!exist) {
-          findAdminId((adminId) => {
-            writeToDatabase(room, adminId, `${userName}, has joined! `);
+          
+          findAdminId((result) => {
+            
+            let adminId = result.id;
+            let adminImg = result.imgurl.toString();
+
+           
+            writeToDatabase(room, adminId, adminImg, `${userName}, has joined! `);
           });
         }
 
@@ -93,9 +101,9 @@ module.exports = function (io) {
 
     socket.on("sendMessage", (message, callback) => {
       const user = getUser(socket.id);
-      // console.log( 'after getUser', user);
-      // console.log(message)
-      writeToDatabase(message.roomId, message.userId, message.message);
+      // console.log('sendmessage what is IMG', typeof IMG[0])
+      
+      writeToDatabase(message.roomId, message.userId, IMG[0], message.message);
 
       // io.to(user.room).emit('message', {userName: user.name, message: message, timestamp: readableTime, userImage: 'https://picsum.photos/200'})
 
@@ -112,8 +120,10 @@ module.exports = function (io) {
     socket.on("removeUser", () => {
       console.log("disconnect triggered");
       const user = removeUser(ID[0]);
-      findAdminId((adminId) => {
-        writeToDatabase(ROOM[0], adminId, `${USER[0]}, has left. `);
+      findAdminId((result) => {
+          let adminId = result.id;
+          let adminImg = result.imgurl.toString();
+        writeToDatabase(ROOM[0], adminId, adminImg, `${USER[0]}, has left. `);
       });
       console.log(user);
 

@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   logoMargin:{
     height: '10rem',
     width: '10rem ',
-    margin: '70% 0 0 0'
+    margin: '50% 0 0 0'
   },
 
   /**welcome title */
@@ -34,14 +34,14 @@ const useStyles = makeStyles((theme) => ({
   
   usernameTitle: {
     margin: '8% 0 0 12%',
-    fontSize: '5vw',
+    fontSize: '3vw',
     fontWeight: '600',
     letterSpacing: '0.2vw',
     color: '#000',
   },
   
   welcomeTitle: {
-    margin: '0 0 5% 15%',
+    margin: '0 0 5% 12%',
     letterSpacing: '0.2vw',
     fontSize: '2vw',
     color: '#000',
