@@ -8,7 +8,6 @@ import {
   Switch,
   Route,
   // Redirect,
-  HashRouter,
 } from "react-router-dom";
 import DashboardNavbar from "./DashboardComponent/DashboardNavbar";
 // import DashboardAddSocial from "./DashboardComponent/DashboardAddSocial";

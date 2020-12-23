@@ -6,7 +6,10 @@ import Grid from "@material-ui/core/Grid";
 import { FormHelperText } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
 import PublishIcon from "@material-ui/icons/Publish";
-import Axios from "axios";
+import { makeStyles } from "@material-ui/core/styles";
+import Avatar from "@material-ui/core/Avatar";
+import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
+import CreactLogo from '../../images/creactWhite.png';
 
 function RegisterContainer() {
   /**
@@ -40,6 +43,7 @@ function RegisterContainer() {
     imageDisplay: "",
   });
 
+  
   /**validating login*/
   const validateLogin = (values) => {
     let errors = {};
@@ -72,9 +76,6 @@ function RegisterContainer() {
       errors.password = "Password needs to be more than 8 characters";
     }
 
-    if (!values.image) {
-      errors.image = "User Icon is required";
-    }
 
     return errors;
   };
@@ -189,112 +190,263 @@ function RegisterContainer() {
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [errors, serverError]);
 
+  /**
+   * Styling */
+  const useStyles = makeStyles((theme) => ({
+    paper: {
+      fontFamily: 'Roboto',
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+    },
+
+    /**creactLogo */
+    creactLogo:{
+    width: '10rem',
+    height: '6rem',
+    },
+
+    avatar: {
+      margin: '0 3vw 1vh 4vw',
+      backgroundColor: '#048A81',
+    },
+    /**Form label text */
+    formLabelText: {
+      color: '#fff',
+    },
+
+    formLabelText2:{
+      color: '#fff',
+    },
+
+    /** TextField*/ 
+    textField: {
+      color: '#fff',
+      fontSize: '1.3rem'
+    },
+    
+    /**helper text */
+    helpTextField:{
+      color: '#fff',
+      fontSize: '1rem',
+    },
+
+    form: {
+      width: "100%", // Fix IE 11 issue.
+    },
+
+    submit: {
+      margin: theme.spacing(3, 0, 2),
+    },
+    customButton: {
+      background: '#f8f9fa',
+      '&:hover':{
+        color: '#f8f9fa',
+        background: '#343a40',
+      },
+    },
+
+    /**Upload button */
+    uploadField: {
+      margin:'1.5vh 0 1vh 0 ',
+      padding: '0 0 0 1rem',
+      color: '#fff'
+    },
+
+
+  }));
+
+  const classes = useStyles();
+
   return (
     <>
-      {Object.keys(errors).length === 0 &&
-      // Object.keys(serverError).length === 0 &&
-      isSubmitting ? (
-        <Redirect to="/login" />
-      ) : (
-        <Grid container direction="column" justify="center" alignItems="center">
-          <h1 className={RegisterCss.registerH1Container}>
-            Register in Creact!
-          </h1>
-          <form onSubmit={handleSubmit} noValidate>
-            <Grid
-              container
-              direction="column"
-              justify="center"
-              alignItems="center"
-            >
-              <TextField
-                placeholder="Enter your user name"
-                name="username"
-                type="text"
-                value={values.username}
-                onChange={handleChange}
-              />
-              {errors.username ? (
-                <FormHelperText>{errors.username}</FormHelperText>
-              ) : (
-                ""
-              )}
-              {serverError.username ? (
-                <FormHelperText>{serverError.username}</FormHelperText>
-              ) : (
-                ""
-              )}
+       {Object.keys(errors).length === 0 &&
+        // Object.keys(serverError).length === 0 &&
+        isSubmitting ? (
+          <Redirect to="/login" />
+        ) : (
+        <Grid container direction="row" justify="center" alignItems="center" maxWidth="xs"
+        style={{backgroundColor: '#333'}}
+        >
+            <div className={classes.paper}>
+            <Grid container direction='row' justify='center'>
+                <Grid item md ={6}>
+                  <img className = {classes.creactLogo} src={CreactLogo}></img>
+                </Grid>
+                <Grid container item direction='column' xs={6}>
+                <Avatar className={classes.avatar}>
+                  <MeetingRoomIcon />
+                </Avatar>
+                <h1 className={RegisterCss.registerH1Container}>
+                  Register in Creact!
+                </h1>
+              </Grid>
+            </Grid>
 
-              <TextField
-                placeholder="firstname"
-                name="firstname"
-                type="text"
-                value={values.firstname}
-                onChange={handleChange}
-              />
-              {errors.firstname ? (
-                <FormHelperText>{errors.firstname}</FormHelperText>
-              ) : (
-                ""
-              )}
+            <Grid Container>
+            </Grid>
+            <form className={classes.form} onSubmit={handleSubmit} noValidate>
+              <Grid
+                container
+                direction="column"
+                justify="center"
+                alignItems="center"
+              >
+                <Grid Container direction='row' justify='flex-end'>
+                    {/* <FormLabel className = {classes.formLabelText}>Username</FormLabel> */}
+                    <Grid item>
+                      <TextField
+                        placeholder="Enter your user name"
+                        required
+                        variant="outlined"
+                        margin="normal"
+                        inputLabelProps={{
+                          className: classes.textField,
+                        }}
+                        inputProps={{
+                          className: classes.textField,
+                        }}
+                        name="username"
+                        type="text"
+                        value={values.username}
+                        onChange={handleChange}
+                      />
+                    </Grid>
+                {errors.username ? (
+                  <Grid item ><FormHelperText className ={classes.helpTextField}>{errors.username}</FormHelperText></Grid>
+                ) : (
+                  ""
+                )}
+                {serverError.username ? (
+                  <FormHelperText className ={classes.helpTextField}>{serverError.username}</FormHelperText>
+                ) : (
+                  ""
+                )}
+                </Grid>
 
-              <TextField
-                placeholder="lastname"
-                name="lastname"
-                type="text"
-                value={values.lastname}
-                onChange={handleChange}
-              />
-              {errors.lastname ? (
-                <FormHelperText>{errors.lastname}</FormHelperText>
-              ) : (
-                ""
-              )}
 
-              <TextField
-                placeholder="email"
-                name="email"
-                type="email"
-                value={values.email}
-                onChange={handleChange}
-              />
-              {errors.email ? (
-                <FormHelperText>{errors.email}</FormHelperText>
-              ) : (
-                ""
-              )}
+                <Grid Container direction='row'>
+                  {/* <FormLabel className = {classes.formLabelText}>firstname</FormLabel> */}
+                <TextField
+                  placeholder="firstname"
+                  variant="outlined"
+                  margin="normal"
+                  inputLabelProps={{
+                    className: classes.textField,
+                  }}
+                  inputProps={{
+                    className: classes.textField,
+                  }}
+                  required
+                  name="firstname"
+                  type="text"
+                  value={values.firstname}
+                  onChange={handleChange}
+                />
+                {errors.firstname ? (
+                  <FormHelperText className ={classes.helpTextField}>{errors.firstname}</FormHelperText>
+                ) : (
+                  ""
+                )}
+              </Grid> 
 
-              <TextField
-                placeholder="password"
-                name="password"
-                type="password"
-                value={values.password}
-                onChange={handleChange}
-              />
-              {errors.password ? (
-                <FormHelperText>{errors.password}</FormHelperText>
-              ) : (
-                ""
-              )}
-              <div>
-                <label htmlFor="upload-button">
-                  {image.preview ? (
-                    <img
+                <Grid Container direction='row'>
+                  {/* <FormLabel className = {classes.formLabelText}>lastname</FormLabel> */}
+                <TextField
+                  placeholder="lastname"
+                  variant="outlined"
+                  margin="normal"
+                  inputLabelProps={{
+                    className: classes.textField,
+                  }}
+                  inputProps={{
+                    className: classes.textField,
+                  }}
+                  required
+                  name="lastname"
+                  type="text"
+                  value={values.lastname}
+                  onChange={handleChange}
+                />
+                {errors.lastname ? (
+                  <FormHelperText className ={classes.helpTextField}>{errors.lastname}</FormHelperText>
+                ) : (
+                  ""
+                )}
+              </Grid>
+
+              <Grid Container direction='row'>
+                  {/* <FormLabel className = {classes.formLabelText2}>email</FormLabel> */}
+                <TextField
+                  placeholder="email"
+                  variant="outlined"
+                  margin="normal"
+                  inputLabelProps={{
+                    className: classes.textField,
+                  }}
+                  inputProps={{
+                    className: classes.textField,
+                  }}
+                  required
+                  name="email"
+                  type="email"
+                  value={values.email}
+                  onChange={handleChange}
+                />
+                {errors.email ? (
+                  <FormHelperText className ={classes.helpTextField}>{errors.email}</FormHelperText>
+                ) : (
+                  ""
+                )}
+                </Grid>
+
+                <Grid Container direction='row'>
+                  {/* <FormLabel className = {classes.formLabelText}>password</FormLabel> */}
+                <TextField
+                  placeholder="password"
+                  variant="outlined"
+                  margin="normal"
+                  inputLabelProps={{
+                    className: classes.textField,
+                  }}
+                  inputProps={{
+                    className: classes.textField,
+                  }}
+                  required
+                  name="password"
+                  type="password"
+                  value={values.password}
+                  onChange={handleChange}
+                />
+                {errors.password ? (
+                  <FormHelperText className ={classes.helpTextField}>{errors.password}</FormHelperText>
+                ) : (
+                  ""
+                )}
+
+                </Grid>
+
+                <div>
+                  <label htmlFor="upload-button">
+                    {image.preview ? (
+                      <div style={{ display: "flex" }}>
+                      <img
                       src={image.preview}
                       alt="dummy"
-                      width="300"
-                      height="300"
-                    />
-                  ) : (
-                    <>
-                      <div style={{ display: "flex" }}>
-                        <h5 className="text-center">Upload your photo</h5>
-                        <PublishIcon />
+                      width="200"
+                      height="200"
+                      />
                       </div>
-                    </>
-                  )}
-                </label>
-                <TextField
+                        ) : (
+                          <>
+                          <h5 className = {classes.uploadField}>
+                            Press here to upload your photo
+                          <PublishIcon />
+                          </h5>
+                          </>
+                    )}
+                  </label>
+                  <TextField
                   placeholder="image"
                   name="image"
                   type="file"
@@ -303,31 +455,25 @@ function RegisterContainer() {
                   id="upload-button"
                   style={{ display: "none" }}
                 />
-                {/* <input
-                  type="file"
-                  id="upload-button"
-                  style={{ display: "none" }}
-                  onChange={handleImage}
-                  name="image"
-                  value={values.image}
-                /> */}
-                {errors.image ? (
-                  <FormHelperText>{errors.image}</FormHelperText>
+                 {errors.image ? (
+                  <FormHelperText className ={classes.helpTextField}>{errors.image}</FormHelperText>
                 ) : (
                   ""
                 )}
-                <br />
-                {/* <button onClick={handleUpload}>Upload</button> */}
-              </div>
-              <Button
-                variant="outlined"
-                type="submit"
-                onClick={() => setIsSubmitted(false)}
-              >
-                Sign up
-              </Button>
-            </Grid>
-          </form>
+                  <br />
+                </div>
+                <Button
+                  className = {classes.customButton} 
+                  variant="outlined"
+                  type="submit"
+                  fullWidth
+                  onClick={() => setIsSubmitted(false)}
+                >
+                  Sign up
+                </Button>
+              </Grid>
+            </form>
+            </div>
         </Grid>
       )}
     </>

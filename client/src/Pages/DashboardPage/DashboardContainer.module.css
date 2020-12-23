@@ -11,4 +11,10 @@
   overflow: auto;
   max-height: 100%;
   overflow-x: hidden;
+  margin: '0 0 0 10vw'
+}
+
+/* Feature sidebar */
+.brandBar{
+ padding: 3rem ;
 }
