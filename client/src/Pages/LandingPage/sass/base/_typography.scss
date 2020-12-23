@@ -31,6 +31,7 @@ body {
 
     &-sub {
         display: block;
+        padding-top: 10px;
         font-size: 20px;
         font-weight: 400;
         letter-spacing: 12.1px;
@@ -40,13 +41,11 @@ body {
 
     
     }
-
-
 }
 
 
 .heading-secondary {
-    font-size: 3.5rem;
+    font-size: 2.17rem;
     text-transform: uppercase;
     font-weight: 700;
     display: inline-block;
@@ -63,22 +62,22 @@ body {
 }
 
 .heading-tertiary {
-    font-size: 5.7rem ;
+    font-size: 3rem ;
     font-weight: 700;
     
 }
 
 .heading-fourth {
-    font-size: 2.3rem;
+    font-size: 1.5rem;
     font-weight: 700;
     text-transform: uppercase;
 }
 
 .paragraph {
-    font-size: 1.778rem;
+    font-size: 1.13rem;
 
 
     &:not(:last-child) {
-        margin-bottom: 3rem;
+        margin-bottom: 1.9rem;
     }
 }
