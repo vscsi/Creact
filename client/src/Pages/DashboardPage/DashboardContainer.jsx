@@ -6,6 +6,7 @@ import {
   // Switch,
   Route,
   // useParams,
+  HashRouter
 } from "react-router-dom";
 import DashboardNavbar from "./DashboardComponent/DashboardNavbar";
 import ChatroomContainer from "./DashboardFeatures/ChatroomPage/ChatroomContainer";
@@ -236,7 +237,7 @@ function DashboardContainer() {
             {/* <Route path="/profile/find" component={DashboardAddSocial} /> */}
             <Route
               path="/profile/create"
-              render={() => {
+              render={(props) => {
                 setCurrentWorkspace("");
                 return <DashboardCreateWorkspace />;
               }}
@@ -244,7 +245,7 @@ function DashboardContainer() {
             />
             <Route
               path="/profile/search"
-              render={() => (
+              render={(props) => (
                 <DashboardSearchWorkspace allWorkspaces={allWorkspaces} />
               )}
             />
@@ -253,7 +254,7 @@ function DashboardContainer() {
             <Route
               path={`/workspace/:${currentWorkspace}/chat`}
               // render ={()=>{
-              //   <ChatroomContainer/>
+              //   <Chat roomContainer/>
               // }}
               component={ChatroomContainer}
             />
