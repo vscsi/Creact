@@ -6,7 +6,7 @@ import {
   // Switch,
   Route,
   // useParams,
-  HashRouter
+  HashRouter,
 } from "react-router-dom";
 import DashboardNavbar from "./DashboardComponent/DashboardNavbar";
 import ChatroomContainer from "./DashboardFeatures/ChatroomPage/ChatroomContainer";
@@ -190,6 +190,19 @@ function DashboardContainer() {
       console.error(error.message);
     }
   };
+
+  // const checkCurrentUrl = () => {
+  //   const path = window.location.pathname;
+  //   // console.log(`url is below`);
+  //   // console.log(path);
+  //   // eslint-disable-next-line
+  //   // const regex = /\/profile\/([^\/]+)/;
+  //   // const regex = /\/profile\//;
+  //   // const result = path.match(regex);
+  //   console.log(`in checkCurrentUrl func`);
+  //   console.log(path);
+  // };
+
   // const checkLocation =
   useEffect(() => {
     getUserWorkspaces();
@@ -197,6 +210,7 @@ function DashboardContainer() {
     getCurrentWorkspace();
     getAllWorkspaces();
     postLogout();
+    // checkCurrentUrl();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -216,12 +230,15 @@ function DashboardContainer() {
             currClickWorkspace={currentWorkspace}
             userImg={userImg}
           />
-          <DashboardFeatureSidebar
-            currentWorkspace={currentWorkspace}
-            userId={userId}
-            chatroomId={chatroomId}
-            location={location}
-          />
+          {currentWorkspace !== "" && (
+            <DashboardFeatureSidebar
+              currentWorkspace={currentWorkspace}
+              userId={userId}
+              chatroomId={chatroomId}
+              location={location}
+            />
+          )}
+
           <Grid
             Container
             direction="row"

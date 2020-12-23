@@ -72,9 +72,9 @@ function RegisterContainer() {
       errors.password = "Password needs to be more than 8 characters";
     }
 
-    if (!values.image) {
-      errors.image = "User Icon is required";
-    }
+    // if (!values.image) {
+    //   errors.image = "User Icon is required";
+    // }
 
     return errors;
   };
@@ -311,11 +311,11 @@ function RegisterContainer() {
                   name="image"
                   value={values.image}
                 /> */}
-                {errors.image ? (
+                {/* {errors.image ? (
                   <FormHelperText>{errors.image}</FormHelperText>
                 ) : (
                   ""
-                )}
+                )} */}
                 <br />
                 {/* <button onClick={handleUpload}>Upload</button> */}
               </div>
