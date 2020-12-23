@@ -253,85 +253,16 @@ function DashboardContainer() {
                 justify="space-around"
                 direction="column"
                 className={`${DashboardContainerCss.gridFeatureMain}`}
-                 >
-                 {/* <div className = {DashboardSidebarCss.sidebarHeight}> */}
-                 {currentWorkspace !== "" && (
-                    <DashboardFeatureSidebar
-                      currentWorkspace={currentWorkspace}
-                      userId={userId}
-                      chatroomId={chatroomId}
-                      location={location}
-                    />
-                  )}
-                  {/* </div> */}
-                </Grid>
-
-                {/* Grid 7 */}
-                <Grid item xs ={10}>
-                  {/* <Switch> */}
-                  {/* for profile route */}
-                  <Route exact path="/profile" component={DashboardProfileHome} />
-                  {/* <Route path="/profile/find" component={DashboardAddSocial} /> */}
-                  <Route
-                    path="/profile/create"
-                    render={() => {
-                      setCurrentWorkspace("");
-                      return <DashboardCreateWorkspace />;
-                    }}
-                    // component={DashboardCreateWorkspace}
-                  />
-                  <Route
-                  path="/profile/search"
-                  render={() => {
-                    setCurrentWorkspace("");
-                    return <DashboardSearchWorkspace allWorkspaces={allWorkspaces} />;
-                  }}
-                />
-                  
-                  {/* </Route> */}
-                  {/* for workspace route */}
-                  <Route
-                    path={`/workspace/:${currentWorkspace}/chat`}
-                    // render ={()=>{
-                    //   <ChatroomContainer/>
-                    // }}
-                    component={ChatroomContainer}
-                  />
-                  <Route
-                    path={`/workspace/:${currentWorkspace}/docs`}
-                    component={CollabNoteContainer}
-                  />
-                  <Route
-                    path={`/workspace/:${currentWorkspace}/dropbox`}
-                    component={DropboxContainer}
-                  />
-                  <Route
-                    path={`/workspace/:${currentWorkspace}/tasks`}
-                    render={(props) => (
-                      <CollabTaskContainer
-                        {...props}
-                        isAdmin={isAdmin}
-                        users={users}
-                        name={userName}
-                        firstEmptyUsers={firstEmptyUsers}
-                      />
-                    )}
-                  ></Route>
-                  <Route
-                    path={`/workspace/:${currentWorkspace}/calender`}
-                    component={CalenderContainer}
-                  />
-                  <Route
-                    path={`/workspace/:${currentWorkspace}/whiteboard`}
-                    component={WhiteboardContainer}
-                  />
-                  <VideoContainer
+              >
+                {/* <div className = {DashboardSidebarCss.sidebarHeight}> */}
+                {currentWorkspace !== "" && (
+                  <DashboardFeatureSidebar
                     currentWorkspace={currentWorkspace}
                     userId={userId}
                     chatroomId={chatroomId}
                     location={location}
                   />
-                )
+                )}
                 {/* </div> */}
               </Grid>
 
