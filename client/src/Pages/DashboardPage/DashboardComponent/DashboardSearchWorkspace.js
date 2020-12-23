@@ -1,5 +1,4 @@
 import React from "react";
-//eslint-disable-next-line
 import styles from "./DashboardSearchWorkspace.module.css";
 import { makeStyles } from "@material-ui/core/styles";
 import Axios from "axios";
@@ -47,8 +46,8 @@ const DashboardSearchWorkspace = (props) => {
   const handleJoin = (workspaceName) => {
     try {
       Axios.post(
-        "http://localhost:4000/workspace/join",
-        // `${process.env.REACT_APP_API_SERVER}/workspace/join`,
+        // "http://localhost:4000/workspace/join",
+        `${process.env.REACT_APP_API_SERVER}/workspace/join`,
         {
           workspaceName: workspaceName,
         },
@@ -69,9 +68,10 @@ const DashboardSearchWorkspace = (props) => {
   };
   return (
     <>
+     <div className={styles.AddMargin}>
       <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <h1>Search Workspace</h1>
+        <Grid  item xs={12}>
+          <h1 >Search Workspace</h1>
         </Grid>
         {props.allWorkspaces.map((item, index) => {
           return (
@@ -110,6 +110,7 @@ const DashboardSearchWorkspace = (props) => {
           );
         })}
       </Grid>
+     </div>
     </>
   );
 };

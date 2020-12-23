@@ -6,3 +6,7 @@
 .eachWorkspace{
     border: 1px solid black;
 }
+
+.AddMargin{
+    margin-left: 4vw;
+}

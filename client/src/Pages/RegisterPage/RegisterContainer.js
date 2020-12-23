@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import RegisterCss from "./Register.module.css";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -6,6 +6,8 @@ import Grid from "@material-ui/core/Grid";
 import { FormHelperText } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
 import PublishIcon from "@material-ui/icons/Publish";
+//eslint-disable-next-line
+import Axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
@@ -35,6 +37,7 @@ function RegisterContainer() {
    */
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  //eslint-disable-next-line
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const [image, setImage] = useState({
@@ -61,8 +64,8 @@ function RegisterContainer() {
     if (!values.email) {
       errors.email = "Email is required";
 
-      // eslint-disable-next-line
     } else if (
+      //eslint-disable-next-line
       !/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
         values.email
       )
@@ -96,7 +99,7 @@ function RegisterContainer() {
         ...values, //make shallow copies of current states in object
         [name]: value, //replacing current values with newly changed values
       });
-      console.log(name, value);
+      // console.log(name, value);
     }
   };
 
@@ -128,8 +131,8 @@ function RegisterContainer() {
     formData.append("password", password);
     // console.log(image);
 
-    const url = "http://localhost:4000/register";
-    // const url = `${process.env.REACT_APP_API_SERVER}/register`;
+    // const url = "http://localhost:4000/register";
+    const url = `${process.env.REACT_APP_API_SERVER}/register`;
     const response = await fetch(url, {
       method: "POST",
       // headers: { "Content-Type": "multipart/form-data" },
@@ -137,7 +140,7 @@ function RegisterContainer() {
       body: formData,
     });
     const result = await response.json();
-    console.log(result.userNameRepeated);
+    // console.log(result.userNameRepeated);
     if (result.userNameRepeated === true) {
       // console.log(result.userNameRepeated)
       setServerError({
@@ -277,6 +280,7 @@ function RegisterContainer() {
             <div className={classes.paper}>
             <Grid container direction='row' justify='center'>
                 <Grid item md ={6}>
+                  {/* eslint-disable-next-line */}
                   <img className = {classes.creactLogo} src={CreactLogo}></img>
                 </Grid>
                 <Grid container item direction='column' xs={6}>

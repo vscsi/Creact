@@ -28,8 +28,8 @@ const VideoConferenceRoom = ({currentWorkspace, handleClick}) => {
         const getVideo = async()=>{
             const body = {currentWorkspace};
                 try{
-                    const getVideoInfo = await fetch(`http://localhost:4000/workspace/${currentWorkspace}/video/rooms`,{
-                    // const getVideoInfo = await fetch(`${process.env.REACT_APP_API_SERVER}/workspace/${currentWorkspace}/video/rooms`,{
+                    // const getVideoInfo = await fetch(`http://localhost:4000/workspace/${currentWorkspace}/video/rooms`,{
+                    const getVideoInfo = await fetch(`${process.env.REACT_APP_API_SERVER}/workspace/${currentWorkspace}/video/rooms`,{
                         method:"POST",
                         headers: {
                             "Content-Type":"application/json",
@@ -86,113 +86,88 @@ const VideoConferenceRoom = ({currentWorkspace, handleClick}) => {
     }));
     const classes = useStyles();
 
-    return currentVideoRoom&&currentVideoRoom.length>1?(
-    <>
-         <Typography
-         variant='h3'
-         className = {`${classes.typographyMargin}`} 
-         >
-             Join the video meetings happening in this workspace!
-        </Typography>
-        <Grid
-        container
-        direction='row'
-        spacing = {2}
-        >
-            <TableContainer
-            className = {`${classes.tableContainer}`}
-            component={Paper}
+    return (
+        <>
+             <Typography
+             variant='h3'
+             className = {`${classes.typographyMargin}`} 
+             >
+            Join the video meetings happening in this workspace!
+            </Typography>
+            <Grid
+            container
+            direction='row'
+            spacing = {2}
             >
-                        <TableHead
-                        >
-                            <TableCell
-                            className = {`${classes.tableHeader}`}
+                <TableContainer
+                className = {`${classes.tableContainer}`}
+                component={Paper}
+                >
+                            <TableHead
                             >
-                                Room number
-                            </TableCell>
-                            <TableCell
-                            className = {`${classes.tableHeader}`}
-                            >
-                                Room name
-                            </TableCell>
-                            <TableCell
-                            className = {`${classes.tableHeader}`}
-                            >
-                                Room password(use this password to join the meeting!)
-                            </TableCell>
-                            <TableCell
-                            className = {`${classes.tableHeader}`}
-                            >
-                                Room Url
-                            </TableCell>
-                            <TableCell
-                            className = {`${classes.tableHeader}`}
-                            >
-                                Join now
-                            </TableCell>
-                        
-                        </TableHead>
-                {currentVideoRoom.map((item) => (
-                    <TableRow>
-                            
                                 <TableCell
+                                className = {`${classes.tableHeader}`}
                                 >
-                                {item.id}
+                                    Room number
                                 </TableCell>
-                            <TableCell>
-                                <Typography>
-                                {item.video_room_name}
-                                </Typography>
-                            </TableCell>
-                            <TableCell>
-                            {item.video_room_pw}
-                            </TableCell>
-                            <TableCell>
-                             {item.video_room_url}
-                            </TableCell>
-                            <TableCell>
-                            <Button 
-                            variant="contained"
-                            className= {classes.customButton}
-                            onClick={()=>handleConferenceClick({item})}>
-                            <Link to ={`/workspace/${currentWorkspace}/video/rooms/join`}>
-                            {/* <Link to ={item.video_room_url} target ='_blank'> */}
-                                Join meeting
-                            </Link>
-                            </Button>
-                            </TableCell>
-                        </TableRow>
-
-                ))}
-            </TableContainer>
-        </Grid>
-     </>
-):(
-                <h1>No video meetings now.</h1>
-)
-/**comments */
-//eslint-disable-next-line
-             {/*
-                // <Grid 
-                // item
-                // md = {6}
-                // >
-                <Card
-                    className = {`${classes.cardLayout}`}
-                    >
-                        
-                    <Typography>Room {item.id}</Typography>
-                    <Typography>Room name: {item.video_room_name}</Typography>
-                    <Typography>Room password(use this password to join the meeting!) : {item.video_room_pw}</Typography>
-                    <Typography>Room url: {item.video_room_url}</Typography>
-                    <button onClick={()=>handleConferenceClick({item})}>
-                        <Link to ={`/workspace/${currentWorkspace}/video/rooms/join`}>
-                            Join meeting
-                        </Link>
-                    </button>
-                     </Card> 
-                    </Grid>
-                    */}
-};
+                                <TableCell
+                                className = {`${classes.tableHeader}`}
+                                >
+                                    Room name
+                                </TableCell>
+                                <TableCell
+                                className = {`${classes.tableHeader}`}
+                                >
+                                    Room password(use this password to join the meeting!)
+                                </TableCell>
+                                <TableCell
+                                className = {`${classes.tableHeader}`}
+                                >
+                                    Room Url
+                                </TableCell>
+                                <TableCell
+                                className = {`${classes.tableHeader}`}
+                                >
+                                    Join now
+                                </TableCell>
+                            
+                            </TableHead>
+                    {currentVideoRoom.map((item) => (
+                        <TableRow>
+                                    <TableCell
+                                    >
+                                    {item.id}
+                                    </TableCell>
+                                <TableCell>
+                                    <Typography>
+                                    {item.video_room_name}
+                                    </Typography>
+                                </TableCell>
+                                <TableCell>
+                                {item.video_room_pw}
+                                </TableCell>
+                                <TableCell>
+                                 {item.video_room_url}
+                                </TableCell>
+                                <TableCell>
+                                <Button 
+                                variant="contained"
+                                className= {classes.customButton}
+                                onClick={()=>handleConferenceClick({item})}>
+                                <Link to ={`/workspace/${currentWorkspace}/video/rooms/join`}>
+                                {/* <Link to ={item.video_room_url} target ='_blank'> */}
+                                    Join meeting
+                                </Link>
+                                </Button>
+                                </TableCell>
+                            </TableRow>
+     
+                    ))}
+                </TableContainer>
+            </Grid>
+         </>
+     
+    )
+}    
 
 export default VideoConferenceRoom;

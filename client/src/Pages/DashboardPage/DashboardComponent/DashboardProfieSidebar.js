@@ -30,7 +30,7 @@ function DashboardProfileSidebar(props) {
     /**overriding drawer properties */
     paper: {
       background: "#2c2e31",
-      width: 180,
+      width: "10vw"
     },
 
     /**Item icon */
@@ -85,8 +85,8 @@ function DashboardProfileSidebar(props) {
 
   const removeUser = (userName) => {
     try {
-      Axios.delete(`http://localhost:4000/checklogoutusers/${userName}`, {
-        // Axios.delete(`${process.env.REACT_APP_API_SERVER}/checklogoutusers/${userName}`, {
+      // Axios.delete(`http://localhost:4000/checklogoutusers/${userName}`, {
+        Axios.delete(`${process.env.REACT_APP_API_SERVER}/checklogoutusers/${userName}`, {
         headers: { "x-access-token": localStorage.getItem("token") },
       }).then((res) => {
         // console.log("has removed the userName in login_users");

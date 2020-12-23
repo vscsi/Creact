@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
 import { AiOutlineLogin } from "react-icons/ai";
-import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import LoginCss from './Login.module.css'
 // import {
 //   // Link as RouterLink,
 //   // Route,
@@ -19,7 +13,6 @@ import LoginCss from './Login.module.css'
 // } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import Axios from "axios";
-import { FormLabel } from "@material-ui/core";
 import CreactLogo from '../../images/creactWhite.png';
 
 
@@ -111,8 +104,8 @@ export default function SignIn() {
         username,
         password,
       };
-      const result = await fetch("http://localhost:4000/login", {
-      // const result = await fetch(`${process.env.REACT_APP_API_SERVER}/login`, {
+      // const result = await fetch("http://localhost:4000/login", {
+      const result = await fetch(`${process.env.REACT_APP_API_SERVER}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
@@ -137,8 +130,8 @@ export default function SignIn() {
 
   const checkAuth = () => {
     try {
-      Axios.get("http://localhost:4000/isUserAuth", {
-      // Axios.get(`${process.env.REACT_APP_API_SERVER}/isUserAuth`, {
+      // Axios.get("http://localhost:4000/isUserAuth", {
+      Axios.get(`${process.env.REACT_APP_API_SERVER}/isUserAuth`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -162,6 +155,7 @@ export default function SignIn() {
           <div className={classes.paper}>
             <Grid container direction='row' justify='center'>
               <Grid item xs={6}>
+              {/* eslint-disable-next-line */}
                 <img className = {classes.creactLogo} src={CreactLogo}></img>
               </Grid>
                 <Grid container item direction='column' xs={6}>

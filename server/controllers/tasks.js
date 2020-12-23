@@ -47,9 +47,7 @@ exports.postTasks = async (req, res, next) => {
         .select("*");
 
       const deadline = eachTask[0].deadline;
-      const convertDeadline = new Date(deadline).toLocaleString("zh-HK", {
-        timeZone: "UTC",
-      });
+      const convertDeadline = new Date(deadline).toLocaleString();
       console.log(`deadline is below`);
       console.log(deadline);
       console.log(convertDeadline);
@@ -208,9 +206,8 @@ exports.getUserTasks = async (req, res) => {
         workspaceName: eachWorkspaceInfo[0].workspace_name,
         title: eachTaskInfo[0].task_name,
         content: eachTaskInfo[0].task_content,
-        date: new Date(eachTaskInfo[0].deadline).toLocaleString("zh-HK", {
-          timeZone: "UTC",
-        }),
+        // date: eachTaskInfo[0].deadline,
+        date: new Date(eachTaskInfo[0].deadline).toLocaleString(),
         userName: eachUserInfo[0].username,
       };
       eachObj1 = {

@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import DashboardContainerCss from "./DashboardContainer.module.css";
-import DashboardSidebarCss from "../DashboardPage/DashboardComponent/DashboardSidebar.module.css";
+//eslint-disable-next-line
+import DashboardSidebarCss from '../DashboardPage/DashboardComponent/DashboardSidebar.module.css'
 import { Grid } from "@material-ui/core";
 import {
   BrowserRouter as Router,
   // Switch,
   Route,
   // useParams,
+  //eslint-disable-next-line
+  HashRouter
 } from "react-router-dom";
 import DashboardNavbar from "./DashboardComponent/DashboardNavbar";
 import ChatroomContainer from "./DashboardFeatures/ChatroomPage/ChatroomContainer";
@@ -52,9 +55,9 @@ function DashboardContainer() {
   const chatroomInit = (workspace) => {
     // console.log("chatroomInit receive", workspace);
     try {
-      Axios.post(
-        "http://localhost:4000/workspace/chatroominit",
-        // Axios.post(`${process.env.REACT_APP_API_SERVER}/workspace/chatroominit`,
+      // Axios.post(
+        // "http://localhost:4000/workspace/chatroominit",
+        Axios.post(`${process.env.REACT_APP_API_SERVER}/workspace/chatroominit`,
         {
           workspaceName: workspace,
         },
@@ -73,8 +76,8 @@ function DashboardContainer() {
 
   const getUserWorkspaces = () => {
     try {
-      Axios.get("http://localhost:4000/workspace/list", {
-        // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/list`, {
+      // Axios.get("http://localhost:4000/workspace/list", {
+        Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/list`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -91,8 +94,8 @@ function DashboardContainer() {
 
   const getUserInfo = () => {
     try {
-      Axios.get("http://localhost:4000/username", {
-        // Axios.get(`${process.env.REACT_APP_API_SERVER}/username`, {
+      // Axios.get("http://localhost:4000/username", {
+        Axios.get(`${process.env.REACT_APP_API_SERVER}/username`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -125,8 +128,8 @@ function DashboardContainer() {
 
   const getAllWorkspaces = () => {
     try {
-      Axios.get("http://localhost:4000/workspace/all", {
-        // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/all`, {
+      // Axios.get("http://localhost:4000/workspace/all", {
+        Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/all`, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -144,8 +147,8 @@ function DashboardContainer() {
     try {
       //1. send post request to server, query to "user_workspace" table
       Axios.post(
-        "http://localhost:4000/workspace/check",
-        // `${process.env.REACT_APP_API_SERVER}/workspace/check`,
+        // "http://localhost:4000/workspace/check",
+        `${process.env.REACT_APP_API_SERVER}/workspace/check`,
         {
           workspaceName: workspace,
         },
@@ -170,8 +173,8 @@ function DashboardContainer() {
   const postLogout = () => {
     try {
       Axios.post(
-        "http://localhost:4000/checkloginusers",
-        //  `${process.env.REACT_APP_API_SERVER}/checkloginusers`,
+        // "http://localhost:4000/checkloginusers",
+         `${process.env.REACT_APP_API_SERVER}/checkloginusers`,
         {
           userName: "",
         },

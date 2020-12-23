@@ -2,6 +2,7 @@ import React from "react";
 // import styles from "./CollabTaskList.module.css";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
+//eslint-disable-next-line
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
@@ -42,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
 export default function CollabTaskListItem(props) {
   const classes = useStyles();
 
+  //eslint-disable-next-line
   function parseISOString(s) {
     var b = s.split(/\D+/);
     return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));

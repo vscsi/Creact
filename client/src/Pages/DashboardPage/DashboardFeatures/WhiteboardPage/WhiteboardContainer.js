@@ -11,8 +11,8 @@ let socket;
 let drawData;
 
 function WhiteboardContainer(props, { location }) {
-  const ENDPOINT = "localhost:4000";
-  // const ENDPOINT = process.env.REACT_APP_API_SERVER;
+  // const ENDPOINT = "http://localhost:4000";
+  const ENDPOINT = process.env.REACT_APP_API_SERVER;
   const saveableCanvas = useRef(null);
   //eslint-disable-next-line
   const [my_socketid, setSocketId] = useState("");
