@@ -10,7 +10,7 @@ const DashboardProfileUserCalender = () => {
         headers: { "x-access-token": localStorage.getItem("token") },
       }).then((res) => {
         // console.log(res.data.allTasks);
-        setTasks(res.data.allTasks);
+        setTasks(res.data.allTasksCalender);
       });
     } catch (error) {
       console.error(error.message);
