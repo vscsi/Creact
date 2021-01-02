@@ -20,4 +20,6 @@ router.post("/workspace/join", verifyJWT, workspaceController.postJoin);
 
 router.post("/workspace/chatroominit", verifyJWT, workspaceController.chatroomInit);
 
+router.post("/workspace/checkpw", verifyJWT, workspaceController.postCheckPW);
+
 module.exports = router;

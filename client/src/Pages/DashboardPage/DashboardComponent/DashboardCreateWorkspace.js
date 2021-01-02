@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import Axios from "axios";
-import classes from "./DashboardCreateWorkspace.module.css"
+import classes from "./DashboardCreateWorkspace.module.css";
 
 const DashboardCreateWorkspace = () => {
   const [workspaceName, setWorkSpaceName] = useState("");
   const [maxppl, setMaxppl] = useState(0);
+  const [workspacePassword, setWorkSpacePassword] = useState("");
   //eslint-disable-next-line
   const [enterPage, setEnterPage] = useState(false);
   const onSubmitForm = (e) => {
@@ -19,13 +20,13 @@ const DashboardCreateWorkspace = () => {
         {
           workspaceName: workspaceName,
           maxppl: maxppl,
+          workspacePassword: workspacePassword
         },
         config
       ).then((res) => {
         // console.log(res);
       });
       window.location = "/profile";
-      
     } catch (error) {
       console.error(error.message);
     }
@@ -33,16 +34,13 @@ const DashboardCreateWorkspace = () => {
 
   return (
     <>
-      <div >
+      <div>
         <div className={classes.WsTitle}>
-          <h1 className={classes.WsTitleH1}>
-            Create a Workspace
-          </h1>
+          <h1 className={classes.WsTitleH1}>Create a Workspace</h1>
         </div>
 
         <div>
           <form method="post" onSubmit={onSubmitForm}>
-
             <div className={classes.WsName}>
               <label htmlFor="workspace_name">Workspace Name</label>
               <input
@@ -60,7 +58,7 @@ const DashboardCreateWorkspace = () => {
             <div className={classes.MaxPeople}>
               <label htmlFor="workspace_ppl_max">Maximum people</label>
               <input
-                            className={classes.MaxPeopleInput}
+                className={classes.MaxPeopleInput}
                 type="number"
                 name="workspace_ppl_max"
                 id=""
@@ -71,12 +69,24 @@ const DashboardCreateWorkspace = () => {
               />
             </div>
 
-            <div className={classes.ButtonContainer}>
-              <input 
-                hidden type="submit" value="Create" />
-              <button className={classes.CreateButton}> Create </button>
+            <div className={classes.MaxPeople}>
+              <label htmlFor="workspace_password">Password</label>
+              <input
+                className={classes.MaxPeopleInput}
+                type="password"
+                name="workspace_password"
+                id=""
+                required
+                minlength="8"
+                required
+                onChange={(e) => setWorkSpacePassword(e.target.value)}
+              />
             </div>
 
+            <div className={classes.ButtonContainer}>
+              <input hidden type="submit" value="Create" />
+              <button className={classes.CreateButton}> Create </button>
+            </div>
           </form>
         </div>
 
@@ -85,13 +95,15 @@ const DashboardCreateWorkspace = () => {
             <p> 1 𐄁 pick a name for your workspace</p>
           </div>
           <div>
-            <p> 2 𐄁 select how many people are allowed in your workspace (Max:20)</p>
+            <p>
+              {" "}
+              2 𐄁 select how many people are allowed in your workspace (Max:20)
+            </p>
           </div>
           <div>
             <p> 3 𐄁 click create!</p>
           </div>
         </div>
-
       </div>
     </>
   );

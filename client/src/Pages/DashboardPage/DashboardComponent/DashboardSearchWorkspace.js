@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 //eslint-disable-next-line
 import styles from "./DashboardSearchWorkspace.module.css";
 import { makeStyles } from "@material-ui/core/styles";
 import Axios from "axios";
 import { Grid } from "@material-ui/core";
-import Card from "@material-ui/core/Card";
+import { Card, Divider } from "@material-ui/core";
+
 //eslint-disable-next-line
 import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -14,6 +15,22 @@ import Typography from "@material-ui/core/Typography";
 import PeopleIcon from "@material-ui/icons/People";
 import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Add";
+import Modal from "@material-ui/core/Modal";
+
+function rand() {
+  return Math.round(Math.random() * 20) - 10;
+}
+
+function getModalStyle() {
+  const top = 50 + rand();
+  const left = 50 + rand();
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,12 +54,58 @@ const useStyles = makeStyles((theme) => ({
   },
   item: {
     color: "#f0efe9",
-    margin: 'auto'
+    margin: "auto",
+  },
+  paper: {
+    position: "absolute",
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid #000",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
   },
 }));
 
 const DashboardSearchWorkspace = (props) => {
+  const [open, setOpen] = useState(false);
+  const [workspacePassword, setWorkSpacePassword] = useState("");
+  const [currWP, setCurrWP] = useState("");
+  const [modalStyle] = useState(getModalStyle);
+
   const classes = useStyles();
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const onSubmitForm = (e) => {
+    e.preventDefault();
+    let config = {
+      headers: { "x-access-token": `${localStorage.getItem("token")}` },
+    };
+    try {
+      Axios.post(
+        "http://localhost:4000/workspace/checkpw",
+        // `${process.env.REACT_APP_API_SERVER}/workspace/create`,
+        {
+          workspaceName: currWP,
+          workspacePassword: workspacePassword,
+        },
+        config
+      ).then((res) => {
+        console.log(`check pw res in browser`);
+        console.log(res);
+        if (res.data.wp_password) {
+          handleJoin(currWP);
+        } else {
+          alert("Your password is wrong");
+        }
+      });
+      // window.location = "/profile";
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
 
   const handleJoin = (workspaceName) => {
     try {
@@ -98,7 +161,12 @@ const DashboardSearchWorkspace = (props) => {
                   <IconButton
                     className={classes.item}
                     onClick={() => {
-                      handleJoin(item.workspace_name);
+                      setOpen(true);
+                      setCurrWP(item.workspace_name);
+                      //if password is correct, then can join the workspace
+                      //if not, will say password is incorrect
+
+                      // handleJoin(item.workspace_name);
                     }}
                   >
                     <AddIcon />
@@ -110,6 +178,31 @@ const DashboardSearchWorkspace = (props) => {
           );
         })}
       </Grid>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        <Card>
+          <div style={modalStyle} className={classes.paper}>
+            <form method="post" onSubmit={onSubmitForm}>
+              <label htmlFor="workspace_password">Please input password</label>
+              <input
+                className={classes.MaxPeopleInput}
+                type="password"
+                name="workspace_password"
+                id=""
+                required
+                minlength="8"
+                required
+                onChange={(e) => setWorkSpacePassword(e.target.value)}
+              />
+              <input type="submit" value="Enter" />
+            </form>
+          </div>
+        </Card>
+      </Modal>
     </>
   );
 };

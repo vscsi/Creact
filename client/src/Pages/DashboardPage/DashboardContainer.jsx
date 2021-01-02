@@ -21,6 +21,7 @@ import DashboardProfileHome from "./DashboardComponent/DashboardProfileHome.js";
 import DashboardFeatureSidebar from "./DashboardComponent/DashboardFeatureSidebar";
 import DashboardProfileSidebar from "./DashboardComponent/DashboardProfieSidebar";
 import DashboardSearchWorkspace from "./DashboardComponent/DashboardSearchWorkspace";
+import DashboardWorkspaceHome from "./DashboardComponent/DashboardWorkspaceHome";
 import Axios from "axios";
 // import VideoConferenceRoom from "./DashboardFeatures/VideoPage/VideoConferenceRoom";
 // import VideoCreateRoom from "./DashboardFeatures/VideoPage/VideoCreateRoom";
@@ -48,6 +49,7 @@ function DashboardContainer() {
   // const [currClickWorkspace, setCurrClickWorkspace] = useState("");
   const location = window.location.pathname;
   const [userImg, setUserImg] = useState("");
+  const [currentWorkspacePW, setCurrentWorkspacePW] = useState("");
 
   const chatroomInit = (workspace) => {
     // console.log("chatroomInit receive", workspace);
@@ -158,6 +160,7 @@ function DashboardContainer() {
         setAdmin(res.data.isAdmin);
         setUsers(res.data.allUsers);
         setFirstEmptyUsers(res.data.firstEmptyUsers);
+        setCurrentWorkspacePW(res.data.workspacePassword);
       });
       //2. check if that user is the workspace_admin, return the workspace_admin boolean
       //3. if yes, that user can have the right to assign task, and can see the create task UI
@@ -267,7 +270,13 @@ function DashboardContainer() {
               <Grid item xs={10}>
                 {/* <Switch> */}
                 {/* for profile route */}
-                <Route exact path="/profile" component={DashboardProfileHome} />
+                <Route
+                  exact
+                  path="/profile"
+                  render={() => {
+                    return <DashboardProfileHome />;
+                  }}
+                />
                 {/* <Route path="/profile/find" component={DashboardAddSocial} /> */}
                 <Route
                   path="/profile/create"
@@ -281,11 +290,27 @@ function DashboardContainer() {
                   path="/profile/search"
                   render={() => {
                     setCurrentWorkspace("");
-                    return <DashboardSearchWorkspace allWorkspaces={allWorkspaces} />;
+                    return (
+                      <DashboardSearchWorkspace allWorkspaces={allWorkspaces} />
+                    );
                   }}
                 />
                 {/* </Route> */}
                 {/* for workspace route */}
+                <Route
+                  exact
+                  path={`/workspace/:${currentWorkspace}`}
+                  render={() => {
+                    return (
+                      <DashboardWorkspaceHome
+                        isAdmin={isAdmin}
+                        currentWorkspace={currentWorkspace}
+                        currentWorkspacePW={currentWorkspacePW}
+                        users={users}
+                      />
+                    );
+                  }}
+                />
                 <Route
                   path={`/workspace/:${currentWorkspace}/chat`}
                   // render ={()=>{
