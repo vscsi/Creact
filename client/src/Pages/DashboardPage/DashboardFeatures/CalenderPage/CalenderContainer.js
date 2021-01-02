@@ -9,7 +9,7 @@ function CalenderContainer() {
       // console.log("using improved way to show res");
       // console.log(res);
       let allTasks = [];
-      for (let item of res) {
+      for (let item of res.allTasksCalender) {
         allTasks.push({
           title: item.task_name,
           date: item.deadline,
@@ -17,6 +17,7 @@ function CalenderContainer() {
           responsible: item.userName,
         });
       }
+      console.log(allTasks);
       setTasks(allTasks);
     });
   }, []);

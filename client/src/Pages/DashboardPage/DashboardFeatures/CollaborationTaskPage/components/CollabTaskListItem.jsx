@@ -10,7 +10,7 @@ import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Divider from "@material-ui/core/Divider";
-import moduleClasses from './CollabTaskListItem.module.css'
+import moduleClasses from "./CollabTaskListItem.module.css";
 // import Moment from 'react-moment';
 
 const useStyles = makeStyles((theme) => ({
@@ -59,7 +59,6 @@ export default function CollabTaskListItem(props) {
       />
       <CardContent>
         <div className={classes.section2}>
-
           <Typography gutterBottom variant="h5" component="h2">
             Task:
           </Typography>
@@ -71,31 +70,29 @@ export default function CollabTaskListItem(props) {
           >
             {props.task.task_name}
           </Typography>
-
         </div>
-
 
         <Divider variant="middle" />
 
         <div className={classes.section2}>
-
           <Typography gutterBottom variant="h5" component="h2">
             Deadline:
           </Typography>
 
           <Typography variant="body2" color="textSecondary" component="p">
-            {parseISOString(props.task.deadline).toString()}
+            {/* {parseISOString(props.task.deadline)
+              .toString()
+              .toLocaleString("zh-HK", { timeZone: "UTC" })} */}
             {/* {parseISOString(props.task.deadline).toString()} */}
             {/* <Moment locale="zh">{props.task.deadline}</Moment> */}
+            {props.task.deadline}
             <br />
           </Typography>
-
         </div>
 
         <Divider variant="middle" />
 
         <div className={classes.section2}>
-          
           <Typography gutterBottom variant="h5" component="h2">
             Description:
           </Typography>
@@ -104,16 +101,13 @@ export default function CollabTaskListItem(props) {
             {props.task.task_content}
             <br />
           </Typography>
-
         </div>
-
       </CardContent>
 
       {props.currentUser === props.task.userName && (
         // <CardActions>
-          <div className={moduleClasses.FinishDiv}>
+        <div className={moduleClasses.FinishDiv}>
           <div className={classes.section2}>
-
             <Button
               // className={moduleClasses.FinishButton}
               startIcon={<DeleteIcon />}
@@ -127,9 +121,8 @@ export default function CollabTaskListItem(props) {
             >
               Finish Task
             </Button>
-
           </div>
-          </div>
+        </div>
         // </CardActions>
       )}
     </Card>
