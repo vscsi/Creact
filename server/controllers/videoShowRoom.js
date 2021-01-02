@@ -2,6 +2,7 @@ const knex = require("../models/knex");
 
 exports.postVideoShowRoom = async(req,res)=>{
   const {currentWorkspace} = req.body;
+  console.log(currentWorkspace, 'this is currentWorkSpace')
   try{
     //get users from same workspace , more than 1 user in ws?
     let getCurrentWorkspace = await knex('workspace').select().where('workspace_name', currentWorkspace);

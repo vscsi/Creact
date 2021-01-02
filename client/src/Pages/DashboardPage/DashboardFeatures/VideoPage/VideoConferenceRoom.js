@@ -40,7 +40,7 @@ const VideoConferenceRoom = ({currentWorkspace, handleClick}) => {
                     const response = await getVideoInfo.json();
                     //the ...response.videoRooms allows you to access each element in the array that is returned
                     setCurrentVideoRoom([...response.videoRooms])
-                    // console.log(response.videoRooms.video_room_pw); 
+                    console.log(response.videoRooms); 
                     // console.log(currentVideoRoom);
                     
                 }catch(e){
@@ -86,7 +86,7 @@ const VideoConferenceRoom = ({currentWorkspace, handleClick}) => {
     }));
     const classes = useStyles();
 
-    return currentVideoRoom&&currentVideoRoom.length>1?(
+    return (
     <>
          <Typography
          variant='h3'
@@ -134,7 +134,6 @@ const VideoConferenceRoom = ({currentWorkspace, handleClick}) => {
                         </TableHead>
                 {currentVideoRoom.map((item) => (
                     <TableRow>
-                            
                                 <TableCell
                                 >
                                 {item.id}
@@ -167,8 +166,7 @@ const VideoConferenceRoom = ({currentWorkspace, handleClick}) => {
             </TableContainer>
         </Grid>
      </>
-):(
-                <h1>No video meetings now.</h1>
+
 )
 /**comments */
 //eslint-disable-next-line
