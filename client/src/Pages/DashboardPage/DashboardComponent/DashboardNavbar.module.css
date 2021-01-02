@@ -9,6 +9,12 @@
         
 }
 
+/* creact log */
+.logoSize{
+  height: '3rem';
+  width: '3rem';
+}
+
 .remindBox{
   margin-left: 1rem;
 }

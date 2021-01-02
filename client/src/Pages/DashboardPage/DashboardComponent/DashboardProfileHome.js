@@ -1,4 +1,4 @@
-import React from "react";
+import {React, useEffect} from "react";
 import DashboardProfileUserInfo from "./DashboardProfileUserInfo";
 import DashboardProfileUserCalender from "./DashboardProfileUserCalender";
 import { makeStyles } from "@material-ui/core/styles";
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   logoMargin:{
     height: '10rem',
     width: '10rem ',
-    margin: '50% 0 0 0'
+    margin: '30% 0 0 0'
   },
 
   /**welcome title */
@@ -69,6 +69,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DashboardProfileHome = (props) => {
+  // useEffect(()=>{
+  //   console.log(props)
+  // },[])
   const classes = useStyles();
   return (
     <>
