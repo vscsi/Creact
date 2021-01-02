@@ -15,6 +15,7 @@ const DashboardSidebarEachWorkspace = (props) => {
       fontSize: '1rem',
       margin: '0 0 0 1rem',
       padding: '0 0 0 0.2rem',
+      // whiteSpace: 'nowrap'
     },
   }));
   const classes = useStyles();
@@ -27,6 +28,7 @@ const DashboardSidebarEachWorkspace = (props) => {
           <ListItemText 
             id={props.id}
             classes= {{primary: classes.listTextSize}}
+            // style={{whiteSpace: "nowrap"}}
             className={
               props.currClickWorkspace === props.workspaceName
                 ? `${DashboardSidebarCss.workspaceIconActive}`
