@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import DashboardContainerCss from "./DashboardContainer.module.css";
 import DashboardSidebarCss from "../DashboardPage/DashboardComponent/DashboardSidebar.module.css";
 import { Grid } from "@material-ui/core";
@@ -35,9 +36,25 @@ import VideoContainer from "./DashboardFeatures/VideoPage/VideoContainer";
 //   },
 // });
 
-function DashboardContainer() {
+import { requestUserWorkspaces } from "../../actions.js";
+
+const mapStateToProps = (state) => {
+  return {
+    userWorkspaces: state.requestUserWorkspaces.userWorkspaces,
+    isPending: state.requestUserWorkspaces.isPending,
+    error: state.requestUserWorkspaces.error,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getUserWorkspaces: () => dispatch(requestUserWorkspaces()),
+  };
+};
+
+function DashboardContainer(props) {
   const [userName, setUserName] = useState("");
-  const [userWorkspaces, setUserWorkspaces] = useState([]);
+  // const [userWorkspaces, setUserWorkspaces] = useState([]);
   const [currentWorkspace, setCurrentWorkspace] = useState("");
   const [isAdmin, setAdmin] = useState(false);
   const [users, setUsers] = useState([]);
@@ -73,23 +90,23 @@ function DashboardContainer() {
     } catch (error) {}
   };
 
-  const getUserWorkspaces = () => {
-    try {
-      Axios.get("http://localhost:4000/workspace/list", {
-        // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/list`, {
-        headers: {
-          "x-access-token": localStorage.getItem("token"),
-        },
-      }).then((res) => {
-        // console.log(`all workspaces`);
-        // console.log(res);
-        // console.log("this is userworkspaceSS", res.data.allWorkspaces);
-        setUserWorkspaces(res.data.userWorkspaces);
-      });
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
+  // const getUserWorkspaces = () => {
+  //   try {
+  //     Axios.get("http://localhost:4000/workspace/list", {
+  //       // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/list`, {
+  //       headers: {
+  //         "x-access-token": localStorage.getItem("token"),
+  //       },
+  //     }).then((res) => {
+  //       // console.log(`all workspaces`);
+  //       // console.log(res);
+  //       // console.log("this is userworkspaceSS", res.data.allWorkspaces);
+  //       setUserWorkspaces(res.data.userWorkspaces);
+  //     });
+  //   } catch (error) {
+  //     console.error(error.message);
+  //   }
+  // };
 
   const getUserInfo = () => {
     try {
@@ -194,7 +211,8 @@ function DashboardContainer() {
   };
   // const checkLocation =
   useEffect(() => {
-    getUserWorkspaces();
+    // getUserWorkspaces();
+    props.getUserWorkspaces();
     getUserInfo();
     getCurrentWorkspace();
     getAllWorkspaces();
@@ -203,6 +221,7 @@ function DashboardContainer() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const { userWorkspaces } = props;
   return (
     <>
       {/* Grid1 */}
@@ -360,4 +379,4 @@ function DashboardContainer() {
   );
 }
 
-export default DashboardContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(DashboardContainer);
