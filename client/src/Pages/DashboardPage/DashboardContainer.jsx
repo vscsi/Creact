@@ -24,36 +24,39 @@ import DashboardProfileSidebar from "./DashboardComponent/DashboardProfieSidebar
 import DashboardSearchWorkspace from "./DashboardComponent/DashboardSearchWorkspace";
 import DashboardWorkspaceHome from "./DashboardComponent/DashboardWorkspaceHome";
 import Axios from "axios";
-// import VideoConferenceRoom from "./DashboardFeatures/VideoPage/VideoConferenceRoom";
-// import VideoCreateRoom from "./DashboardFeatures/VideoPage/VideoCreateRoom";
 import VideoContainer from "./DashboardFeatures/VideoPage/VideoContainer";
-// import { withStyles } from "@material-ui/core/styles";
 
-// const styles = () => ({
-//   root: {
-//     padding: 16,
-//     width: "100%",
-//   },
-// });
+// import { getCurrentWorkspace } from "../../services/getCurrentWorkspace";
 
-import { requestUserWorkspaces } from "../../actions.js";
+import {
+  get_Workspace_All,
+  post_Workspace_Info,
+} from "../../api/workspace/workspace";
+
+import { get_User_Logout } from "../../api/logout/logout";
+
+import { requestUserWorkspaces, requestUserInfo } from "../../actions.js";
 
 const mapStateToProps = (state) => {
   return {
     userWorkspaces: state.requestUserWorkspaces.userWorkspaces,
     isPending: state.requestUserWorkspaces.isPending,
     error: state.requestUserWorkspaces.error,
+    userId: state.requestUserInfo.userId,
+    userName: state.requestUserInfo.userName,
+    userImg: state.requestUserInfo.userImg,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getUserWorkspaces: () => dispatch(requestUserWorkspaces()),
+    getUserInfo: () => dispatch(requestUserInfo()),
   };
 };
 
 function DashboardContainer(props) {
-  const [userName, setUserName] = useState("");
+  // const [userName, setUserName] = useState("");
   // const [userWorkspaces, setUserWorkspaces] = useState([]);
   const [currentWorkspace, setCurrentWorkspace] = useState("");
   const [isAdmin, setAdmin] = useState(false);
@@ -61,11 +64,11 @@ function DashboardContainer(props) {
   const [firstEmptyUsers, setFirstEmptyUsers] = useState([]);
   const [allWorkspaces, setAllWorkspaces] = useState([]);
   const [chatroomId, setChatroomId] = useState("");
-  const [userId, setUserId] = useState("");
+  // const [userId, setUserId] = useState("");
   const [loginUsers, setLoginUsers] = useState([]);
   // const [currClickWorkspace, setCurrClickWorkspace] = useState("");
   const location = window.location.pathname;
-  const [userImg, setUserImg] = useState("");
+  // const [userImg, setUserImg] = useState("");
   const [currentWorkspacePW, setCurrentWorkspacePW] = useState("");
 
   const chatroomInit = (workspace) => {
@@ -90,41 +93,6 @@ function DashboardContainer(props) {
     } catch (error) {}
   };
 
-  // const getUserWorkspaces = () => {
-  //   try {
-  //     Axios.get("http://localhost:4000/workspace/list", {
-  //       // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/list`, {
-  //       headers: {
-  //         "x-access-token": localStorage.getItem("token"),
-  //       },
-  //     }).then((res) => {
-  //       // console.log(`all workspaces`);
-  //       // console.log(res);
-  //       // console.log("this is userworkspaceSS", res.data.allWorkspaces);
-  //       setUserWorkspaces(res.data.userWorkspaces);
-  //     });
-  //   } catch (error) {
-  //     console.error(error.message);
-  //   }
-  // };
-
-  const getUserInfo = () => {
-    try {
-      Axios.get("http://localhost:4000/username", {
-        // Axios.get(`${process.env.REACT_APP_API_SERVER}/username`, {
-        headers: {
-          "x-access-token": localStorage.getItem("token"),
-        },
-      }).then((res) => {
-        setUserId(res.data.id);
-        setUserName(res.data.userName);
-        setUserImg(res.data.userImg);
-      });
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
-
   const getCurrentWorkspace = () => {
     const path = window.location.pathname;
     // console.log(`url is below`);
@@ -139,89 +107,42 @@ function DashboardContainer(props) {
     chatroomInit(currWorkspace);
     setCurrentWorkspace(currWorkspace);
     //send post request to server and check if user is admin
-    checkIfAdminUsers(currWorkspace);
+    // checkIfAdminUsers(currWorkspace);
   };
 
-  const getAllWorkspaces = () => {
-    try {
-      Axios.get("http://localhost:4000/workspace/all", {
-        // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/all`, {
-        headers: {
-          "x-access-token": localStorage.getItem("token"),
-        },
-      }).then((res) => {
-        // console.log(`res from workspace/all`);
-        // console.log(res);
-        setAllWorkspaces(res.data);
-      });
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
-
-  const checkIfAdminUsers = (workspace) => {
-    try {
-      //1. send post request to server, query to "user_workspace" table
-      Axios.post(
-        "http://localhost:4000/workspace/check",
-        // `${process.env.REACT_APP_API_SERVER}/workspace/check`,
-        {
-          workspaceName: workspace,
-        },
-        {
-          headers: { "x-access-token": localStorage.getItem("token") },
-        }
-      ).then((res) => {
-        // console.log(`Getting post request in /workspace/check`);
-        // console.log(res);
-        setAdmin(res.data.isAdmin);
-        setUsers(res.data.allUsers);
-        setFirstEmptyUsers(res.data.firstEmptyUsers);
-        setCurrentWorkspacePW(res.data.workspacePassword);
-      });
-      //2. check if that user is the workspace_admin, return the workspace_admin boolean
-      //3. if yes, that user can have the right to assign task, and can see the create task UI
-      //4. if no, that user can only see all the tasklists in that workspace
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
-
-  const postLogout = () => {
-    try {
-      Axios.post(
-        "http://localhost:4000/checkloginusers",
-        //  `${process.env.REACT_APP_API_SERVER}/checkloginusers`,
-        {
-          userName: "",
-        },
-        {
-          headers: { "x-access-token": localStorage.getItem("token") },
-        }
-      ).then((res) => {
-        // console.log("Current login users from '/checkloginusers'");
-        // console.log(res.data.loginUsers);
-        const currentLoginUsers = res.data.loginUsers;
-        // console.log(currentLoginUsers);
-        setLoginUsers(currentLoginUsers);
-      });
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
-  // const checkLocation =
   useEffect(() => {
-    // getUserWorkspaces();
+    //using redux
     props.getUserWorkspaces();
-    getUserInfo();
+    props.getUserInfo();
+
     getCurrentWorkspace();
-    getAllWorkspaces();
-    postLogout();
-    // checkCurrentUrl();
+
+    post_Workspace_Info((data) => {
+      // console.log(`improved way get workspace data`);
+      // console.log(data);
+      const { isAdmin, allUsers, firstEmptyUsers, workspacePassword } = data;
+      setAdmin(isAdmin);
+      setUsers(allUsers);
+      setFirstEmptyUsers(firstEmptyUsers);
+      setCurrentWorkspacePW(workspacePassword);
+    });
+
+    get_Workspace_All((data) => {
+      // console.log(`improved way get all workspaces`);
+      // console.log(data);
+      setAllWorkspaces(data);
+    });
+
+    get_User_Logout((data) => {
+      // console.log(`improved way get user logout`);
+      // console.log(data);
+      const { loginUsers } = data;
+      setLoginUsers(loginUsers);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { userWorkspaces } = props;
+  const { userWorkspaces, userId, userName, userImg } = props;
   return (
     <>
       {/* Grid1 */}

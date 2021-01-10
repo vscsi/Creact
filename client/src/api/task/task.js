@@ -1,7 +1,7 @@
 import { getCurrentWorkspace } from "../../services/getCurrentWorkspace";
 import Axios from "axios";
 
-const getTasks = (cb) => {
+const get_Workspace_Tasks = (cb) => {
   try {
     const currentWorkspace = getCurrentWorkspace();
     Axios.post(
@@ -14,14 +14,22 @@ const getTasks = (cb) => {
         headers: { "x-access-token": localStorage.getItem("token") },
       }
     ).then((res) => {
-      console.log("get res from '/tasks");
-      console.log(res);
-
-      return cb(res.data);
+      // console.log("get res from '/tasks");
+      // console.log(res);
+      let allTasks = [];
+      for (let item of res.data.allTasksCalender) {
+        allTasks.push({
+          title: item.task_name,
+          date: item.deadline,
+          content: item.task_content,
+          responsible: item.userName,
+        });
+      }
+      return cb(allTasks);
     });
   } catch (error) {
     console.error(error.message);
   }
 };
 
-export { getTasks };
+export { get_Workspace_Tasks };
