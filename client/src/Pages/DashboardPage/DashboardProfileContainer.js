@@ -20,6 +20,7 @@ import DashboardSearchWorkspace from "./DashboardComponent/DashboardSearchWorksp
 
 function DashboardProfileContainer() {
   const [userName, setUserName] = useState("");
+  // const [userPassword, setUserPassword] = useState("");
   const [userWorkspaces, setUserWorkspaces] = useState([]);
   const [allWorkspaces, setAllWorkspaces] = useState([]);
   const [loginUsers, setLoginUsers] = useState([]);
@@ -57,9 +58,11 @@ function DashboardProfileContainer() {
       }).then((res) => {
         // console.log(`res from /username`);
         // console.log(res.data.userName);
+        // console.log(res.data, 'res.data');
         // console.log(res.data.userImg);
         // console.log(res.data.firstName);
         setUserName(res.data.userName);
+        // setUserPassword(res.data.userPassword);
         setUserImg(res.data.userImg);
         setUserFirstName(res.data.firstName);
         setUserLastName(res.data.lastName);
@@ -86,6 +89,7 @@ function DashboardProfileContainer() {
       console.error(error.message);
     }
   };
+
 
   const postLogout = () => {
     try {

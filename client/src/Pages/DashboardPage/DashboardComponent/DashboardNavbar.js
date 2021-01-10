@@ -1,5 +1,5 @@
 import React from "react";
-import * as MaterialUI from "@material-ui/core";
+// import * as MaterialUI from "@material-ui/core";
 // import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import DashboardNavbarCss from "./DashboardNavbar.module.css";
 import { makeStyles } from "@material-ui/core/styles";
@@ -16,7 +16,6 @@ function DashboardNavbar(props) {
   return (
     <>
       <nav className={DashboardNavbarCss.DashboardNav}>
-        <img className={DashboardNavbarCss.logoSize} src={creactLogo}></img>
         {/* <div className={DashboardNavbarCss.remindBox}>Remind Box</div> */}
 
         {/* <div className={DashboardNavbarCss.userIcon}>
