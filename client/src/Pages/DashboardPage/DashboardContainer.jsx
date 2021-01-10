@@ -107,7 +107,35 @@ function DashboardContainer(props) {
     chatroomInit(currWorkspace);
     setCurrentWorkspace(currWorkspace);
     //send post request to server and check if user is admin
-    // checkIfAdminUsers(currWorkspace);
+    checkIfAdminUsers(currWorkspace);
+  };
+
+  const checkIfAdminUsers = (workspace) => {
+    try {
+      //1. send post request to server, query to "user_workspace" table
+      Axios.post(
+        "http://localhost:4000/workspace/check",
+        // `${process.env.REACT_APP_API_SERVER}/workspace/check`,
+        {
+          workspaceName: workspace,
+        },
+        {
+          headers: { "x-access-token": localStorage.getItem("token") },
+        }
+      ).then((res) => {
+        // console.log(`Getting post request in /workspace/check`);
+        // console.log(res);
+        setAdmin(res.data.isAdmin);
+        setUsers(res.data.allUsers);
+        setFirstEmptyUsers(res.data.firstEmptyUsers);
+        setCurrentWorkspacePW(res.data.workspacePassword);
+      });
+      //2. check if that user is the workspace_admin, return the workspace_admin boolean
+      //3. if yes, that user can have the right to assign task, and can see the create task UI
+      //4. if no, that user can only see all the tasklists in that workspace
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   useEffect(() => {
@@ -116,16 +144,6 @@ function DashboardContainer(props) {
     props.getUserInfo();
 
     getCurrentWorkspace();
-
-    post_Workspace_Info((data) => {
-      // console.log(`improved way get workspace data`);
-      // console.log(data);
-      const { isAdmin, allUsers, firstEmptyUsers, workspacePassword } = data;
-      setAdmin(isAdmin);
-      setUsers(allUsers);
-      setFirstEmptyUsers(firstEmptyUsers);
-      setCurrentWorkspacePW(workspacePassword);
-    });
 
     get_Workspace_All((data) => {
       // console.log(`improved way get all workspaces`);
