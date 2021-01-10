@@ -115,15 +115,10 @@ exports.changeUserInfo = async (req,res) => {
         email: email,
       })
       ;
-    console.log(await knex('users')
-    .where({
-      username: username
-    }), 'user information')
     res.json({
       emailChanged: true,
       email: email,
     })
-    // res.send('received')
   }catch(error){
     console.error(error.message);
   }

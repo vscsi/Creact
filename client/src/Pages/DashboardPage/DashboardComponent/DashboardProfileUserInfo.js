@@ -54,7 +54,7 @@ const useStyles = makeStyles({
       color: '#fff'
     },
     background: '#fff',
-    margin: '0 0 0 1rem',
+    margin: '0.5rem 0 0 1rem',
 
   },
   buttonStyle2: {

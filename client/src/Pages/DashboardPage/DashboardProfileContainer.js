@@ -14,9 +14,14 @@ import DashboardNavbar from "./DashboardComponent/DashboardNavbar";
 import DashboardCreateWorkspace from "./DashboardComponent/DashboardCreateWorkspace";
 import DashboardProfileHome from "./DashboardComponent/DashboardProfileHome.js";
 // import DashboardFriendSidebar from "./DashboardComponent/DashboardFriendSidebar";
-import Axios from "axios";
 import DashboardSearchWorkspace from "./DashboardComponent/DashboardSearchWorkspace";
 // import { getCurrentWorkspace } from "../../services/getCurrentWorkspace";
+
+import { get_User_Info, get_User_Workspaces } from "../../api/user/user.js";
+
+import { get_Workspace_All } from "../../api/workspace/workspace.js";
+
+import { get_User_Logout } from "../../api/logout/logout";
 
 function DashboardProfileContainer() {
   const [userName, setUserName] = useState("");
@@ -30,89 +35,34 @@ function DashboardProfileContainer() {
   const [userLastName, setUserLastName] = useState("");
   const [userEmail, setUserEmail] = useState("");
 
-  const getUserWorkspaces = () => {
-    try {
-      Axios.get("http://localhost:4000/workspace/list", {
-        // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/list`, {
-        headers: {
-          "x-access-token": localStorage.getItem("token"),
-        },
-      }).then((res) => {
-        // console.log(`all user workspaces`);
-        // console.log(res);
-        // console.log(res.data.allWorkspaces);
-        setUserWorkspaces(res.data.userWorkspaces);
-      });
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
-
-  const getUserName = () => {
-    try {
-      Axios.get("http://localhost:4000/username", {
-        // Axios.get(`${process.env.REACT_APP_API_SERVER}/username`, {
-        headers: {
-          "x-access-token": localStorage.getItem("token"),
-        },
-      }).then((res) => {
-        // console.log(`res from /username`);
-        // console.log(res.data.userName);
-        // console.log(res.data, 'res.data');
-        // console.log(res.data.userImg);
-        // console.log(res.data.firstName);
-        setUserName(res.data.userName);
-        // setUserPassword(res.data.userPassword);
-        setUserImg(res.data.userImg);
-        setUserFirstName(res.data.firstName);
-        setUserLastName(res.data.lastName);
-        setUserEmail(res.data.email);
-      });
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
-
-  const getAllWorkspaces = () => {
-    try {
-      Axios.get("http://localhost:4000/workspace/all", {
-        // Axios.get(`${process.env.REACT_APP_API_SERVER}/workspace/all`, {
-        headers: {
-          "x-access-token": localStorage.getItem("token"),
-        },
-      }).then((res) => {
-        // console.log(`res from workspace/all`);
-        // console.log(res);
-        setAllWorkspaces(res.data);
-      });
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
-
-
-  const postLogout = () => {
-    try {
-      Axios.get("http://localhost:4000/checkloginusers", {
-        // Axios.get(`${process.env.REACT_APP_API_SERVER}/checkloginusers`, {
-        headers: { "x-access-token": localStorage.getItem("token") },
-      }).then((res) => {
-        // console.log("Current login users from '/checkloginusers'");
-        // console.log(res.data.loginUsers);
-        const currentLoginUsers = res.data.loginUsers;
-        // console.log(currentLoginUsers);
-        setLoginUsers(currentLoginUsers);
-      });
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
-
   useEffect(() => {
-    getUserWorkspaces();
-    getUserName();
-    getAllWorkspaces();
-    postLogout();
+    get_User_Info((data) => {
+      // console.log("improved get user info");
+      // console.log(data);
+      const { userName, userImg, firstName, lastName, email } = data;
+      setUserName(userName);
+      setUserImg(userImg);
+      setUserFirstName(firstName);
+      setUserLastName(lastName);
+      setUserEmail(email);
+    });
+    get_User_Workspaces((data) => {
+      // console.log("improved get user workspaces");
+      // console.log(data);
+      const { userWorkspaces } = data;
+      setUserWorkspaces(userWorkspaces);
+    });
+    get_Workspace_All((data) => {
+      // console.log("improved get all workspaces");
+      // console.log(data);
+      setAllWorkspaces(data);
+    });
+    get_User_Logout((data) => {
+      // console.log("improved get user logout");
+      // console.log(data);
+      const { loginUsers } = data;
+      setLoginUsers(loginUsers);
+    });
   }, []);
 
   return (
