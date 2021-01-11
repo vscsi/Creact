@@ -67,7 +67,7 @@ const EventCalendar = (props) => {
     // console.log(props);
     for (let i = 0; i < props.tasks.length; i++) {
       if (info.event.title === props.tasks[i].title) {
-        const deadline = new Date(props.tasks[i].date).toLocaleString("zh-HK", {
+        const deadline = new Date(props.tasks[i].date).toLocaleString("en-HK", {
           timeZone: "UTC",
         });
 
