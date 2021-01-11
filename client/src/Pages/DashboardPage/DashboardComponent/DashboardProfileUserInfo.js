@@ -137,7 +137,11 @@ const handleSubmit = async (e) =>{
                 }
                 
             </Typography>
-            <Button type="submit" className={classes.buttonStyle2} onClick={(e)=>{setshowSubmit(!showSubmit)}}>Submit change</Button>
+            {
+              show? 
+              <Button type="submit" className={classes.buttonStyle2} onClick={(e)=>{setshowSubmit(!showSubmit)}}>Submit change</Button>:
+              null
+            }
           </CardContent>
         </form>
         {/* </div> */}
