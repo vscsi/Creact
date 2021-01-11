@@ -87,7 +87,7 @@ const DashboardSearchWorkspace = (props) => {
     try {
       Axios.post(
         // "http://localhost:4000/workspace/checkpw",
-        `${process.env.REACT_APP_API_SERVER}/workspace/create`,
+        `${process.env.REACT_APP_API_SERVER}/workspace/checkpw`,
         {
           workspaceName: currWP,
           workspacePassword: workspacePassword,
