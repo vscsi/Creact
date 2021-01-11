@@ -39,6 +39,7 @@ exports.getUserName = async (req, res) => {
   }
 };
 
+
 exports.checkLoginUsers = async (req, res) => {
   try {
     //if user log in, will save the userName into loginusers
@@ -97,6 +98,28 @@ exports.removeLoginUsers = async (req, res) => {
     console.log("has removed users from login_users table");
     res.json({ user: removeUser, currUsers: currUsers });
   } catch (error) {
+    console.error(error.message);
+  }
+};
+
+exports.changeUserInfo = async (req,res) => {
+  
+  const {username, email} = req.body;
+  console.log(req.body, 'changeUserInfo')
+  try{
+     await knex('users')
+      .where({
+        username: username
+      })
+      .update({
+        email: email,
+      })
+      ;
+    res.json({
+      emailChanged: true,
+      email: email,
+    })
+  }catch(error){
     console.error(error.message);
   }
 };

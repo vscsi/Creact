@@ -5,6 +5,7 @@ exports.up = function(knex) {
         table.text('workspace_name').notNullable();
         table.timestamp('created_at', { precision: 6 }).defaultTo(knex.fn.now(6));
         table.integer('max_user');
+        table.text('workspace_password').notNullable();
       })
   };
   

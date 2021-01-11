@@ -110,7 +110,8 @@ function VideoCreateRoom({userName, currentWorkspace}) {
 
         const handleDelete = async(event)=>{
             event.preventDefault();
-            const body = { userName, room, password} // put values into body object
+            /** put values into body object */
+            const body = { userName, room, password} 
             try{
                 console.log('sending video delete request to server')
                 // const deleteVideo = await fetch(`http://localhost:4000/workspace/${currentWorkspace}/video`,{
@@ -130,14 +131,6 @@ function VideoCreateRoom({userName, currentWorkspace}) {
              }
          }
 
-            //making meeting end when host leaves:
-            /**
-             //get id of all participants and put into array
-            //storing .json object from participantJoined
-            //check if participant is moderator
-            //if is moderator, set State in onMeetingEnd() and trigger kickParticipant and loop through the id
-            * 
-            */
         const jitsiConfig = {
             configOverwrite:
             {
@@ -150,7 +143,6 @@ function VideoCreateRoom({userName, currentWorkspace}) {
         }
         //eslint-disable-next-line
         const { loading,  jitsi } = useJitsi(jitsiConfig);
-        // console.log(loading,  jitsi, 'console log for reactJS warning');
 
         // const grabParticipantsId = () =>{
         //     const participants = jitsiInit.addEventListener('participantJoined', function(values){

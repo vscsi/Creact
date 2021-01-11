@@ -4,7 +4,7 @@ const config = require("../config.json");
 
 exports.createWorkspace = async (req, res) => {
   try {
-    const { workspaceName, maxppl } = req.body;
+    const { workspaceName, maxppl, workspacePassword } = req.body;
     // console.log(req.body);
     let userId = req.userId;
     let userName = req.userName;
@@ -42,6 +42,7 @@ exports.createWorkspace = async (req, res) => {
         await knex("workspace").insert({
           workspace_name: workspaceName,
           max_user: maxppl,
+          workspace_password: workspacePassword,
         });
 
         // console.log("workspace data has inserted into db");
@@ -134,7 +135,7 @@ exports.getAllWorkspaces = async (req, res) => {
         workspace_id: workspaceId,
       });
       const numOfUsers = returnUserWorkspace.length;
-      const eachObj = {...workspace, numOfUsers};
+      const eachObj = { ...workspace, numOfUsers };
       // console.log(`numOfUsers = ${numOfUsers}`);
       // console.log(`workspace is below`);
       // console.log(workspace);
@@ -161,6 +162,7 @@ exports.postCheck = async (req, res) => {
     // console.log(`workspace is below`);
     // console.log(returnWorkspace);
     const workspaceId = returnWorkspace[0].id;
+    const workspacePassword = returnWorkspace[0].workspace_password;
     const returnUserWorkspace = await knex("user_workspace")
       .where({
         workspace_id: workspaceId,
@@ -202,6 +204,7 @@ exports.postCheck = async (req, res) => {
       isAdmin: isAdmin,
       allUsers: allUsers,
       firstEmptyUsers: firstEmptyUsers,
+      workspacePassword: workspacePassword,
     });
   } catch (error) {
     console.error(error.message);
@@ -251,40 +254,61 @@ exports.postJoin = async (req, res) => {
 };
 
 exports.chatroomInit = async (req, res) => {
-  const {workspaceName} = req.body;
-  let finalResult
-  let result1 = await knex.select('id', 'max_user').where('workspace_name', workspaceName).from('workspace');
-    
-   let workspaceId = result1[0].id;
-   let maxNum = result1[0].max_user;
+  const { workspaceName } = req.body;
+  let finalResult;
+  let result1 = await knex
+    .select("id", "max_user")
+    .where("workspace_name", workspaceName)
+    .from("workspace");
+
+  let workspaceId = result1[0].id;
+  let maxNum = result1[0].max_user;
   //  console.log('first step of chatroomIni', workspaceId)
 
-   let step2 = await knex.select('*').where('workspace_id', workspaceId).from('workspace_chatroom')
+  let step2 = await knex
+    .select("*")
+    .where("workspace_id", workspaceId)
+    .from("workspace_chatroom");
   //  console.log('result of step 2 of chatroomIni', step2)
-   if (step2.length===0) {
+  if (step2.length === 0) {
     //  console.log('no workspace"s chatroom exist, then insert new chatroom entries and return id ');
-     finalResult = await knex('chatroom').insert({chatroom_type: true}).returning('id');
-      // console.log('returning of insert chatroom type', finalResult)
-     await knex('workspace_chatroom').insert({chatroom_id: finalResult[0], workspace_id: workspaceId})
+    finalResult = await knex("chatroom")
+      .insert({ chatroom_type: true })
+      .returning("id");
+    // console.log('returning of insert chatroom type', finalResult)
+    await knex("workspace_chatroom").insert({
+      chatroom_id: finalResult[0],
+      workspace_id: workspaceId,
+    });
 
-     console.log('final result to be res.json from new chatroom', finalResult)
-     res.json(finalResult)
-     
-   } else {
+    console.log("final result to be res.json from new chatroom", finalResult);
+    res.json(finalResult);
+  } else {
     //  console.log('workspace already opened chatroom')
-     finalResult = await knex.select('chatroom_id').where('workspace_id', workspaceId).from('workspace_chatroom');
-     console.log('workspace already have chatroom final reult', finalResult)
-     res.json(finalResult[0].chatroom_id)
-   }
+    finalResult = await knex
+      .select("chatroom_id")
+      .where("workspace_id", workspaceId)
+      .from("workspace_chatroom");
+    console.log("workspace already have chatroom final reult", finalResult);
+    res.json(finalResult[0].chatroom_id);
+  }
+};
 
-   
-  //  
-    
-  //  let chatroomId = result2[0];
-  // console.log('chatrooomInit chatroom Id', chatroomId)
-  //  await knex('workspace_chatroom').insert({workspace_id: workspaceId, chatroom_id: chatroomId});
-
-
-
-  //  res.json(chatroomId);
-}
+exports.postCheckPW = async (req, res) => {
+  console.log("checking pw in server");
+  console.log(req.body);
+  const { workspaceName, workspacePassword } = req.body;
+  const returnWorkspace = await knex("workspace")
+    .where({
+      workspace_name: workspaceName,
+      workspace_password: workspacePassword,
+    })
+    .select("*");
+  console.log(`returnWOrkspace`);
+  console.log(returnWorkspace);
+  if (returnWorkspace.length !== 0) {
+    res.json({ wp_password: true });
+  } else {
+    res.json({ wp_password: false });
+  }
+};

@@ -46,7 +46,7 @@ const DashboardFeatureSidebar = (props) => {
           <MaterialUI.Tooltip title="Chatroom" placement="right-end">
               <Avatar 
               className = {
-                // props.location === `/workspace/${props.currentWorkspace}/chat`
+                // props.ktion === `/workspace/${props.currentWorkspace}/chat`
                 // ? `${classes.avatarActiveIcon}`
                 // : `${classes.avatarHoverIcon}`
                 `

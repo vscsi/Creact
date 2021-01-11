@@ -30,7 +30,7 @@ function DashboardProfileSidebar(props) {
     /**overriding drawer properties */
     paper: {
       background: "#2c2e31",
-      width: "10vw"
+      width: '10vw',
     },
 
     /**Item icon */

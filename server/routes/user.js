@@ -10,4 +10,6 @@ router.get('/checkloginusers', verifyJWT, userController.checkLoginUsers)
 
 router.delete('/checklogoutusers/:userName', verifyJWT, userController.removeLoginUsers)
 
+router.post('/changeUserInfo', verifyJWT, userController.changeUserInfo)
+
 module.exports = router;

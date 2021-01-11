@@ -136,7 +136,6 @@ function RegisterContainer() {
     const response = await fetch(url, {
       method: "POST",
       // headers: { "Content-Type": "multipart/form-data" },
-      // body: JSON.stringify(body),
       body: formData,
     });
     const result = await response.json();
